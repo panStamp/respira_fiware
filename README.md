@@ -14,6 +14,8 @@ Please refer to the official [FIWARE web page](https://www.fiware.org/) for more
 
 RESPIRA follows a very simple concept. The core, an ESP32 SoC, reads temperature, humidity, particle matter and No2 levels periodically from three sensors. Readings are then stored and processed locally in the MCU and then transmitted to a FIWARE platform. The default settings make the RESPIRA station transmit to the _Environmental Open Labs_ but developers cah change these settings to point to a different FIWARE platform.
 
+This project contains all the necessary source code and instructions to build and deploy new RESPIRA stations.
+
 # Environmental Open Labs
 
 _Environmental Open Labs_ is another open initiative of [Diputación de Badajoz](https://www.dip-badajoz.es/) and [Telefónica](https://www.telefonica.com/en/) based on FIWARE to collect, display and exploit data from many different environmental IoT sources in the Spanish province of Badajoz. This on-line platform has also been developped by [panStamp](http://www.panstamp.com) and is part of the FIWARE IoT challenge 2019 won by the company.
