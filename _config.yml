@@ -8,4 +8,5 @@ relative_links:
 include:
   - README.md
   - RESPIRA_STATION.md
+  - docs/OPEN_LABS.md
 
