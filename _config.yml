@@ -1,4 +1,7 @@
-theme: jekyll-theme-slate
+title: RESPIRA Fiware
+description: Open FIWARE air monitoring device for urban applications
+
+theme: jekyll-theme-primer
 
 plugins:
   - jekyll-relative-links
