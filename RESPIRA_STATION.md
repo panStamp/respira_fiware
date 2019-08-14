@@ -1,0 +1,3 @@
+# The RESPIRA FIWARE station
+
+The RESPIRA hardware follows a simple architecture. An ESP32 SoC acts as the brain of the environmental station. Ambient temperature, relative humidity, NO2 concentration and particle matter (PM) are read from three external sensors via I2C and UART. The ESP32 has sufficient space in flash and horsepower to internally store and process readings in order to filter levels and periodically run some calibration routines. Finally, processed information is transmitted to the FIWARE platform via a [HTTP UltraLight 2.0 request](https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html).
