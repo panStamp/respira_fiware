@@ -4,7 +4,7 @@ RESPIRA Fiware is an open source air monitoring device created to sense temperat
 
 # Index of contents
 
-- [Introduction](docs/INTRODUCTION)
+- [Introduction](https://panstamp.github.io/respira_fiware/docs/INTRODUCTION.md)
 - [RESPIRA station](docs/RESPIRA_STATION)
 - [Environmental Open Labs](docs/OPEN_LABS)
 
