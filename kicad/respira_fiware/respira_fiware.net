@@ -1,7 +1,7 @@
 (export (version D)
   (design
     (source /home/daniel/development/respira_fiware/kicad/respira_fiware/respira_fiware.sch)
-    (date "lun 19 ago 2019 16:11:58 CEST")
+    (date "lun 19 ago 2019 17:59:32 CEST")
     (tool "Eeschema 5.0.2-bee76a0~70~ubuntu18.04.1")
     (sheet (number 1) (name /) (tstamps /)
       (title_block
@@ -18,13 +18,13 @@
     (comp (ref J1)
       (value "AC PWR")
       (footprint myconnectors:terminal_block_5mm_2P)
-      (libsource (lib respira_fiware-rescue) (part Conn_01x02-gateway-rescue-gateway-rescue) (description ""))
+      (libsource (lib Connector_Generic) (part Conn_01x02) (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5B6D72CF))
     (comp (ref U1)
       (value ESP32-NODEMCU)
       (footprint mymods:ESP32-NODEMCU)
-      (libsource (lib respira_fiware-rescue) (part ESP32-NODEMCU-panstamp-gateway-rescue) (description ""))
+      (libsource (lib panstamp) (part ESP32-NODEMCU) (description ""))
       (sheetpath (names /) (tstamps /))
       (tstamp 5BADDDF2))
     (comp (ref U2)
@@ -106,7 +106,7 @@
     (comp (ref J6)
       (value "DC PWR")
       (footprint myconnectors:terminal_block_5mm_2P)
-      (libsource (lib respira_fiware-rescue) (part Conn_01x02-gateway-rescue-gateway-rescue) (description ""))
+      (libsource (lib Connector_Generic) (part Conn_01x02) (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"))
       (sheetpath (names /) (tstamps /))
       (tstamp 5D5DC69E)))
   (libparts
@@ -146,6 +146,17 @@
         (pin (num 6) (name ~) (type passive))
         (pin (num 7) (name ~) (type passive))
         (pin (num 8) (name ~) (type passive))))
+    (libpart (lib Connector_Generic) (part Conn_01x02)
+      (description "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)")
+      (docs ~)
+      (footprints
+        (fp Connector*:*_1x??_*))
+      (fields
+        (field (name Reference) J)
+        (field (name Value) Conn_01x02))
+      (pins
+        (pin (num 1) (name Pin_1) (type passive))
+        (pin (num 2) (name Pin_2) (type passive))))
     (libpart (lib Connector_Generic) (part Conn_01x04)
       (description "Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)")
       (docs ~)
@@ -217,36 +228,12 @@
       (pins
         (pin (num 1) (name ~) (type passive))
         (pin (num 2) (name ~) (type passive))))
-    (libpart (lib panstamp) (part myrra_48022)
-      (description "SINGLE OUTPUT 1W to 3W – Primary Side Regulated")
-      (fields
-        (field (name Reference) U)
-        (field (name Value) myrra_48022))
-      (pins
-        (pin (num 1) (name AC+) (type input))
-        (pin (num 5) (name AC-) (type input))
-        (pin (num 7) (name DC+) (type input))
-        (pin (num 9) (name DC-) (type input))))
-    (libpart (lib respira_fiware-rescue) (part Conn_01x02-gateway-rescue-gateway-rescue)
-      (footprints
-        (fp Connector*:*_??x*mm*)
-        (fp Connector*:*1x??x*mm*)
-        (fp Pin?Header?Straight?1X*)
-        (fp Pin?Header?Angled?1X*)
-        (fp Socket?Strip?Straight?1X*)
-        (fp Socket?Strip?Angled?1X*))
-      (fields
-        (field (name Reference) J)
-        (field (name Value) Conn_01x02-gateway-rescue-gateway-rescue))
-      (pins
-        (pin (num 1) (name Pin_1) (type passive))
-        (pin (num 2) (name Pin_2) (type passive))))
-    (libpart (lib respira_fiware-rescue) (part ESP32-NODEMCU-panstamp-gateway-rescue)
+    (libpart (lib panstamp) (part ESP32-NODEMCU)
       (footprints
         (fp ESP32-NODEMCU))
       (fields
         (field (name Reference) U)
-        (field (name Value) ESP32-NODEMCU-panstamp-gateway-rescue))
+        (field (name Value) ESP32-NODEMCU))
       (pins
         (pin (num 1) (name EN) (type BiDi))
         (pin (num 2) (name GPIO36) (type BiDi))
@@ -277,7 +264,17 @@
         (pin (num 27) (name GPIO3/RXD0) (type BiDi))
         (pin (num 28) (name GPIO1/TXD0) (type BiDi))
         (pin (num 29) (name GPIO22/SCL) (type BiDi))
-        (pin (num 30) (name GPIO23/MOSI) (type BiDi)))))
+        (pin (num 30) (name GPIO23/MOSI) (type BiDi))))
+    (libpart (lib panstamp) (part myrra_48022)
+      (description "SINGLE OUTPUT 1W to 3W – Primary Side Regulated")
+      (fields
+        (field (name Reference) U)
+        (field (name Value) myrra_48022))
+      (pins
+        (pin (num 1) (name AC+) (type input))
+        (pin (num 5) (name AC-) (type input))
+        (pin (num 7) (name DC+) (type input))
+        (pin (num 9) (name DC-) (type input)))))
   (libraries
     (library (logical Connector)
       (uri /usr/share/kicad/library/Connector.lib))
@@ -286,9 +283,7 @@
     (library (logical Device)
       (uri /usr/share/kicad/library/Device.lib))
     (library (logical panstamp)
-      (uri /home/daniel/development/panstamp_git/kicad/panstamp.lib))
-    (library (logical respira_fiware-rescue)
-      (uri /home/daniel/development/respira_fiware/kicad/respira_fiware/respira_fiware-rescue.lib)))
+      (uri /home/daniel/development/panstamp_git/kicad/panstamp.lib)))
   (nets
     (net (code 1) (name /I2C_SDA)
       (node (ref U1) (pin 26))

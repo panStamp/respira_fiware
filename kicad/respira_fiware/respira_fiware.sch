@@ -15,7 +15,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L respira_fiware-rescue:Conn_01x02-gateway-rescue-gateway-rescue J1
+L Connector_Generic:Conn_01x02 J1
 U 1 1 5B6D72CF
 P 2000 6250
 F 0 "J1" H 2000 6350 50  0000 C CNN
@@ -52,7 +52,7 @@ RXD0
 Text Label 4450 2850 2    60   ~ 0
 TXD0
 $Comp
-L respira_fiware-rescue:ESP32-NODEMCU-panstamp-gateway-rescue U1
+L panstamp:ESP32-NODEMCU U1
 U 1 1 5BADDDF2
 P 3200 3350
 F 0 "U1" H 3200 4337 60  0000 C CNN
@@ -599,7 +599,7 @@ Wire Notes Line
 Text Notes 1750 1850 0    60   ~ 0
 ESP32 NODEMCU board
 $Comp
-L respira_fiware-rescue:Conn_01x02-gateway-rescue-gateway-rescue J6
+L Connector_Generic:Conn_01x02 J6
 U 1 1 5D5DC69E
 P 2000 6700
 F 0 "J6" H 2000 6800 50  0000 C CNN
