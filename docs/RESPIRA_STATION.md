@@ -15,7 +15,7 @@ RESPIRA relies on three external sensors, which have been retained for their acc
 This IC made by Silicon Labs is an exceptional dual temperature-humidity sensor that can be operated via I2C. There are lots of Arduino libraries for this sensor and is also available in form of breakout board so that there is no need to do any surface soldering. These boards are available on eBay and Aliexpress for less than 4 EUR.
 
 <p align="center">
-<img width="500" src="http://www.panstamp.org/pictures/si7021.png">
+<img width="300" src="http://www.panstamp.org/pictures/si7021.png">
 </p>
 
 ### [SPS30](https://www.sensirion.com/en/environmental-sensors/particulate-matter-sensors-pm25/) Particulate Matter sensor
