@@ -186,7 +186,7 @@ class RESPIRA_SENSOR
     /*
      * getNO2
      * 
-     * Get NO2 concentration in ppm
+     * Get NO2 concentration in ppm (1 ppb = 1,8814 ug/m3)
      * 
      * @return NO2 concentration
      */
