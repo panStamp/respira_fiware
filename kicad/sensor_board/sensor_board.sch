@@ -1,0 +1,295 @@
+EESchema Schematic File Version 4
+LIBS:sensor_board-cache
+EELAYER 26 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 1 1
+Title "RESPIRA FIWARE - Auxiliary sensor board"
+Date "2019-09-02"
+Rev "1.0"
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+Wire Wire Line
+	4750 4900 4350 4900
+Wire Wire Line
+	4750 4800 4350 4800
+Text Label 4350 4800 0    60   ~ 0
+I2C_SCL
+Text Label 4350 4900 0    60   ~ 0
+I2C_SDA
+$Comp
+L power:+3.3V #PWR011
+U 1 1 5D5B6B9D
+P 4650 4600
+F 0 "#PWR011" H 4650 4450 50  0001 C CNN
+F 1 "+3.3V" H 4665 4773 50  0000 C CNN
+F 2 "" H 4650 4600 50  0001 C CNN
+F 3 "" H 4650 4600 50  0001 C CNN
+	1    4650 4600
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR012
+U 1 1 5D5B7D49
+P 4650 5100
+F 0 "#PWR012" H 4650 4850 50  0001 C CNN
+F 1 "GND" H 4650 4950 50  0000 C CNN
+F 2 "" H 4650 5100 50  0001 C CNN
+F 3 "" H 4650 5100 50  0001 C CNN
+	1    4650 5100
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J3
+U 1 1 5D5BAA64
+P 4950 4800
+F 0 "J3" H 5029 4792 50  0000 L CNN
+F 1 "SI7021" H 5029 4701 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 4950 4800 50  0001 C CNN
+F 3 "~" H 4950 4800 50  0001 C CNN
+	1    4950 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 4700 4650 4700
+Wire Wire Line
+	4650 4700 4650 4600
+Wire Wire Line
+	4750 5000 4650 5000
+Wire Wire Line
+	4650 5000 4650 5100
+Wire Notes Line
+	4100 4250 4100 5400
+Wire Notes Line
+	4100 5400 5400 5400
+Wire Notes Line
+	5400 5400 5400 4250
+Wire Notes Line
+	5400 4250 4100 4250
+Text Notes 3900 4200 0    60   ~ 0
+SI7021 Temperature-Humidity sensor
+$Comp
+L power:+5V #PWR013
+U 1 1 5D5BEB47
+P 6450 4600
+F 0 "#PWR013" H 6450 4450 50  0001 C CNN
+F 1 "+5V" H 6450 4740 50  0000 C CNN
+F 2 "" H 6450 4600 50  0001 C CNN
+F 3 "" H 6450 4600 50  0001 C CNN
+	1    6450 4600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6450 4600 6450 4700
+Wire Wire Line
+	6450 4700 6550 4700
+$Comp
+L power:GND #PWR014
+U 1 1 5D5BF561
+P 7200 5000
+F 0 "#PWR014" H 7200 4750 50  0001 C CNN
+F 1 "GND" H 7200 4850 50  0000 C CNN
+F 2 "" H 7200 5000 50  0001 C CNN
+F 3 "" H 7200 5000 50  0001 C CNN
+	1    7200 5000
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6550 4900 6150 4900
+Wire Wire Line
+	6550 4800 6150 4800
+Text Label 6150 4900 0    60   ~ 0
+I2C_SCL
+Text Label 6150 4800 0    60   ~ 0
+I2C_SDA
+Text Notes 6000 4200 0    60   ~ 0
+SPS30 particulate matter sensor
+$Comp
+L power:GND #PWR09
+U 1 1 5D5C3CCB
+P 4550 3300
+F 0 "#PWR09" H 4550 3050 50  0001 C CNN
+F 1 "GND" H 4550 3150 50  0000 C CNN
+F 2 "" H 4550 3300 50  0001 C CNN
+F 3 "" H 4550 3300 50  0001 C CNN
+	1    4550 3300
+	0    1    1    0   
+$EndComp
+$Comp
+L Connector_Generic:Conn_01x04 J2
+U 1 1 5D5C3CD1
+P 4900 3300
+F 0 "J2" H 4980 3292 50  0000 L CNN
+F 1 "ES1-NO2" H 4980 3201 50  0000 L CNN
+F 2 "Connector_PinHeader_2.54mm:PinHeader_1x04_P2.54mm_Vertical" H 4900 3300 50  0001 C CNN
+F 3 "~" H 4900 3300 50  0001 C CNN
+	1    4900 3300
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 3200 4600 3200
+Wire Wire Line
+	4600 3200 4600 3100
+Wire Notes Line
+	4100 2750 4100 3900
+Wire Notes Line
+	4100 3900 5400 3900
+Wire Notes Line
+	5400 3900 5400 2750
+Wire Notes Line
+	5400 2750 4100 2750
+Text Notes 4200 2700 0    60   ~ 0
+TB600 ES1-NO2 sensor
+$Comp
+L power:+5V #PWR010
+U 1 1 5D5C4CE7
+P 4600 3100
+F 0 "#PWR010" H 4600 2950 50  0001 C CNN
+F 1 "+5V" H 4600 3240 50  0000 C CNN
+F 2 "" H 4600 3100 50  0001 C CNN
+F 3 "" H 4600 3100 50  0001 C CNN
+	1    4600 3100
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4700 3300 4550 3300
+Wire Wire Line
+	4600 3500 4600 3400
+Wire Wire Line
+	4600 3400 4700 3400
+Wire Wire Line
+	4150 3500 4600 3500
+Wire Wire Line
+	4700 3600 4700 3500
+Wire Wire Line
+	4150 3600 4700 3600
+Text Label 4150 3500 0    60   ~ 0
+TXD2
+Text Label 4150 3600 0    60   ~ 0
+RXD2
+$Comp
+L Connector:RJ45 J4
+U 1 1 5D5CBD5E
+P 6450 3250
+F 0 "J4" H 6505 3917 50  0000 C CNN
+F 1 "RJ45" H 6505 3826 50  0000 C CNN
+F 2 "myconnectors:RJ45-8-vert" V 6450 3275 50  0001 C CNN
+F 3 "~" V 6450 3275 50  0001 C CNN
+	1    6450 3250
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:+5V #PWR015
+U 1 1 5D5CBEB3
+P 6950 2750
+F 0 "#PWR015" H 6950 2600 50  0001 C CNN
+F 1 "+5V" H 6950 2890 50  0000 C CNN
+F 2 "" H 6950 2750 50  0001 C CNN
+F 3 "" H 6950 2750 50  0001 C CNN
+	1    6950 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6850 2850 6950 2850
+Wire Wire Line
+	6950 2850 6950 2750
+$Comp
+L power:+3.3V #PWR017
+U 1 1 5D5CCFC6
+P 7200 2750
+F 0 "#PWR017" H 7200 2600 50  0001 C CNN
+F 1 "+3.3V" H 7200 2900 50  0000 C CNN
+F 2 "" H 7200 2750 50  0001 C CNN
+F 3 "" H 7200 2750 50  0001 C CNN
+	1    7200 2750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6850 2950 7200 2950
+Wire Wire Line
+	7200 2950 7200 2750
+$Comp
+L power:GND #PWR016
+U 1 1 5D5CE23B
+P 7000 3650
+F 0 "#PWR016" H 7000 3400 50  0001 C CNN
+F 1 "GND" H 7000 3500 50  0000 C CNN
+F 2 "" H 7000 3650 50  0001 C CNN
+F 3 "" H 7000 3650 50  0001 C CNN
+	1    7000 3650
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	6850 3550 7000 3550
+Wire Wire Line
+	7000 3550 7000 3650
+Wire Wire Line
+	7250 3150 6850 3150
+Wire Wire Line
+	7250 3050 6850 3050
+Text Label 7250 3150 2    60   ~ 0
+I2C_SCL
+Text Label 7250 3050 2    60   ~ 0
+I2C_SDA
+Wire Wire Line
+	7250 3350 6850 3350
+Wire Wire Line
+	7250 3250 6850 3250
+Text Label 7250 3350 2    60   ~ 0
+TXD2
+Text Label 7250 3250 2    60   ~ 0
+RXD2
+Wire Wire Line
+	6850 3450 7000 3450
+Wire Wire Line
+	7000 3450 7000 3550
+Connection ~ 7000 3550
+Wire Notes Line
+	5800 2450 5800 3900
+Wire Notes Line
+	5800 3900 7500 3900
+Wire Notes Line
+	7500 3900 7500 2450
+Wire Notes Line
+	7500 2450 5800 2450
+Text Notes 6050 2400 0    60   ~ 0
+RJ45 multisensor connector
+$Comp
+L Connector_Generic:Conn_02x03_Odd_Even J5
+U 1 1 5D6DBC62
+P 6750 4800
+F 0 "J5" H 6800 5117 50  0000 C CNN
+F 1 "SPS30" H 6800 5026 50  0000 C CNN
+F 2 "Connector_PinSocket_2.54mm:PinSocket_2x03_P2.54mm_Vertical" H 6750 4800 50  0001 C CNN
+F 3 "~" H 6750 4800 50  0001 C CNN
+	1    6750 4800
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	7050 4700 7200 4700
+Wire Wire Line
+	7200 4700 7200 4800
+Wire Wire Line
+	7050 4800 7200 4800
+Connection ~ 7200 4800
+Wire Wire Line
+	7200 4800 7200 4900
+Wire Wire Line
+	7050 4900 7200 4900
+Connection ~ 7200 4900
+Wire Wire Line
+	7200 4900 7200 5000
+Wire Notes Line
+	6000 4250 6000 5350
+Wire Notes Line
+	6000 5350 7500 5350
+Wire Notes Line
+	7500 5350 7500 4250
+Wire Notes Line
+	7500 4250 6000 4250
+$EndSCHEMATC
