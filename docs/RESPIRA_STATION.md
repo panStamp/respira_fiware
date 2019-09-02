@@ -28,6 +28,10 @@ RESPIRA FIWARE is formed by two main blocks. The first block is the microcontrol
 
 This board relies only on "through-hole" (THT) components in order to simplify the assembly and let the community build RESPIRA stations on basic prototyping boards. As result, we have then chosen an ESP32 NodeMCU board as the ESP32 core. This board not only contains an ESP32 SoC but also a USB interface, used to program and debug the SoC, an on-board 3.3 VDC PSU and a couple of push buttons to manually put the board in programming mode.
 
+<p align="center">
+<img width="400" src="http://www.panstamp.org/pictures/NODEMCU-ESP32-01.png">
+</p>
+
 The microcontroller board fits into a FIBOX TEMPO TAM131007 box on the left side whilst keeping the right side of the enclosure free in case the user decides to add connectivity for some additional sensors or even place a 5VDC power supply.
 
 ## Sensors
