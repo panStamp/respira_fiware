@@ -62,6 +62,8 @@ This image shows a complete RESPIRA FIWARE station completely assembled:
 
 The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Simply select the board _ESP32 Dev board_ from Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. The source code is ready with the right API Key to connect RESPIRA to the [Environmental Open Labs](OPEN_LABS.md). However, if you want to connect the station to a different FIWARE service, then change the API Key accordingly.
 
+From ]respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
+
 ```C++
 const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
 const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
