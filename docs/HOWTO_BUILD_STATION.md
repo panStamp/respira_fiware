@@ -37,13 +37,21 @@ Sensor unit:
 
 # Assembly
 
-All parts have been selected to avoid any surface mount soldering (SMT). This means that anyone with a minimum experience in soldering electronic parts and owning a soldering iron should be able to assemble this station.
+All parts have been selected to avoid any surface mount soldering (SMT). This means that anyone with a minimum experience in soldering electronic parts and owning a soldering iron should be able to assemble this station. The main microcontroller board is shown in the image below:
 
-[PICTURE]
+[PICTURE of MCU board]
 
-Assembling the sensor block is quite simple as well. Sensor units need to be connected with wires to the piece of Ethernet cable by following this pinout:
+Assembling the sensor board is quite simple as well. Sensor units need to be connected to the auxiliary sensor board with wires. Finally, the sensor board is fixed into the pagoda-style enclosure and connected to the main microcontroller board by means of an Ethernet cable.
+
+[PICTURE of sensor board]
+
+The following pinout diagram is recommended for the Ethernet cable:
 
 <p align="center">
 <img width="400" src="http://www.panstamp.org/pictures/respira_ethernet_pinout.jpg">
 </p>
+
+This image shows a complete RESPIRA FIWARE station completely assembled:
+
+[PICTURE of RESPIRA station]
 
