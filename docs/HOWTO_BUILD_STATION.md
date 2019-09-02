@@ -5,6 +5,7 @@
 - [How to build your own RESPIRA FIWARE station](#how-to-build-your-own-respira-fiware-station)
 - [Bills of materials](#bills-of-materials)
 - [Assembly](#assembly)
+- [Programming](#programming)
 
 # How to build your own RESPIRA FIWARE station
 
@@ -12,12 +13,14 @@ The following are the official bills of materials used in this project. If you d
 
 # Bills of materials
 
-Micorontroller unit:
+Users are invited to make their own PCB's based on the available schematics or source the boards from [OSHPARK](https://oshpark.com/).
+
+Microntroller unit:
 
 | Reference | Description | Source |
 |-----------|-------------|--------|
 | U1 | 30-pin ESP32 NodeMCU board | e-bay, Amazon, Aliexpress, etc. |
-|R1, R2 | 10kohm 1/6 W resistor | Mouser, Farnell, DigiKey, etc. |
+| R1, R2 | 10kohm 1/6 W resistor | Mouser, Farnell, DigiKey, etc. |
 | C1 | 1uF 10V ceramic capacitor | Mouser, Farnell, DigiKey, etc. |
 | C2 | 100nF 10V ceramic capacitor | Mouser, Farnell, DigiKey, etc. |
 | J1 | 2-pos 5mm-pitch screw connector | Mouser, Farnell, DigiKey, etc. |
@@ -54,4 +57,14 @@ The following pinout diagram is recommended for the Ethernet cable:
 This image shows a complete RESPIRA FIWARE station completely assembled:
 
 [PICTURE of RESPIRA station]
+
+# Programming
+
+The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Simply select the board _ESP32 Dev board_ from Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. The source code is ready with the right API Key to connect RESPIRA to the [Environmental Open Labs](OPEN_LABS.md). However, if you want to connect the station to a different FIWARE service, then change the API Key accordingly.
+
+```C++
+const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
+const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
+const char FIWARE_APIKEY[] = FIWARE_UL_API_KEY;
+```
 
