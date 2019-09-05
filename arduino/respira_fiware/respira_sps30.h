@@ -30,7 +30,7 @@
 #define SP30_COMMS I2C_COMMS
 
 
-class RESPIRA_SENSOR
+class RESPIRA_SPS30
 {
   private:
     /**
@@ -43,27 +43,11 @@ class RESPIRA_SENSOR
      */
     struct sps_values sps30Values;
 
-  public:
-    /**
-     * Class constructor
-     */
-    inline RESPIRA_SENSOR(void)
-    {
-    }
-
-    /**
-     * reset
-     * 
-     * Power-cycle sensors
-     */
-    inline void reset(void)
-    {
-    }
-    
+  public:   
     /**
      * begin
      * 
-     * Initialize sensors
+     * Initialize sensor
      * 
      * @return error code
      */
@@ -182,19 +166,7 @@ class RESPIRA_SENSOR
     {
       return 0.0;
     }
-
-    /*
-     * getNO2
-     * 
-     * Get NO2 concentration in ppm (1 ppb = 1,8814 ug/m3)
-     * 
-     * @return NO2 concentration
-     */
-    inline float getNO2(void)
-    {
-      return 0.0;
-    }
-    
+   
     /*
      * getMassPM1
      * 
