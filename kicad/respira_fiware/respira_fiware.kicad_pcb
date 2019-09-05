@@ -6,7 +6,7 @@
     (tracks 124)
     (zones 0)
     (modules 12)
-    (nets 30)
+    (nets 31)
   )
 
   (page A4)
@@ -41,7 +41,7 @@
   )
 
   (setup
-    (last_trace_width 1.778)
+    (last_trace_width 0.1524)
     (user_trace_width 0.2032)
     (user_trace_width 0.254)
     (user_trace_width 0.3048)
@@ -255,6 +255,7 @@
   (net 27 /RXD0)
   (net 28 /TXD0)
   (net 29 "Net-(U1-Pad30)")
+  (net 30 "Net-(J3-Pad1)")
 
   (net_class Default "This is the default net class."
     (clearance 0.127)
@@ -272,6 +273,7 @@
     (add_net /TXD0)
     (add_net /TXD2)
     (add_net GND)
+    (add_net "Net-(J3-Pad1)")
     (add_net "Net-(U1-Pad1)")
     (add_net "Net-(U1-Pad10)")
     (add_net "Net-(U1-Pad11)")
@@ -15401,7 +15403,7 @@
       (effects (font (size 1 1) (thickness 0.15)))
     )
     (pad 1 thru_hole rect (at 0 0) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask)
-      (net 3 +3V3))
+      (net 30 "Net-(J3-Pad1)"))
     (pad 2 thru_hole oval (at 0 2.54) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask)
       (net 7 /I2C_SCL))
     (pad 3 thru_hole oval (at 0 5.08) (size 1.7 1.7) (drill 1) (layers *.Cu *.Mask)

@@ -267,8 +267,6 @@ $EndComp
 Wire Wire Line
 	7600 4950 7500 4950
 Wire Wire Line
-	7500 4950 7500 4850
-Wire Wire Line
 	7600 5250 7500 5250
 Wire Wire Line
 	7500 5250 7500 5350
@@ -545,4 +543,6 @@ Wire Notes Line
 	1550 5300 3550 5300
 Wire Wire Line
 	2200 5750 2550 5750
+Wire Wire Line
+	7500 4950 7500 4850
 $EndSCHEMATC
