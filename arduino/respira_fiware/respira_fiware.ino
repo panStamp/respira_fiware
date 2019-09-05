@@ -193,9 +193,10 @@ void loop()
   if ((millis() - lastTxTime) >= TX_INTERVAL)
   {
     Serial.println("Reading SPS30");
-    if (sps30.read())
+    if (sps30.read() == RESPIRA_SPS30_OK)
     {
-      if (no2Sensor.read())
+      Serial.println("Reading NO2 sensor");
+      if (no2Sensor.read() == RESPIRA_TB600_OK)
       {      
         Serial.println("Transmitting");
         if (transmit())

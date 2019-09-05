@@ -25,7 +25,12 @@
 #ifndef _RESPIRA_TB600_H
 #define _RESPIRA_RB600_H
 
-#define RESPIRA_TB600_ERROR_CODE  -1
+/**
+ * Return codes
+ */
+#define RESPIRA_TB600_OK               0
+#define RESPIRA_TB600_ERROR_NOREPLY    1
+#define RESPIRA_TB600_ERROR_BADREPLY   2
 
 class RESPIRA_TB600
 {
@@ -81,12 +86,16 @@ class RESPIRA_TB600
      * 
      * Initialize sensor board
      * 
-     * @return error code
+     * @return return code
      */
     inline uint8_t begin(void)
     {
       serPort->begin(9600);
+
+      Serial.println("TB600 : Entering Question and Answer mode");
       setAnswerMode();
+
+      return RESPIRA_TB600_OK;
     }
 
     /**
@@ -94,9 +103,9 @@ class RESPIRA_TB600
      * 
      * Request reading and read response from sensor
      *
-     * @return Gas concentration in ppb
+     * @return Return code
      */
-    inline float read(void)
+    inline uint8_t read(void)
     {
       const uint8_t cmd[] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
 
@@ -117,25 +126,20 @@ class RESPIRA_TB600
       while (len < sizeof(buffer))
       {        
         while ((serPort->available()))
-        {
-          buffer[len] = serPort->read();
-          Serial.print(buffer[len], HEX);
-          Serial.print(" ");
-          len++;
-        }
+          buffer[len++] = serPort->read();
 
         if (timeout-- == 0)
-          return RESPIRA_TB600_ERROR_CODE;
+          return RESPIRA_TB600_ERROR_NOREPLY;
 
         delay(1);
       }
-      Serial.println("");
 
+      if ((buffer[0] != 0xFF) || (buffer[1] != 0x86))
+        return RESPIRA_TB600_ERROR_BADREPLY;
+      
       concentration = (buffer[6] << 8) | buffer[7];
 
-      Serial.print("NO2 concentration : ");
-      Serial.print(concentration);
-      Serial.println(" ppb");
+      return RESPIRA_TB600_OK;
     }
 
     /**

@@ -29,6 +29,16 @@
 
 #define SP30_COMMS I2C_COMMS
 
+/**
+ * Return codes
+ */
+#define RESPIRA_SPS30_OK               0
+#define RESPIRA_SPS30_ERROR_NOREPLY    1
+#define RESPIRA_SPS30_ERROR_BADREPLY   2
+#define RESPIRA_SPS30_ERROR_NOTFOUND   3
+#define RESPIRA_SPS30_ERROR_NOTRESET   4
+#define RESPIRA_SPS30_ERROR_NOCLEAN    5
+#define RESPIRA_SPS30_ERROR_NOSTART    6
 
 class RESPIRA_SPS30
 {
@@ -49,7 +59,7 @@ class RESPIRA_SPS30
      * 
      * Initialize sensor
      * 
-     * @return error code
+     * @return Return code
      */
     inline uint8_t begin(void)
     {
@@ -66,17 +76,17 @@ class RESPIRA_SPS30
       // Check for SPS30 connection
       if (sps30.probe() == false)
       {
-        Serial.println("could not probe / connect with SPS30.");
-        while(1) {}
+        Serial.println("Could not probe / connect with SPS30.");
+        return RESPIRA_SPS30_ERROR_NOTFOUND;
       }
       else
-        Serial.println(F("Detected SPS30."));
+        Serial.println("Detected SPS30.");
 
       // reset SPS30 connection
       if (sps30.reset() == false)
       {
         Serial.println("Could not reset SPS30.");
-        while(1) {}
+        return RESPIRA_SPS30_ERROR_NOTRESET;
       }
 
       uint32_t interval;
@@ -85,44 +95,49 @@ class RESPIRA_SPS30
       // Get autoclean interval
       if (sps30.GetAutoCleanInt(&interval) == ERR_OK)
       {
-        Serial.print(F("Current Auto Clean interval: "));
+        Serial.print("SPS30 : Current Auto Clean interval: ");
         Serial.print(interval);
-        Serial.println(F(" seconds"));
+        Serial.println(" seconds");
       }
       else
       {
         Serial.println("Could not get clean interval.");
-        while(1) {}
+        return RESPIRA_SPS30_ERROR_NOCLEAN;
       }
        
       // Default autoclean interval (~ 1 week)
       interval = 604800;
       if (sps30.SetAutoCleanInt(interval) == ERR_OK)
       {
-        Serial.print(F("Auto Clean interval now set : "));
+        Serial.print("SPS30 : Auto Clean interval now set : ");
         Serial.print(interval);
-        Serial.println(F(" seconds"));
+        Serial.println(" seconds");
       }
       else
       {
-        Serial.println("Could not set clean interval.");
-        while(1) {}
+        Serial.println("SPS30 : Could not set clean interval.");
+        return RESPIRA_SPS30_ERROR_NOCLEAN;
       }
           
       // Start measurement
       if (sps30.start() == true)
-        Serial.println(F("Measurement started"));
+        Serial.println("SPS30 : Measurement started");
       else
       {
-        Serial.println("Could NOT start measurement from SPS30");
-        while(1) {}
+        Serial.println("SPS30 : Could NOT start measurement from SPS30");
+       return RESPIRA_SPS30_ERROR_NOSTART;
       }
 
       // Clean now
       if (sps30.clean() == true)
-        Serial.println(F("Fan-cleaning manually started"));
+        Serial.println("SPS30 : Fan-cleaning manually started");
       else
-        Serial.println(F("Could NOT manually start fan-cleaning"));
+      {
+        Serial.println("SPS30 : Could NOT manually start fan-cleaning");
+        return RESPIRA_SPS30_ERROR_NOCLEAN;
+      }
+
+      return RESPIRA_SPS30_OK;
     }
 
     /*
@@ -130,43 +145,19 @@ class RESPIRA_SPS30
      * 
      * Read sensors
      * 
-     * @return True if function succees
+     * @return Return code
      */
-    inline bool read(void)
+    inline uint8_t read(void)
     {
       if (sps30.GetValues(&sps30Values) != ERR_OK)
       {
-        Serial.println(F("Error reading values from SPS30 sensor"));
-        return false;
+        Serial.println("SPS30 : Error reading values from SPS30 sensor");
+        return RESPIRA_SPS30_ERROR_NOREPLY;
       }
 
-      return true;
+      return RESPIRA_SPS30_OK;
     }
-      
-    /*
-     * getTemperature
-     * 
-     * Get temeperature value from SI7021 sensor
-     * 
-     * @return temeperature in Celsius degrees
-     */
-    inline float getTemperature(void)
-    {
-      return 0.0;
-    }
-
-    /*
-     * getHumidity
-     * 
-     * Get humidity value from SI7021 sensor
-     * 
-     * @return relative humidity
-     */
-    inline float getHumidity(void)
-    {
-      return 0.0;
-    }
-   
+        
     /*
      * getMassPM1
      * 
