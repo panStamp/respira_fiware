@@ -29,7 +29,8 @@
 #include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
 
 #include "fiware.h"
-#include "sensor.h"
+#include "respira_sps30.h"
+#include "respira_tb600.h"
 
 /**
  * Watchdog
@@ -62,11 +63,12 @@ const char appName[] = "RESPIRA";
  */
 const char FIWARE_SERVER[] = "54.154.169.181";
 const uint16_t FIWARE_PORT = 7896;
-const char FIWARE_APIKEY[] = "5g4d8yt2d37gh12schq6l5z47x";
+const char FIWARE_APIKEY[] = "4jggokgpepnvsb2uv4s40d59ab"; //"5g4d8yt2d37gh12schq6l5z47x";
 FIWARE fiware(FIWARE_SERVER, FIWARE_PORT, FIWARE_APIKEY);
 
 // RESPIRA sensor set
-RESPIRA_SENSOR sensor;
+RESPIRA_SPS30 sps30;
+RESPIRA_TB600 no2Sensor(&Serial2);
 
 // Tx interval in msec
 const uint32_t TX_INTERVAL = 60000;
@@ -93,21 +95,30 @@ void restart(void)
 bool transmit(void)
 {
   char txBuf[256];
+
+  // No2 concentration in μg/m3
+  float no2Conc = 1.8814 * (float)(no2Sensor.getPpb());
+
+  // Temperature in ºC
+  float temperature = 25.0;
+
+  // Relative humidity
+  float humidity = 40.0;
   
   sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#mpm1|%.2f#mpm2|%.2f#mpm4|%.2f#mpm10|%.2f#npm0|%.2f#npm1|%.2f#npm2|%.2f#npm4|%.2f#npm10|%.2f#avgs|%.2f",
-    sensor.getTemperature(),
-    sensor.getHumidity(),
-    sensor.getNO2(),
-    sensor.getMassPM1(),
-    sensor.getMassPM2(),
-    sensor.getMassPM4(),
-    sensor.getMassPM10(),
-    sensor.getNumPM0(),
-    sensor.getNumPM1(),
-    sensor.getNumPM2(),
-    sensor.getNumPM4(),
-    sensor.getNumPM10(),
-    sensor.getAvgSize()
+    temperature,
+    temperature,
+    no2Conc,
+    sps30.getMassPM1(),
+    sps30.getMassPM2(),
+    sps30.getMassPM4(),
+    sps30.getMassPM10(),
+    sps30.getNumPM0(),
+    sps30.getNumPM1(),
+    sps30.getNumPM2(),
+    sps30.getNumPM4(),
+    sps30.getNumPM10(),
+    sps30.getAvgSize()
   );
 
   Serial.println(txBuf);
@@ -167,11 +178,11 @@ void setup()
   timerAlarmEnable(timer); //enable interrupt
   #endif
 
-  // Initialize sensor set
-  sensor.begin();
+  // Initialize sensors
+  sps30.begin();
+  no2Sensor.begin();
 
   digitalWrite(LED, LOW);
-
 }
 
 /**
@@ -182,13 +193,16 @@ void loop()
   if ((millis() - lastTxTime) >= TX_INTERVAL)
   {
     Serial.println("Reading SPS30");
-    if (sensor.read())
+    if (sps30.read())
     {
-      Serial.println("Transmitting");
-      if (transmit())
-      {
-        Serial.println("OK");
-        lastTxTime = millis();
+      if (no2Sensor.read())
+      {      
+        Serial.println("Transmitting");
+        if (transmit())
+        {
+          Serial.println("OK");
+          lastTxTime = millis();
+        }
       }
     }
   }
@@ -198,6 +212,6 @@ void loop()
   timerWrite(timer, 0);
   #endif
 
-  delay(5000);
+  delay(1000);
 }
 
