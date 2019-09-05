@@ -12,3 +12,7 @@ Anyone from the community can upload relevant information about the environment 
 - Promote the green culture in Badajoz
 - Showcase [FIWARE](https://www.fiware.org/) and the Open Source culture as a way to build useful solutions for the cities.
 
+Environmental Open Labs is entirely powered by FIWARE. Communication from IoT devices to the platform is done via [UltraLight 2.0 HTTP]((https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html)). UltraLight is a lightweight IoT protocol specially created for constrained IoT hardware platforms such as Arduinos, ESP8266 and other low-power microcontrollers.
+
+[This guide](HOWTO_OPEN_LABS.md) shows how to use _Environmental Open Labs_ and start sending data from your IoT device.
+
