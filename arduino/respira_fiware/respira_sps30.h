@@ -53,7 +53,25 @@ class RESPIRA_SPS30
      */
     struct sps_values sps30Values;
 
-  public:   
+    /**
+     * Average concentration of particles
+     */
+    float avgConcPm1, avgConcPm2, avgConcPm4, avgConcPm10, avgSize;
+
+    /**
+     * Number of samples for the calculation of the averages
+     */
+    uint16_t avgSamples;
+
+  public:
+    /**
+     * Class constructor
+     */
+    inline RESPIRA_SPS30(void)
+    {
+      resetAvg();
+    }
+    
     /**
      * begin
      * 
@@ -155,15 +173,23 @@ class RESPIRA_SPS30
         return RESPIRA_SPS30_ERROR_NOREPLY;
       }
 
+      // Update averages
+      avgConcPm1 += getMassPM1();
+      avgConcPm2 += getMassPM2();
+      avgConcPm4 += getMassPM4();
+      avgConcPm10 += getMassPM10();
+      avgSize += getTypSize();
+      avgSamples++;
+
       return RESPIRA_SPS30_OK;
     }
         
     /*
      * getMassPM1
      * 
-     * Get mass of the PM1.0 particles from SPS30 sensor
+     * Get mass concentration of the PM1.0 particles from SPS30 sensor
      * 
-     * @return mass of the PM1.0 particles in μg/m3
+     * @return mass concentration of the PM1.0 particles in μg/m3
      */
     inline float getMassPM1(void)
     {
@@ -173,9 +199,9 @@ class RESPIRA_SPS30
     /*
      * getMassPM2
      * 
-     * Get mass of the PM2.5 particles from SPS30 sensor
+     * Get mass concentration of the PM2.5 particles from SPS30 sensor
      * 
-     * @return mass of the PM2.5 particles in μg/m3
+     * @return mass concentration of the PM2.5 particles in μg/m3
      */
     inline float getMassPM2(void)
     {
@@ -185,9 +211,9 @@ class RESPIRA_SPS30
     /*
      * getMassPM4
      * 
-     * Get mass of the PM4.0 particles from SPS30 sensor
+     * Get mass concentration of the PM4.0 particles from SPS30 sensor
      * 
-     * @return mass of the PM4.0 particles in μg/m3
+     * @return mass concentration of the PM4.0 particles in μg/m3
      */
     inline float getMassPM4(void)
     {
@@ -197,9 +223,9 @@ class RESPIRA_SPS30
     /*
      * getMassPM10
      * 
-     * Get mass of the PM10 particles from SPS30 sensor
+     * Get mass concentration of the PM10 particles from SPS30 sensor
      * 
-     * @return mass of the PM10 particles in μg/m3
+     * @return mass concentration of the PM10 particles in μg/m3
      */
     inline float getMassPM10(void)
     {
@@ -267,16 +293,91 @@ class RESPIRA_SPS30
     }
 
     /*
-     * getAvgSize
+     * getTypSize
      * 
-     * Get average size of the particles measured from SPS30 sensor
+     * Get typical size of the particles measured from SPS30 sensor
      * 
-     * @return average size of particles in μm
+     * @return typical size of particles in μm
      */
-    inline float getAvgSize(void)
+    inline float getTypSize(void)
     {
       return sps30Values.PartSize;
     }
+
+    /**
+     * getAvgPM1
+     * 
+     * Get average concentration of PM1.0
+     * 
+     * @return Average concentration in μg/m3
+     */
+     inline float getAvgPM1(void)
+     {
+       return avgConcPm1 / avgSamples;
+     }
+
+    /**
+     * getAvgPM2
+     * 
+     * Get average concentration of PM2.5
+     * 
+     * @return Average concentration in μg/m3
+     */
+     inline float getAvgPM2(void)
+     {
+       return avgConcPm2 / avgSamples;
+     }
+
+    /**
+     * getAvgPM4
+     * 
+     * Get average concentration of PM4.0
+     * 
+     * @return Average concentration in μg/m3
+     */
+     inline float getAvgPM4(void)
+     {
+       return avgConcPm4 / avgSamples;
+     }
+
+    /**
+     * getAvgPM10
+     * 
+     * Get average concentration of PM10
+     * 
+     * @return Average concentration in μg/m3
+     */
+     inline float getAvgPM10(void)
+     {
+       return avgConcPm10 / avgSamples;
+     }
+
+    /**
+     * getAvgSize
+     * 
+     * Get average size of particles
+     * 
+     * @return Average size in μM
+     */
+     inline float getAvgSize(void)
+     {
+       return avgSize / avgSamples;
+     }
+     
+    /**
+     * resetAvg
+     * 
+     * Reset average variables
+     */
+     inline void resetAvg(void)
+     {
+       avgConcPm1 = 0;
+       avgConcPm2 = 0;
+       avgConcPm4 = 0;
+       avgConcPm10 = 0;
+       avgSize = 0;
+       avgSamples = 0;
+     }
 };
 #endif
 

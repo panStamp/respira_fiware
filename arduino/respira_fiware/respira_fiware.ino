@@ -31,6 +31,7 @@
 #include "fiware.h"
 #include "respira_sps30.h"
 #include "respira_tb600.h"
+#include "respira_si7021.h"
 
 /**
  * Watchdog
@@ -69,9 +70,16 @@ FIWARE fiware(FIWARE_SERVER, FIWARE_PORT, FIWARE_APIKEY);
 // RESPIRA sensor set
 RESPIRA_SPS30 sps30;
 RESPIRA_TB600 no2Sensor(&Serial2);
+RESPIRA_SI7021 si7021;
+
+// Sampling interval in msec
+const uint32_t SAMPLING_INTERVAL = 3600000; // 1 hour
+
+// Time of last sample in msec
+uint32_t lastSampleTime = 0;
 
 // Tx interval in msec
-const uint32_t TX_INTERVAL = 60000;
+const uint32_t TX_INTERVAL = 60000; // 1 min
 
 // Time of last transmission in msec
 uint32_t lastTxTime = 0;
@@ -97,29 +105,26 @@ bool transmit(void)
   char txBuf[256];
 
   // No2 concentration in μg/m3
-  float no2Conc = 1.8814 * (float)(no2Sensor.getPpb());
+  float no2Conc = 1.8814 * (float)(no2Sensor.getAvgPpb());
+  no2Sensor.resetAvg();
 
   // Temperature in ºC
-  float temperature = 25.0;
-
+  float temperature = 25.0; //si7021.getAvgTemperature();
   // Relative humidity
-  float humidity = 40.0;
+  float humidity = 40.0; //si7021.getAvgHumidity();
+  si7021.resetAvg();
   
-  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#mpm1|%.2f#mpm2|%.2f#mpm4|%.2f#mpm10|%.2f#npm0|%.2f#npm1|%.2f#npm2|%.2f#npm4|%.2f#npm10|%.2f#avgs|%.2f",
+  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
     temperature,
-    temperature,
+    humidity,
     no2Conc,
-    sps30.getMassPM1(),
-    sps30.getMassPM2(),
-    sps30.getMassPM4(),
-    sps30.getMassPM10(),
-    sps30.getNumPM0(),
-    sps30.getNumPM1(),
-    sps30.getNumPM2(),
-    sps30.getNumPM4(),
-    sps30.getNumPM10(),
-    sps30.getAvgSize()
+    sps30.getAvgPM1(),
+    sps30.getAvgPM2(),
+    sps30.getAvgPM4(),
+    sps30.getAvgPM10(),
+    sps30.getTypSize()
   );
+  sps30.resetAvg();
 
   Serial.println(txBuf);
 
@@ -181,8 +186,11 @@ void setup()
   // Initialize sensors
   sps30.begin();
   no2Sensor.begin();
+  si7021.begin();
 
   digitalWrite(LED, LOW);
+
+  lastSampleTime = millis();
 }
 
 /**
@@ -197,14 +205,21 @@ void loop()
     {
       Serial.println("Reading NO2 sensor");
       if (no2Sensor.read() == RESPIRA_TB600_OK)
-      {      
-        Serial.println("Transmitting");
-        if (transmit())
-        {
-          Serial.println("OK");
-          lastTxTime = millis();
-        }
+      {
+        Serial.println("Reading SI7021 sensor");
+        si7021.read();
+        lastTxTime = millis();
       }
+    }
+  }
+
+  if ((millis() - lastSampleTime) >= SAMPLING_INTERVAL)
+  {
+    Serial.println("Transmitting");
+    if (transmit())
+    {
+      Serial.println("OK");
+      lastSampleTime = millis();
     }
   }
   

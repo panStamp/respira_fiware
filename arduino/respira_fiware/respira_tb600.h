@@ -41,9 +41,19 @@ class RESPIRA_TB600
     HardwareSerial *serPort;
 
     /**
-     * Gas concentration in ppb
+     * Instant gas concentration in ppb
      */
     uint16_t concentration;
+
+    /**
+     * Average concentration in ppb
+     */
+    uint32_t avgConcentration;
+
+    /**
+     * Number of samples for the calculation of the average
+     */
+    uint16_t avgSamples;
   
     /**
      * setAnswerMode
@@ -79,6 +89,7 @@ class RESPIRA_TB600
     {
       serPort = port;
       concentration = 0;
+      resetAvg();
     }
 
     /**
@@ -139,6 +150,10 @@ class RESPIRA_TB600
       
       concentration = (buffer[6] << 8) | buffer[7];
 
+      // Update average
+      avgConcentration += concentration;
+      avgSamples++;
+
       return RESPIRA_TB600_OK;
     }
 
@@ -149,9 +164,32 @@ class RESPIRA_TB600
      * 
      * @return Last reading in ppb
      */
-     uint16_t getPpb(void)
+     inline uint16_t getPpb(void)
      {
        return concentration;
+     }
+
+    /**
+     * getAvgPpb
+     * 
+     * Get average concentration in ppb's
+     * 
+     * @return Average in ppb
+     */
+     inline float getAvgPpb(void)
+     {
+       return (float)(avgConcentration / avgSamples);
+     }
+
+    /**
+     * resetAvg
+     * 
+     * Reset average variables
+     */
+     inline void resetAvg(void)
+     {
+       avgConcentration = 0;
+       avgSamples = 0;
      }
 };
 #endif
