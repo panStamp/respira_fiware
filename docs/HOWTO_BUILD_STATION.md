@@ -60,9 +60,16 @@ This image shows a complete RESPIRA FIWARE station completely assembled:
 
 # Programming
 
-The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Simply select the board _ESP32 Dev board_ from Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. The source code is ready with the right API Key to connect RESPIRA to the [Environmental Open Labs](OPEN_LABS.md). However, if you want to connect the station to a different FIWARE service, then change the API Key accordingly.
+The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Before trying to compile the code, the following libraries need to be installed from _Sketch->Include library->Manager libraries_:
 
-From ]respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
+- [HTTPCLient library for ESP8266](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266HTTPClient).
+- [Paul van Haastrecht's SPS30 library](https://github.com/paulvha/sps30).
+- [tzapu's WiFiManager for ESP8266](https://github.com/tzapu/WiFiManager).
+- [Sparkfun's SI7021 library](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library).
+
+Simply select the board _ESP32 Dev board_ from Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. The source code is ready with the right API Key to connect RESPIRA to the [Environmental Open Labs](OPEN_LABS.md). However, if you want to connect the station to a different FIWARE service, then change the API Key accordingly.
+
+From [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
 
 ```C++
 const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;

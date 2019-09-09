@@ -19,9 +19,17 @@ Let's say we want to create a device capable to transmit temperatures and humidi
 
 Then repeat the same process for the humidity sensor:
 
-After confirmation the system will return an API key that needs to be entered in your device. This key corresponds to the FIWARE API key for the UltraLight (UL) IoT agent.
+After confirmation the system will return an API key that needs to be entered in your device. This key corresponds to the FIWARE API key for the UltraLight (UL) IoT agent. The platform will also return an example of UL frame that can be used in your code:
+
+Example of UL frame: _t|25.00#h|40.00_
+
+that can be translated into true source code as follows:
+
+```C++
+sprintf(txBuf, "t|%.2f#h|%.2f", temperature, humidity);
+```
 
 # Create device
 
-Once our first device profile is created we can create a new device. Click on _Devices->Create new device_ and
+Once our first device profile is created we can create a new device. Click on _Devices->Create new device_ and select the recently created device profile.
 
