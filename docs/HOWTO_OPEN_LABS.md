@@ -21,7 +21,11 @@ Then repeat the same process for the humidity sensor:
 
 After confirmation the system will return an API key that needs to be entered in your device. This key corresponds to the FIWARE API key for the UltraLight (UL) IoT agent. The platform will also return an example of UL frame that can be used in your code:
 
-Example of UL frame: _t|25.00#h|40.00_
+Example of UL frame: 
+
+```
+t|25.00#h|40.00
+```
 
 that can be translated into true source code as follows:
 
