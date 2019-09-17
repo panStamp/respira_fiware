@@ -6,6 +6,7 @@
 - [Bills of materials](#bills-of-materials)
 - [Assembly](#assembly)
 - [Programming](#programming)
+- [Connecting to Environmental Open Labs](#connecting-to-environmental-open-labs)
 
 # How to build your own RESPIRA FIWARE station
 
@@ -34,6 +35,7 @@ Sensor unit:
 | SI7021 | SI7021 dual temperature and humidity sensor | e-bay, Amazon, Aliexpress, etc. |
 | SPS30 | Sensirion particulate matter sensor | Mouser, Farnell, DigiKey, etc. |
 | SPS30 connector | ZH 1.5mm JST 5-pole female connector | e-bay, Mouser, Farnell, Digikey, etc. |
+| ES1-NO2-50 | NO2 sensor 0-50 ppm | ECSense, Pewatron |
 | Enclosure | TFA-Dostmann 98.1114.02 | Amazon |
 | Ethernet cable | 30 cm of CAT-6 8-pole Ethernet cable | Local store |
 | Monopole wire | Coloured <=0.5mm monopole wire | Local store |
@@ -70,6 +72,18 @@ The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Before 
 Simply select the board _ESP32 Dev board_ from Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. The source code is ready with the right API Key to connect RESPIRA to the [Environmental Open Labs](OPEN_LABS.md). However, if you want to connect the station to a different FIWARE service, then change the API Key accordingly.
 
 From [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
+
+```C++
+const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
+const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
+const char FIWARE_APIKEY[] = FIWARE_UL_API_KEY;
+```
+
+# Connecting to Environmental Open Labs
+
+Connecting new RESPIRA FIWARE stations to [Environmental Open Labs](OPEN_LABS.md) is very simple. Once logged into your Environmental Open Labs account you need to create a new device profile and select _RESPIRA FIWARE station_ from the wizard. The platform will return a new API key for this device profile which will have to be entered into the Arduino code.
+
+Once into the Arduino code, set the API key and leave the rest of FIWARE constants unmofified:
 
 ```C++
 const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
