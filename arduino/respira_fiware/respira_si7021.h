@@ -25,7 +25,7 @@
 #ifndef _RESPIRA_SI7021_H
 #define _RESPIRA_SI7021_H
 
-#include "SparkFunHTU21D.h"
+#include "SparkFun_Si7021_Breakout_Library.h"
 
 /**
  * Return codes
@@ -39,7 +39,7 @@ class RESPIRA_SI7021
     /**
      * Sensor object
      */
-    HTU21D htu;
+    Weather htu;
 
     /**
      * Average temperature in ºC
@@ -89,9 +89,15 @@ class RESPIRA_SI7021
      */
     inline uint8_t read(void)
     {
+      float temperature = htu.getTemp();
+      float humidity = htu.getRH();
+
+      Serial.print("SI7021 : Temperature = "); Serial.print(temperature); Serial.print(" ºC -");
+      Serial.print("Humidity = "); Serial.print(humidity); Serial.println(" %");
+      
       // Update averages
-      avgTemperature += htu.readTemperature();
-      avgHumidity += htu.readHumidity();
+      avgTemperature += temperature;
+      avgHumidity += humidity;
       avgSamples++;
 
       return RESPIRA_SI7021_OK;
@@ -106,7 +112,7 @@ class RESPIRA_SI7021
      */
      inline float getTemperature(void)
      {
-       return htu.readTemperature();
+       return htu.getTemp();
      }
 
     /**
@@ -118,7 +124,7 @@ class RESPIRA_SI7021
      */
      inline float getHumidity(void)
      {
-       return htu.readHumidity();
+       return htu.getRH();
      }
 
     /**
@@ -128,8 +134,11 @@ class RESPIRA_SI7021
      * 
      * @return Average temperature in ºC
      */
-     inline float getAvgTemperature(void)
+     inline float getAvgTemperature(void)     
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgTemperature / avgSamples;
      }
 
@@ -142,6 +151,9 @@ class RESPIRA_SI7021
      */
      inline float getAvgHumidity(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgHumidity / avgSamples;
      }
 

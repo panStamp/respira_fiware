@@ -73,13 +73,18 @@ RESPIRA_TB600 no2Sensor(&Serial2);
 RESPIRA_SI7021 si7021;
 
 // Sampling interval in msec
-const uint32_t SAMPLING_INTERVAL = 3600000; // 1 hour
+const uint32_t SAMPLING_INTERVAL = 20000; // 20 sec
 
 // Time of last sample in msec
 uint32_t lastSampleTime = 0;
 
 // Tx interval in msec
-const uint32_t TX_INTERVAL = 60000; // 1 min
+const uint32_t TX_INTERVAL = 3600000; // 1 hour
+
+// Zero calibration interval
+const uint32_t ZERO_CALIB_INTERVAL = 10 * 24 * 3600000; // 10 days
+const uint32_t ZERO_CALIB_LOOPS = ZERO_CALIB_INTERVAL - TX_INTERVAL;
+uint16_t zeroCalibLoops = 0;
 
 // Time of last transmission in msec
 uint32_t lastTxTime = 0;
@@ -105,32 +110,46 @@ bool transmit(void)
   char txBuf[256];
 
   // No2 concentration in μg/m3
-  float no2Conc = 1.8814 * (float)(no2Sensor.getAvgPpb());
-  no2Sensor.resetAvg();
+  float no2Conc = (float) no2Sensor.getAvgUgM3();
 
   // Temperature in ºC
-  float temperature = 25.0; //si7021.getAvgTemperature();
+  float temperature = si7021.getAvgTemperature();
   // Relative humidity
-  float humidity = 40.0; //si7021.getAvgHumidity();
-  si7021.resetAvg();
-  
+  float humidity = si7021.getAvgHumidity();  
+
+  // Particulate matter
+  float pm1 = sps30.getAvgPM1();
+  float pm2 = sps30.getAvgPM2();
+  float pm4 = sps30.getAvgPM4();
+  float pm10 = sps30.getAvgPM10();
+  float typSize = sps30.getTypSize();
+
+  // Preparing UL frame
   sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
     temperature,
     humidity,
     no2Conc,
-    sps30.getAvgPM1(),
-    sps30.getAvgPM2(),
-    sps30.getAvgPM4(),
-    sps30.getAvgPM10(),
-    sps30.getTypSize()
-  );
-  sps30.resetAvg();
+    pm1,
+    pm2,
+    pm4,
+    pm10,
+    typSize
+  );  
 
   Serial.println(txBuf);
 
   digitalWrite(LED, HIGH);
   bool ret = fiware.send(deviceId, txBuf);
   digitalWrite(LED, LOW);
+
+  // OK received from server?
+  if (ret)
+  {
+    // Reset averages
+    no2Sensor.resetAvg();
+    si7021.resetAvg();
+    sps30.resetAvg();
+  }
 
   return ret;
 }
@@ -198,7 +217,7 @@ void setup()
  */
 void loop()
 {
-  if ((millis() - lastTxTime) >= TX_INTERVAL)
+  if ((millis() - lastSampleTime) >= SAMPLING_INTERVAL)
   {
     Serial.println("Reading SPS30");
     if (sps30.read() == RESPIRA_SPS30_OK)
@@ -208,18 +227,25 @@ void loop()
       {
         Serial.println("Reading SI7021 sensor");
         si7021.read();
-        lastTxTime = millis();
+        lastSampleTime = millis();
       }
     }
   }
 
-  if ((millis() - lastSampleTime) >= SAMPLING_INTERVAL)
+  if ((millis() - lastTxTime) >= TX_INTERVAL)
   {
     Serial.println("Transmitting");
     if (transmit())
     {
       Serial.println("OK");
-      lastSampleTime = millis();
+      lastTxTime = millis();
+
+      // Zero calibrate?
+      if (++zeroCalibLoops == ZERO_CALIB_LOOPS)
+      {
+        zeroCalibLoops = 0;
+        no2Sensor.zeroCalibrate();
+      }
     }
   }
   
@@ -228,6 +254,6 @@ void loop()
   timerWrite(timer, 0);
   #endif
 
-  delay(1000);
+  delay(5000);
 }
 

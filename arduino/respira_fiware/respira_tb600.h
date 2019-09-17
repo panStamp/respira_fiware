@@ -43,7 +43,7 @@ class RESPIRA_TB600
     /**
      * Instant gas concentration in ppb
      */
-    uint16_t concentration;
+    float concentration;
 
     /**
      * Average concentration in ppb
@@ -54,7 +54,17 @@ class RESPIRA_TB600
      * Number of samples for the calculation of the average
      */
     uint16_t avgSamples;
-  
+
+    /**
+     * Minimum gas concentration detected
+     */
+    float minConcentration;
+
+    /**
+     * Zero offset
+     */
+    float zeroOffset;
+    
     /**
      * setAnswerMode
      * 
@@ -89,6 +99,8 @@ class RESPIRA_TB600
     {
       serPort = port;
       concentration = 0;
+      minConcentration = 0;
+      zeroOffset = 0;
       resetAvg();
     }
 
@@ -113,10 +125,12 @@ class RESPIRA_TB600
      * read
      * 
      * Request reading and read response from sensor
+     * 
+     * @param temp Current temperature for compensation
      *
      * @return Return code
      */
-    inline uint8_t read(void)
+    inline uint8_t read(float temp=20.0)
     {
       const uint8_t cmd[] = {0xFF, 0x01, 0x86, 0x00, 0x00, 0x00, 0x00, 0x00, 0x79};
 
@@ -148,7 +162,26 @@ class RESPIRA_TB600
       if ((buffer[0] != 0xFF) || (buffer[1] != 0x86))
         return RESPIRA_TB600_ERROR_BADREPLY;
       
-      concentration = (buffer[6] << 8) | buffer[7];
+      uint16_t conc = (buffer[6] << 8) | buffer[7];
+
+      concentration = (float) conc;
+      tempCompensation(temp);
+
+      // Zero calibration
+      concentration -= zeroOffset;
+
+      // Skip negative values
+      if (concentration < 0)
+        concentration = 0;
+
+      // Update minimum concentration
+      if (minConcentration == 0)
+        minConcentration = concentration;
+      else if (minConcentration > concentration)
+        minConcentration = concentration;
+
+      Serial.print("TB600 : NO2 = "); Serial.print(concentration); Serial.print(" ppb - ");
+      Serial.print("Min NO2 = "); Serial.print(minConcentration); Serial.println(" ppb");
 
       // Update average
       avgConcentration += concentration;
@@ -158,13 +191,32 @@ class RESPIRA_TB600
     }
 
     /**
+     * tempCompensation
+     * 
+     * Compensate reading for temperature
+     * 
+     * @param temp Temperature in ºC
+     */
+     inline void tempCompensation(float temp)
+     {
+       // Calculate sensitivity at 20 ºC
+       float sens = 0.002 * sq(20) - 0.2233 * 20 -19.862;
+       // Get raw reading
+       float raw = concentration / sens;
+       // Calculate sensitivity at temp
+       sens = 0.002 * sq(temp) - 0.2233 * temp -19.862;
+       // Get concentration at temp
+       concentration = raw * sens;
+     }
+
+    /**
      * getPpb
      * 
      * Get last reading in ppb's
      * 
      * @return Last reading in ppb
      */
-     inline uint16_t getPpb(void)
+     inline float getPpb(void)
      {
        return concentration;
      }
@@ -178,7 +230,22 @@ class RESPIRA_TB600
      */
      inline float getAvgPpb(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return (float)(avgConcentration / avgSamples);
+     }
+
+    /**
+     * getAvgUgM3
+     * 
+     * Get average concentration in μg/m3
+     * 
+     * @return Average in μg/m3
+     */
+     inline float getAvgUgM3(void)
+     {        
+       return 1.8814 * getAvgPpb();
      }
 
     /**
@@ -191,6 +258,17 @@ class RESPIRA_TB600
        avgConcentration = 0;
        avgSamples = 0;
      }
+
+     /**
+      * zeroCalibrate
+      * 
+      * Apply zero offset calibration
+      */
+      inline void zeroCalibrate(void)
+      {
+        Serial.println("TB600 : Zero calibration");
+        zeroOffset = minConcentration;
+      }
 };
 #endif
 

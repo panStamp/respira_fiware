@@ -173,11 +173,17 @@ class RESPIRA_SPS30
         return RESPIRA_SPS30_ERROR_NOREPLY;
       }
 
+      Serial.print("SPS30 : PM1.0 = "); Serial.print(getMassPM1()); Serial.print(" μg/m3 - ");
+      Serial.print("PM2.5 = "); Serial.print(getMassPM2()); Serial.print(" μg/m3 - ");
+      Serial.print("PM4.0 = "); Serial.print(getMassPM4()); Serial.print(" μg/m3 - ");
+      Serial.print("PM10 = "); Serial.print(getMassPM10()); Serial.print(" μg/m3 - ");
+      Serial.print("Avg size  = "); Serial.print(getTypSize()); Serial.println(" μm");
+
       // Update averages
       avgConcPm1 += getMassPM1();
       avgConcPm2 += getMassPM2();
       avgConcPm4 += getMassPM4();
-      avgConcPm10 += getMassPM10();
+      avgConcPm10 += getMassPM10();     
       avgSize += getTypSize();
       avgSamples++;
 
@@ -313,6 +319,9 @@ class RESPIRA_SPS30
      */
      inline float getAvgPM1(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgConcPm1 / avgSamples;
      }
 
@@ -325,6 +334,9 @@ class RESPIRA_SPS30
      */
      inline float getAvgPM2(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgConcPm2 / avgSamples;
      }
 
@@ -337,6 +349,9 @@ class RESPIRA_SPS30
      */
      inline float getAvgPM4(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgConcPm4 / avgSamples;
      }
 
@@ -349,6 +364,9 @@ class RESPIRA_SPS30
      */
      inline float getAvgPM10(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgConcPm10 / avgSamples;
      }
 
@@ -361,6 +379,9 @@ class RESPIRA_SPS30
      */
      inline float getAvgSize(void)
      {
+       if (avgSamples == 0)
+         return 0.0;
+         
        return avgSize / avgSamples;
      }
      
