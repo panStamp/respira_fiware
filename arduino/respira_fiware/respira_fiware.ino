@@ -254,6 +254,6 @@ void loop()
   timerWrite(timer, 0);
   #endif
 
-  delay(5000);
+  delay(1000);
 }
 
