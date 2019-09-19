@@ -173,11 +173,11 @@ class RESPIRA_SPS30
         return RESPIRA_SPS30_ERROR_NOREPLY;
       }
 
-      Serial.print("SPS30 : PM1.0 = "); Serial.print(getMassPM1()); Serial.print(" μg/m3 - ");
-      Serial.print("PM2.5 = "); Serial.print(getMassPM2()); Serial.print(" μg/m3 - ");
-      Serial.print("PM4.0 = "); Serial.print(getMassPM4()); Serial.print(" μg/m3 - ");
-      Serial.print("PM10 = "); Serial.print(getMassPM10()); Serial.print(" μg/m3 - ");
-      Serial.print("Avg size  = "); Serial.print(getTypSize()); Serial.println(" μm");
+      Serial.print("SPS30 : PM1.0 = "); Serial.print(getMassPM1()); Serial.print(" ug/m3 - ");
+      Serial.print("PM2.5 = "); Serial.print(getMassPM2()); Serial.print(" ug/m3 - ");
+      Serial.print("PM4.0 = "); Serial.print(getMassPM4()); Serial.print(" ug/m3 - ");
+      Serial.print("PM10 = "); Serial.print(getMassPM10()); Serial.print(" ug/m3 - ");
+      Serial.print("Avg size  = "); Serial.print(getTypSize()); Serial.println(" um");
 
       // Update averages
       avgConcPm1 += getMassPM1();
