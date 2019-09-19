@@ -44,11 +44,17 @@ Sensor unit:
 
 All parts have been selected to avoid any surface mount soldering (SMT). This means that anyone with a minimum experience in soldering electronic parts and owning a soldering iron should be able to assemble this station. The main microcontroller board is shown in the image below:
 
-[PICTURE of MCU board]
+<p align="center">
+<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_02.jpg">
+</p>
+
+As seen in the above picture, most of the complexity of the electronics is already included in the ESP32 development board. Apart from this main board, the MCU carrier board just needs a few passive components and connectors.
 
 Assembling the sensor board is quite simple as well. Sensor units need to be connected to the auxiliary sensor board with wires. Finally, the sensor board is fixed into the pagoda-style enclosure and connected to the main microcontroller board by means of an Ethernet cable.
 
-[PICTURE of sensor board]
+<p align="center">
+<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_01.jpg">
+</p>
 
 The following pinout diagram is recommended for the Ethernet cable:
 
@@ -56,9 +62,11 @@ The following pinout diagram is recommended for the Ethernet cable:
 <img width="400" src="http://www.panstamp.org/pictures/respira_ethernet_pinout.jpg">
 </p>
 
-This image shows a complete RESPIRA FIWARE station completely assembled:
+This image shows a complete RESPIRA FIWARE station completely assembled and connected. This station includes a Meanwel 5.0VDC power supply so that the whole electronics can be connected to AC mains:
 
-[PICTURE of RESPIRA station]
+<p align="center">
+<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_03.jpg">
+</p>
 
 # Programming
 
