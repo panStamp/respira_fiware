@@ -41,9 +41,14 @@ class RESPIRA_TB600
     HardwareSerial *serPort;
 
     /**
-     * Instant gas concentration in ppb
+     * Raw instant gas concentration in ppb
      */
-    float concentration;
+    float rawConcentration;
+    
+    /**
+     * Filtered instant gas concentration in ppb
+     */
+    float filtConcentration;
 
     /**
      * Average concentration in ppb
@@ -98,7 +103,8 @@ class RESPIRA_TB600
     inline RESPIRA_TB600(HardwareSerial *port)
     {
       serPort = port;
-      concentration = 0;
+      filtConcentration = 0;
+      rawConcentration = 0;
       minConcentration = 0;
       zeroOffset = 0;
       resetAvg();
@@ -164,27 +170,29 @@ class RESPIRA_TB600
       
       uint16_t conc = (buffer[6] << 8) | buffer[7];
 
-      concentration = (float) conc;
+      // Raw (non filtered) concentration
+      rawConcentration = (float) conc;
+      
+      // Compensate for temperature
       tempCompensation(temp);
 
+      // Update minimum concentration
+      if ((minConcentration == 0) || (minConcentration > rawConcentration))
+        minConcentration = rawConcentration;
+        
       // Zero calibration
-      concentration -= zeroOffset;
+      filtConcentration = rawConcentration - zeroOffset;
 
       // Skip negative values
-      if (concentration < 0)
-        concentration = 0;
+      if (filtConcentration < 0)
+        filtConcentration = 0;
 
-      // Update minimum concentration
-      if (minConcentration == 0)
-        minConcentration = concentration;
-      else if (minConcentration > concentration)
-        minConcentration = concentration;
-
-      Serial.print("TB600 : NO2 = "); Serial.print(concentration); Serial.print(" ppb - ");
+      Serial.print("TB600 : Raw NO2 = "); Serial.print(rawConcentration); Serial.print(" ppb - ");
+      Serial.print("TB600 : Filtered NO2 = "); Serial.print(filtConcentration); Serial.print(" ppb - ");
       Serial.print("Min NO2 = "); Serial.print(minConcentration); Serial.println(" ppb");
 
       // Update average
-      avgConcentration += concentration;
+      avgConcentration += filtConcentration;
       avgSamples++;
 
       return RESPIRA_TB600_OK;
@@ -202,23 +210,23 @@ class RESPIRA_TB600
        // Calculate sensitivity at 20 ºC
        float sens = 0.002 * sq(20) - 0.2233 * 20 -19.862;
        // Get raw reading
-       float raw = concentration / sens;
+       float raw = rawConcentration / sens;
        // Calculate sensitivity at temp
        sens = 0.002 * sq(temp) - 0.2233 * temp -19.862;
        // Get concentration at temp
-       concentration = raw * sens;
+       rawConcentration = raw * sens;
      }
 
     /**
      * getPpb
      * 
-     * Get last reading in ppb's
+     * Get last filtered reading in ppb's
      * 
      * @return Last reading in ppb
      */
      inline float getPpb(void)
      {
-       return concentration;
+       return filtConcentration;
      }
 
     /**
