@@ -138,9 +138,7 @@ bool transmit(void)
 
   Serial.println(txBuf);
 
-  digitalWrite(LED, HIGH);
   bool ret = fiware.send(deviceId, txBuf);
-  digitalWrite(LED, LOW);
 
   // OK received from server?
   if (ret)
@@ -219,6 +217,7 @@ void loop()
 {
   if ((millis() - lastSampleTime) >= SAMPLING_INTERVAL)
   {
+    digitalWrite(LED, HIGH);
     Serial.println("Reading SPS30");
     if (sps30.read() == RESPIRA_SPS30_OK)
     {
@@ -230,10 +229,12 @@ void loop()
         lastSampleTime = millis();
       }
     }
+    digitalWrite(LED, LOW);
   }
 
   if ((millis() - lastTxTime) >= TX_INTERVAL)
   {
+    digitalWrite(LED, HIGH);
     Serial.println("Transmitting");
     if (transmit())
     {
@@ -247,6 +248,7 @@ void loop()
         no2Sensor.zeroCalibrate();
       }
     }
+    digitalWrite(LED, LOW);
   }
   
   #ifdef WATCHDOG_ENABLED
