@@ -6,6 +6,7 @@
 - [Bills of materials](#bills-of-materials)
 - [Assembly](#assembly)
 - [Programming](#programming)
+- [Joining a WiFi network](#joining-a-wiFi-network)
 - [Connecting to Environmental Open Labs](#connecting-to-environmental-open-labs)
 
 # How to build your own RESPIRA FIWARE station
@@ -87,11 +88,26 @@ const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
 const char FIWARE_APIKEY[] = FIWARE_UL_API_KEY;
 ```
 
+# Joining a WiFi network
+
+The code integrates [WiFiManager](https://github.com/tzapu/WiFiManager), a popular Arduino library providing a simple web interface to help connect devices to existing WiFi networks. The first time a RESPIRA station is powered on, it deploys a basic WiFi access point with name "RESPIRA_XXXXXXXXXXXX", being "XXXXXXXXXXXX" the MAC address of the ESP32 module. This access point is also deployed after trying to connect to a precedent WiFi network without success. Once WiFiManager is running we need to follow these steps:
+
+1- Connect to the "RESPIRA_XXXXXXXXXXXX" WiFi network from a cell phone
+2- Open the web page http://192.168.4.1. The following interface will appear on the screen:
+
+<p align="center">
+<img src="http://www.panstamp.org/pictures/autoconnect-ap-web-server-wifimanager.png">
+</p>
+
+3- Press on the "Configure WiFi" button
+4- Fill SSID and password
+5- Save the settings and let the hardware restart
+
 # Connecting to Environmental Open Labs
 
 Connecting new RESPIRA FIWARE stations to [Environmental Open Labs](OPEN_LABS.md) is very simple. Once logged into your Environmental Open Labs account you need to create a new device profile and select _RESPIRA FIWARE station_ from the wizard. The platform will return a new API key for this device profile which will have to be entered into the Arduino code.
 
-Once into the Arduino code, set the API key and leave the rest of FIWARE constants unmofified:
+Once into the Arduino code, set the API key and leave the rest of FIWARE constants unmodified:
 
 ```C++
 const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;

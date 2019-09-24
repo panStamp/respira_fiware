@@ -4,6 +4,7 @@
 
 - [Create account](#create-account)
 - [Create device profile](#create-device-profile)
+- [Create device](#create-device)
 
 # Create account
 
@@ -13,7 +14,7 @@ Once your account is created
 
 # Create device profile
 
-Device profiles are type of devices with a documented set of endpoints (inputs). When you create a new device you need to associate it to a specific device profile. Thus, before creating your first device you have to define how many endpoints this device will have and how they will perform.
+Device profiles are types of devices with a documented set of endpoints (inputs). When you create a new device you need to associate it to a specific device profile. Thus, before creating your first device you have to define how many endpoints this device will have and how they will perform.
 
 Let's say we want to create a device capable to transmit temperatures and humidities to the platform. We have then to create a new device profile from _Devices->Create new device profile_, then create a new endpoint for the temperature sensor and document it as follows:
 
@@ -27,11 +28,13 @@ Example of UL frame:
 t|25.00#h|40.00
 ```
 
-that can be translated into true source code as follows:
+that can be translated into true Arduino code as follows:
 
 ```C++
 sprintf(txBuf, "t|%.2f#h|%.2f", temperature, humidity);
 ```
+
+_txBuff_ will need to be transmitted as payload via HTTP post to the UL agent of _Environmental Open Labs_
 
 # Create device
 
