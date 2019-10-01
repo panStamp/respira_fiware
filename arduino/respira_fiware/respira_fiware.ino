@@ -62,9 +62,9 @@ const char appName[] = "RESPIRA";
 /**
  * FIWARE settings
  */
-const char FIWARE_SERVER[] = "54.154.169.181";
+const char FIWARE_SERVER[] = "63.35.250.27";
 const uint16_t FIWARE_PORT = 7896;
-const char FIWARE_APIKEY[] = "4jggokgpepnvsb2uv4s40d59ab"; //"5g4d8yt2d37gh12schq6l5z47x";
+const char FIWARE_APIKEY[] = "si95g7noxpmah9cbx9ggoe36vv"; //"5g4d8y3o937gh12schq6l5z4fe";
 FIWARE fiware(FIWARE_SERVER, FIWARE_PORT, FIWARE_APIKEY);
 
 // RESPIRA sensor set
@@ -125,7 +125,7 @@ bool transmit(void)
   float typSize = sps30.getTypSize();
 
   // Preparing UL frame
-  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
+  sprintf(txBuf, "latitude|38.450899#longitude|-6.376481#location|LOS SANTOS DE MAIMONA#t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
     temperature,
     humidity,
     no2Conc,
@@ -173,6 +173,9 @@ void setup()
 
   // Device ID
   sprintf(deviceId, "%s_%s", appName, deviceMac);
+
+  Serial.print("Device ID:"); Serial.println(deviceId);
+  Serial.print("API Key: "); Serial.println(FIWARE_APIKEY);
 
   digitalWrite(LED, HIGH);
    
