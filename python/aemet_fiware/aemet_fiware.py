@@ -24,6 +24,7 @@
 
 from afmanager import AfManager
 from afexception import AfException
+from config.config import AfConfig
 
 import sys
 import os
@@ -48,7 +49,7 @@ if __name__ == '__main__':
     # Catch possible SIGINT signals
     signal.signal(signal.SIGINT, signal_handler)
 
-    print(EfConfig.PROC_NAME + " " + VERSION)
+    print(AfConfig.PROC_NAME + " " + VERSION)
 
     try:
         af_manager = AfManager()
