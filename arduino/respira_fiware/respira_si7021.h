@@ -92,7 +92,7 @@ class RESPIRA_SI7021
       float temperature = htu.getTemp();
       float humidity = htu.getRH();
 
-      Serial.print("SI7021 : Temperature = "); Serial.print(temperature); Serial.print(" ºC -");
+      Serial.print("SI7021 : Temperature = "); Serial.print(temperature); Serial.print(" ºC - ");
       Serial.print("Humidity = "); Serial.print(humidity); Serial.println(" %");
       
       // Update averages
@@ -110,10 +110,10 @@ class RESPIRA_SI7021
      * 
      * @return temperature in ºC
      */
-     inline float getTemperature(void)
-     {
-       return htu.getTemp();
-     }
+    inline float getTemperature(void)
+    {
+      return htu.getTemp();
+    }
 
     /**
      * getHumidity
@@ -122,10 +122,10 @@ class RESPIRA_SI7021
      * 
      * @return Relative humidity in %
      */
-     inline float getHumidity(void)
-     {
-       return htu.getRH();
-     }
+    inline float getHumidity(void)
+    {
+      return htu.getRH();
+    }
 
     /**
      * getAvgTemperature
@@ -134,13 +134,13 @@ class RESPIRA_SI7021
      * 
      * @return Average temperature in ºC
      */
-     inline float getAvgTemperature(void)     
-     {
-       if (avgSamples == 0)
-         return 0.0;
-         
-       return avgTemperature / avgSamples;
-     }
+    inline float getAvgTemperature(void)     
+    {
+      if (avgSamples == 0)
+        return 0.0;
+       
+      return avgTemperature / avgSamples;
+    }
 
     /**
      * getAvgHumidity
@@ -149,25 +149,25 @@ class RESPIRA_SI7021
      * 
      * @return Average humidity in %
      */
-     inline float getAvgHumidity(void)
-     {
-       if (avgSamples == 0)
-         return 0.0;
-         
-       return avgHumidity / avgSamples;
-     }
+    inline float getAvgHumidity(void)
+    {
+      if (avgSamples == 0)
+        return 0.0;
+       
+      return avgHumidity / avgSamples;
+    }
 
     /**
      * resetAvg
      * 
      * Reset average variables
      */
-     inline void resetAvg(void)
-     {
-       avgTemperature = 0;
-       avgHumidity = 0;
-       avgSamples = 0;
-     }
+    inline void resetAvg(void)
+    {
+      avgTemperature = 0;
+      avgHumidity = 0;
+      avgSamples = 0;
+    }
 };
 #endif
 

@@ -26,8 +26,9 @@
 #include <esp_system.h>
 #include <DNSServer.h>
 #include <WebServer.h>
-#include <WiFiManager.h>         //https://github.com/tzapu/WiFiManager
+#include <WiFiManager.h>         // https://github.com/tzapu/WiFiManager
 
+#include "config.h"
 #include "fiware.h"
 #include "respira_sps30.h"
 #include "respira_tb600.h"
@@ -36,7 +37,6 @@
 /**
  * Watchdog
  */
-//#define WATCHDOG_ENABLED  1
 #ifdef WATCHDOG_ENABLED
 const uint32_t WATCHDOG_DELAY = 30000000; // in usec
 const int loopTimeCtl = 0;
@@ -59,35 +59,29 @@ char deviceId[32];
 // Application name
 const char appName[] = "RESPIRA";
 
-/**
- * FIWARE settings
- */
-const char FIWARE_SERVER[] = "63.35.250.27";
-const uint16_t FIWARE_PORT = 7896;
-const char FIWARE_APIKEY[] = "si95g7noxpmah9cbx9ggoe36vv"; //"5g4d8y3o937gh12schq6l5z4fe";
-FIWARE fiware(FIWARE_SERVER, FIWARE_PORT, FIWARE_APIKEY);
+// FIWARE object
+FIWARE fiware(FIWARE_SERVER, FIWARE_UL_PORT, FIWARE_APIKEY, FIWARE_QRY_PORT, FIWARE_SERVICE, FIWARE_SERVICE_PATH);
 
 // RESPIRA sensor set
 RESPIRA_SPS30 sps30;
 RESPIRA_TB600 no2Sensor(&Serial2);
 RESPIRA_SI7021 si7021;
 
-// Sampling interval in msec
-const uint32_t SAMPLING_INTERVAL = 20000; // 20 sec
-
 // Time of last sample in msec
 uint32_t lastSampleTime = 0;
 
-// Tx interval in msec
-const uint32_t TX_INTERVAL = 3600000; // 1 hour
-
-// Zero calibration interval
-const uint32_t ZERO_CALIB_INTERVAL = 10 * 24 * 3600000; // 10 days
+// Zero calibration for the NO2 sensor
 const uint32_t ZERO_CALIB_LOOPS = ZERO_CALIB_INTERVAL - TX_INTERVAL;
 uint16_t zeroCalibLoops = 0;
 
 // Time of last transmission in msec
 uint32_t lastTxTime = 0;
+
+// First reading after startup
+bool firstReading = true;
+
+// force transmission
+bool transmitNow = false;
 
 /**
  * Restart board
@@ -96,6 +90,49 @@ void restart(void)
 {
   // Restart ESP32
   ESP.restart();  
+}
+
+/**
+ * readSettings
+ * 
+ * Read settings received from CB
+ * 
+ * @param settings Settings received in string format
+ * 
+ * @return True in case of command successfully processed
+ */
+bool readSettings(char *settings)
+{
+  char *ptr1 = settings, *ptr2;
+  uint8_t numParam = 0;
+  float params[12];
+
+  // Parse config string
+  while((ptr2 = strchr(ptr1, '|')) != NULL)
+  {
+    if (numParam == sizeof(params))
+      return false;
+      
+    ptr2[0] = 0;      
+    params[numParam++] = atof(ptr1);
+    ptr1 = ptr2 + 1;                
+  }
+
+  // Last paramter
+  params[numParam++] = atof(ptr1);
+
+  // Check number of parameters and update settings 
+  if (numParam == (sizeof(params)/sizeof(float)))
+  {
+    Serial.println("Updating config settings");
+    
+    no2Sensor.enableZeroCalib(params[0] > 0);
+    no2Sensor.setCalibParams(params[1], params[2]);
+    sps30.enableZeroCalib(params[3] > 0);
+    sps30.setCalibParams(params[4], params[5], params[6], params[7], params[8], params[9], params[10], params[11]);
+
+    return true;
+  }
 }
 
 /**
@@ -125,7 +162,7 @@ bool transmit(void)
   float typSize = sps30.getTypSize();
 
   // Preparing UL frame
-  sprintf(txBuf, "latitude|38.450899#longitude|-6.376481#location|LOS SANTOS DE MAIMONA#t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
+  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
     temperature,
     humidity,
     no2Conc,
@@ -138,11 +175,11 @@ bool transmit(void)
 
   Serial.println(txBuf);
 
-  bool ret = fiware.send(deviceId, txBuf);
+  bool ret = fiware.send(deviceId, txBuf); 
 
   // OK received from server?
   if (ret)
-  {
+  {   
     // Reset averages
     no2Sensor.resetAvg();
     si7021.resetAvg();
@@ -233,10 +270,28 @@ void loop()
       }
     }
     digitalWrite(LED, LOW);
+
+    if (firstReading)
+    {
+      // Force transmission
+      firstReading = false;
+      transmitNow = true;
+    }
   }
 
-  if ((millis() - lastTxTime) >= TX_INTERVAL)
+  if (((millis() - lastTxTime) >= TX_INTERVAL) || transmitNow)
   {
+    if (transmitNow)
+      transmitNow = false;
+    else
+    {
+      // Query calibration settings
+      char settings[FIWARE_SERVER_RESPONSE_MAXLEN];
+      settings[0] = 0;  // Default contents  
+      if (fiware.querySettings(settings, deviceId))
+        readSettings(settings);
+    }  
+    
     digitalWrite(LED, HIGH);
     Serial.println("Transmitting");
     if (transmit())

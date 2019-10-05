@@ -29,7 +29,11 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 
-#define FIWARE_SERVER_STRING_MAXLEN  32
+#define FIWARE_SERVER_STRING_MAXLEN    32
+#define FIWARE_SERVER_RESPONSE_MAXLEN  512
+#define FIWARE_CMD_MAX_LEN             128
+#define FIWARE_CMD_CONFIG             "config"
+
 
 class FIWARE
 {
@@ -50,6 +54,21 @@ class FIWARE
     uint16_t ulPort;
 
     /**
+     * FIWARE entity API port
+     */
+    uint16_t queryPort;
+
+    /**
+     * FIWARE service
+     */
+    char service[FIWARE_SERVER_STRING_MAXLEN];
+
+    /**
+     * FIWARE service path
+     */
+    char servicePath[FIWARE_SERVER_STRING_MAXLEN];
+    
+    /**
      * Ultralight IoT agent API key
      */
     char apiKey[FIWARE_SERVER_STRING_MAXLEN];
@@ -59,14 +78,20 @@ class FIWARE
      * Class constructor
      * 
      * @param fiwareServer FIWARE server URL or IP address
-     * @param port Port for UltraLight API
+     * @param ulP Port for UltraLight API     
      * @param apiK UltraLight API key
+     * @param qryP Port for NGSI entity API
+     * @param serv FIWARE service
+     * @param servPath FIWARE service path
      */
-    inline FIWARE(const char *fiwareServer, const uint16_t port, const char *apiK)
+    inline FIWARE(const char *fiwareServer, const uint16_t ulP, const char *apiK, const uint16_t qryP = 0, const char* serv=NULL, const char* servPath=NULL)
     {
       strcpy(server, fiwareServer);
-      ulPort = port;
+      ulPort = ulP;
+      queryPort = qryP;
       strcpy(apiKey, apiK);
+      strcpy(service, serv);
+      strcpy(servicePath, servPath);
     }
 
     /**
@@ -80,7 +105,7 @@ class FIWARE
      * @return True in case of success. Return false otherwise
      */
     inline bool send(char *entity, char *attributes)
-    {           
+    {       
       // Make a HTTP request:
       char url[128];
       sprintf(url, "http://%s:%d/iot/d?k=%s&i=%s&getCmd=1", server, ulPort, apiKey, entity);
@@ -88,10 +113,52 @@ class FIWARE
       http.begin(url);
       http.addHeader("Content-Type", "text/plain");
       int httpCode = http.POST(attributes);
-      String payload = http.getString();
+
+      if (httpCode == 200)         
+        return true;
+
+      return false;
+    }
+
+    /**
+     * querySettings
+     * 
+     * Query configuration settings
+     * 
+     * @param settings JSON string received from CB
+     * @param entity Entity name
+     * 
+     * @return True in case of success. Return false otherwise
+     */
+    inline bool querySettings(char *settings, char *entity)
+    {
+      if ((service == NULL) || (queryPort == 0))
+        return false;
+        
+      // Make a HTTP request:
+      char url[256];
+      sprintf(url, "http://%s:%d/v2/entities%s:%s/attrs/config/value", server, queryPort, servicePath, entity);
+
+      Serial.println("Retrieving config settings from FIWARE CB");
+      
+      http.begin(url);
+      //http.addHeader("Accept", "plain/text");
+      http.addHeader("fiware-service", service);
+      http.addHeader("fiware-servicepath", servicePath);
+      int httpCode = http.GET();
       
       if (httpCode == 200)
+      {
+        String payload = http.getString();
+
+        Serial.println("Response from server:");
+        Serial.println(payload);
+
+        if (payload.length() < FIWARE_SERVER_RESPONSE_MAXLEN)
+          payload.toCharArray(settings, payload.length() + 1);
+       
         return true;
+      }
 
       return false;
     }

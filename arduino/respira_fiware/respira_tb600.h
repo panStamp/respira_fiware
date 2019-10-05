@@ -69,7 +69,17 @@ class RESPIRA_TB600
      * Zero offset
      */
     float zeroOffset;
-    
+
+    /**
+     * Sensor calibration parameters
+     */
+    float no2Factor, no2Offset;
+
+    /**
+     * Enable zero calibration
+     */
+    bool enZeroCalib;
+
     /**
      * setAnswerMode
      * 
@@ -108,6 +118,9 @@ class RESPIRA_TB600
       minConcentration = 0;
       zeroOffset = 0;
       resetAvg();
+      enZeroCalib = false;
+      no2Factor = 1;
+      no2Offset = 0;
     }
 
     /**
@@ -180,8 +193,12 @@ class RESPIRA_TB600
       if ((minConcentration == 0) || (minConcentration > rawConcentration))
         minConcentration = rawConcentration;
         
-      // Zero calibration
-      filtConcentration = rawConcentration - zeroOffset;
+      // Factor/offset correction
+      filtConcentration = rawConcentration * no2Factor + no2Offset;
+      
+      // Zero callibration
+      if (enZeroCalib)
+        filtConcentration -= zeroOffset;
 
       // Skip negative values
       if (filtConcentration < 0)
@@ -205,17 +222,17 @@ class RESPIRA_TB600
      * 
      * @param temp Temperature in ºC
      */
-     inline void tempCompensation(float temp)
-     {
-       // Calculate sensitivity at 20 ºC
-       float sens = 0.002 * sq(20) - 0.2233 * 20 -19.862;
-       // Get raw reading
-       float raw = rawConcentration / sens;
-       // Calculate sensitivity at temp
-       sens = 0.002 * sq(temp) - 0.2233 * temp -19.862;
-       // Get concentration at temp
-       rawConcentration = raw * sens;
-     }
+    inline void tempCompensation(float temp)
+    {
+     // Calculate sensitivity at 20 ºC
+     float sens = 0.002 * sq(20) - 0.2233 * 20 -19.862;
+     // Get raw reading
+     float raw = rawConcentration / sens;
+     // Calculate sensitivity at temp
+     sens = 0.002 * sq(temp) - 0.2233 * temp -19.862;
+     // Get concentration at temp
+     rawConcentration = raw * sens;
+    }
 
     /**
      * getPpb
@@ -224,10 +241,10 @@ class RESPIRA_TB600
      * 
      * @return Last reading in ppb
      */
-     inline float getPpb(void)
-     {
-       return filtConcentration;
-     }
+    inline float getPpb(void)
+    {
+     return filtConcentration;
+    }
 
     /**
      * getAvgPpb
@@ -236,13 +253,13 @@ class RESPIRA_TB600
      * 
      * @return Average in ppb
      */
-     inline float getAvgPpb(void)
-     {
-       if (avgSamples == 0)
-         return 0.0;
-         
-       return (float)(avgConcentration / avgSamples);
-     }
+    inline float getAvgPpb(void)
+    {
+     if (avgSamples == 0)
+       return 0.0;
+       
+     return (float)(avgConcentration / avgSamples);
+    }
 
     /**
      * getAvgUgM3
@@ -251,32 +268,66 @@ class RESPIRA_TB600
      * 
      * @return Average in μg/m3
      */
-     inline float getAvgUgM3(void)
-     {        
-       return 1.8814 * getAvgPpb();
-     }
+    inline float getAvgUgM3(void)
+    {        
+     return 1.8814 * getAvgPpb();
+    }
 
     /**
      * resetAvg
      * 
      * Reset average variables
      */
-     inline void resetAvg(void)
-     {
-       avgConcentration = 0;
-       avgSamples = 0;
-     }
+    inline void resetAvg(void)
+    {
+     avgConcentration = 0;
+     avgSamples = 0;
+    }
 
      /**
       * zeroCalibrate
       * 
       * Apply zero offset calibration
       */
-      inline void zeroCalibrate(void)
-      {
-        Serial.println("TB600 : Zero calibration");
-        zeroOffset = minConcentration;
-      }
+    inline void zeroCalibrate(void)
+    {
+      Serial.println("TB600 : Updating zero offset");
+      zeroOffset = minConcentration;
+    }
+    
+     /**
+      * setCalibParams
+      * 
+      * Set calibration parameters
+      * 
+      * @param factor Correction factor
+      * @param offset Correction offset
+      */
+     inline void setCalibParams(float factor, float offset)
+     {      
+       no2Factor = factor;
+       no2Offset = offset;
+
+       Serial.print("TB600 : calibration factor: ");
+       Serial.print(no2Factor);
+       Serial.print(" - offset : ");
+       Serial.println(no2Offset);
+     }
+    
+     /**
+      * enableZeroCalib
+      * 
+      * Enable or disable zero calibration
+      * 
+      * @param enabled Enabling flag
+      */
+     inline void enableZeroCalib(bool enabled)
+     {      
+       enZeroCalib = enabled;
+
+       Serial.print("TB600 : Zero calibration enabled: ");
+       Serial.println(enZeroCalib);
+     }
 };
 #endif
 
