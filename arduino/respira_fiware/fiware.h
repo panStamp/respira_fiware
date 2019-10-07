@@ -67,6 +67,11 @@ class FIWARE
      * FIWARE service path
      */
     char servicePath[FIWARE_SERVER_STRING_MAXLEN];
+
+    /**
+     * Type of device
+     */
+    char deviceType[FIWARE_SERVER_STRING_MAXLEN];
     
     /**
      * Ultralight IoT agent API key
@@ -83,8 +88,9 @@ class FIWARE
      * @param qryP Port for NGSI entity API
      * @param serv FIWARE service
      * @param servPath FIWARE service path
+     * @param devType Device type
      */
-    inline FIWARE(const char *fiwareServer, const uint16_t ulP, const char *apiK, const uint16_t qryP = 0, const char* serv=NULL, const char* servPath=NULL)
+    inline FIWARE(const char *fiwareServer, const uint16_t ulP, const char *apiK, const uint16_t qryP = 0, const char* serv=NULL, const char* servPath=NULL, const char* devType= "RESPIRA")
     {
       strcpy(server, fiwareServer);
       ulPort = ulP;
@@ -92,6 +98,7 @@ class FIWARE
       strcpy(apiKey, apiK);
       strcpy(service, serv);
       strcpy(servicePath, servPath);
+      strcpy(deviceType, devType);
     }
 
     /**
@@ -137,16 +144,13 @@ class FIWARE
         
       // Make a HTTP request:
       char url[256];
-      sprintf(url, "http://%s:%d/v2/entities%s:%s/attrs/config/value", server, queryPort, servicePath, entity);
+      sprintf(url, "http://%s:%d/v2/entities/%s:%s/attrs/config/value", server, queryPort, deviceType, entity);
 
-      Serial.println("Retrieving config settings from FIWARE CB");
-      
       http.begin(url);
-      //http.addHeader("Accept", "plain/text");
       http.addHeader("fiware-service", service);
       http.addHeader("fiware-servicepath", servicePath);
       int httpCode = http.GET();
-      
+
       if (httpCode == 200)
       {
         String payload = http.getString();

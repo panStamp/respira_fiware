@@ -60,7 +60,7 @@ char deviceId[32];
 const char appName[] = "RESPIRA";
 
 // FIWARE object
-FIWARE fiware(FIWARE_SERVER, FIWARE_UL_PORT, FIWARE_APIKEY, FIWARE_QRY_PORT, FIWARE_SERVICE, FIWARE_SERVICE_PATH);
+FIWARE fiware(FIWARE_SERVER, FIWARE_UL_PORT, FIWARE_APIKEY, FIWARE_QRY_PORT, FIWARE_SERVICE, FIWARE_SERVICE_PATH, appName);
 
 // RESPIRA sensor set
 RESPIRA_SPS30 sps30;
@@ -171,7 +171,7 @@ bool transmit(void)
     caqi = caqiNo2;
 
   // Preparing UL frame
-  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f#q|%d",
+  sprintf(txBuf, "t|%.2f|h|%.2f|no2|%.2f|pm1|%.2f|pm2|%.2f|pm4|%.2f|pm10|%.2f|typs|%.2f|q|%d",
     temperature,
     humidity,
     no2Conc,
@@ -291,19 +291,21 @@ void loop()
 
   if (((millis() - lastTxTime) >= TX_INTERVAL) || transmitNow)
   {
+    digitalWrite(LED, HIGH);
+
     if (transmitNow)
       transmitNow = false;
-    else
-    {
-      // Query calibration settings
-      char settings[FIWARE_SERVER_RESPONSE_MAXLEN];
-      settings[0] = 0;  // Default contents  
-      if (fiware.querySettings(settings, deviceId))
-        readSettings(settings);
-    }  
-    
-    digitalWrite(LED, HIGH);
-    Serial.println("Transmitting");
+
+    // Query calibration settings
+    char settings[FIWARE_SERVER_RESPONSE_MAXLEN];
+    settings[0] = 0;  // Default contents
+
+    Serial.println("Retrieving config settings from FIWARE CB");
+
+    if (fiware.querySettings(settings, deviceId))
+      readSettings(settings);
+
+    Serial.println("Transmitting UL frame");
     if (transmit())
     {
       Serial.println("OK");
