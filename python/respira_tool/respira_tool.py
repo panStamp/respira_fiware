@@ -48,7 +48,7 @@ if __name__ == '__main__':
     # Catch possible SIGINT signals
     signal.signal(signal.SIGINT, signal_handler)
 
-git     # Command-line parser
+    # Command-line parser
     parser = argparse.ArgumentParser(prog= "respira_tool",
                                     usage= "%(prog)s [command]",
                                     description= RespConfig.PROC_NAME,
