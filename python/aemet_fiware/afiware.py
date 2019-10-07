@@ -127,7 +127,7 @@ class Afiware(object):
         # Send UL packet
         try:
             url = AfConfig.FIWARE_UL_URL
-            params = {"k" : api_key, "i": entity, "t": timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"), getCmd": 1}
+            params = {"k" : api_key, "i": entity, "t": timestamp.strftime("%Y-%m-%dT%H:%M:%SZ"), "getCmd": 1}
             headers = {"Content-Type": "text/plain"}
             client = AfHttpClient(headers, url, params, payload)
             client.post()
