@@ -84,9 +84,17 @@ if __name__ == '__main__':
                         choices=["no2", "pm1.0", "pm2.5", "pm4.0", "pm10"],
                         help= "Enter calibration factor and offset for polluant")
 
+    parser.add_argument("--list-devices",
+                        action='store_true',
+                        help= "List available devices")
+
     parser.add_argument("--read-device",
                         action='store_true',
                         help= "Read all values from device")
+
+    parser.add_argument("--delete-device",
+                        action='store_true',
+                        help= "Delete device")
 
     parser.add_argument("--device",
                         "-d",
@@ -179,11 +187,23 @@ if __name__ == '__main__':
             else:
                 print("Please enter device ID with option -d")
 
+        elif args.list_devices:        
+                print("Read device values:")
+                print(fiware.list_devices())
+
         elif args.read_device:        
             if args.device is not None:
                 print("Read device values:")
                 print("Device ID: " + args.device)
                 print(fiware.read_device(args.device, args.show_values))
+            else:
+                print("Please enter device ID with option -d")
+
+        elif args.delete_device:        
+            if args.device is not None:
+                print("Delete device:")
+                print("Device ID: " + args.device)
+                fiware.delete_device(args.device)
             else:
                 print("Please enter device ID with option -d")
 

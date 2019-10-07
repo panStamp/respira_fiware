@@ -283,6 +283,25 @@ class RespFiware(object):
             raise
 
 
+    def list_devices(self):
+        """
+        List devices and their values
+        """        
+        ## Post request
+        try:
+            url = RespConfig.FIWARE_ENTITIES_URL
+            params = {}
+
+            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
+
+            # Query current config settings
+            client = RespHttpClient(headers, url, params, "")
+            result = client.get()
+            return json.dumps(result, indent=4, sort_keys=True)
+        except:
+            raise RespException("Unable to retrieve list of devices")
+
+
     def read_device(self, device_id, show_values):
         """
         Read device values
@@ -292,7 +311,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + RespConfig.FIWARE_SERVICE_PATH + ":" + device_id + "/attrs"
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
 
             if show_values:
                 params = {"options": "keyValues"}
@@ -317,7 +336,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + RespConfig.FIWARE_SERVICE_PATH + ":" + device_id
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id
             params = {}
 
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}

@@ -49,7 +49,7 @@ class RespConfig(object):
     FIWARE_SERVICE = "openiot"
 
     ## FIWARE service path
-    FIWARE_SERVICE_PATH = "/BORRA2" #"/RESPIRA_T3"
+    FIWARE_SERVICE_PATH = "/RESPIRA_T5"
 
     ## FIWARE service group creation URL
     FIWARE_SERVGROUP_URL = "http://63.35.250.27:4041/iot/services"
@@ -58,10 +58,10 @@ class RespConfig(object):
     FIWARE_ENTITIES_URL = "http://63.35.250.27:1026/v2/entities"
 
     ## FIWARE entity name
-    FIWARE_ENTITY_TYPE = "BORRA2" #"RESPIRA_T3"
+    FIWARE_ENTITY_TYPE = "RESPIRA"
 
     ## FIWARE datamodel
-    FIWARE_DATAMODEL = {"t":"temperature", "h":"humidity", "no2": "NO2", "pm1": "PM1.0", "pm2": "PM2.5", "pm4": "PM4.0", "pm10": "PM10", "typs": "typicalSize"}
+    FIWARE_DATAMODEL = {"t":"temperature", "h":"humidity", "no2": "NO2", "pm1": "PM1.0", "pm2": "PM2.5", "pm4": "PM4.0", "pm10": "PM10", "typs": "typicalSize", "q": "airQualityIndex"}
 
     ## Which of the above parameters are strings
     FIWARE_DATAMODEL_STRINGS = []
