@@ -53,8 +53,8 @@ class EfManager(threading.Thread):
 
                         for code, station in stations.items():                            
                             ul_string = "lat|" + station["lat"]
-                            ul_string += "#lon|" + station["lon"]
-                            ul_string += "#" + ul_key + "|" + station[EfConfig.POLLUTION_PARAMETERS[polluant]]
+                            ul_string += "|lon|" + station["lon"]
+                            ul_string += "|" + ul_key + "|" + station[EfConfig.POLLUTION_PARAMETERS[polluant]]
 
                             print(ul_string)
 
