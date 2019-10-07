@@ -83,7 +83,7 @@ class AfAemet(object):
                                         value = value[0:pos]
 
                                 if ul_string != "":
-                                    ul_string += "#"
+                                    ul_string += "|"
                                 ul_string += ul_key + "|" + str(value)
 
                         return (timestamp, ul_string)
