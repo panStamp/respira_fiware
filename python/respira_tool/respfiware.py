@@ -124,7 +124,7 @@ class RespFiware(object):
         @param device_id: device ID
         @param config_str: configuration string
         """        
-        url = RespConfig.FIWARE_ENTITIES_URL + RespConfig.FIWARE_SERVICE_PATH + ":" + device_id + "/attrs"
+        url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
         params = {}
         headers = {"Content-Type": "application/json", "fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
@@ -165,7 +165,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + RespConfig.FIWARE_SERVICE_PATH + ":" + device_id + "/attrs"
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
             params = {}
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
@@ -224,7 +224,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + RespConfig.FIWARE_SERVICE_PATH + ":" + device_id + "/attrs"
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
             params = {}
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
