@@ -284,50 +284,74 @@ class RESPIRA_TB600
      avgSamples = 0;
     }
 
-     /**
-      * zeroCalibrate
-      * 
-      * Apply zero offset calibration
-      */
+    /**
+     * zeroCalibrate
+     * 
+     * Apply zero offset calibration
+     */
     inline void zeroCalibrate(void)
     {
       Serial.println("TB600 : Updating zero offset");
       zeroOffset = minConcentration;
     }
     
-     /**
-      * setCalibParams
-      * 
-      * Set calibration parameters
-      * 
-      * @param factor Correction factor
-      * @param offset Correction offset
-      */
-     inline void setCalibParams(float factor, float offset)
-     {      
-       no2Factor = factor;
-       no2Offset = offset;
-
-       Serial.print("TB600 : calibration factor: ");
-       Serial.print(no2Factor);
-       Serial.print(" - offset : ");
-       Serial.println(no2Offset);
-     }
+    /**
+     * setCalibParams
+     * 
+     * Set calibration parameters
+     * 
+     * @param factor Correction factor
+     * @param offset Correction offset
+     */
+    inline void setCalibParams(float factor, float offset)
+    {      
+      no2Factor = factor;
+      no2Offset = offset;
+      
+      Serial.print("TB600 : calibration factor: ");
+      Serial.print(no2Factor);
+      Serial.print(" - offset : ");
+      Serial.println(no2Offset);
+    }
     
-     /**
-      * enableZeroCalib
-      * 
-      * Enable or disable zero calibration
-      * 
-      * @param enabled Enabling flag
-      */
-     inline void enableZeroCalib(bool enabled)
-     {      
-       enZeroCalib = enabled;
+    /**
+     * enableZeroCalib
+     * 
+     * Enable or disable zero calibration
+     * 
+     * @param enabled Enabling flag
+     */
+    inline void enableZeroCalib(bool enabled)
+    {      
+      enZeroCalib = enabled;
+      
+      Serial.print("TB600 : Zero calibration enabled: ");
+      Serial.println(enZeroCalib);
+    }
+    
+    /**
+     * getCaqi
+     * 
+     * Calculate CAQI EU-supported Air Quality Index
+     * 
+     * @return CAQI index
+     */
+    inline uint16_t getCaqi(void)
+    {
+      uint16_t conc = (uint16_t) getAvgUgM3();
+      uint16_t caqi = 0;
+      
+      if (conc <= 100)
+        caqi = conc / 2;
+      else if (conc <= 200)
+        caqi = map(conc, 100, 200, 50, 75);
+      else if (conc <= 400)
+        caqi = map(conc, 200, 400, 75, 100);
+      else
+        caqi = conc / 4;
 
-       Serial.print("TB600 : Zero calibration enabled: ");
-       Serial.println(enZeroCalib);
-     }
+      return caqi;
+    }
 };
 #endif
 

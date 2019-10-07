@@ -148,7 +148,9 @@ bool transmit(void)
 
   // No2 concentration in μg/m3
   float no2Conc = (float) no2Sensor.getAvgUgM3();
-
+  // CAQI index related to NO2 concentration
+  uint16_t caqiNo2 = no2Sensor.getCaqi();
+  
   // Temperature in ºC
   float temperature = si7021.getAvgTemperature();
   // Relative humidity
@@ -160,9 +162,16 @@ bool transmit(void)
   float pm4 = sps30.getAvgPM4();
   float pm10 = sps30.getAvgPM10();
   float typSize = sps30.getTypSize();
+  // CAQI index related to PM concentration
+  uint16_t caqiPm = sps30.getCaqi();
+
+  // Global CAQI index
+  uint16_t caqi = caqiPm;
+  if (caqiNo2 > caqiPm)
+    caqi = caqiNo2;
 
   // Preparing UL frame
-  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f",
+  sprintf(txBuf, "t|%.2f#h|%.2f#no2|%.2f#pm1|%.2f#pm2|%.2f#pm4|%.2f#pm10|%.2f#typs|%.2f#q|%d",
     temperature,
     humidity,
     no2Conc,
@@ -170,7 +179,8 @@ bool transmit(void)
     pm2,
     pm4,
     pm10,
-    typSize
+    typSize,
+    caqi
   );  
 
   Serial.println(txBuf);

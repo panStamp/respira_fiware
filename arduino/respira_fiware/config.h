@@ -35,11 +35,11 @@ const char FIWARE_SERVER[] = "63.35.250.27";
 // NGSI setings
 const uint16_t FIWARE_QRY_PORT = 1026; // NGSI entity query port
 const char FIWARE_SERVICE[] = "openiot";
-const char FIWARE_SERVICE_PATH[] = "/RESPIRA_T3";
+const char FIWARE_SERVICE_PATH[] = "/RESPIRA_T5";
 
 // UltraLight setings
 const uint16_t FIWARE_UL_PORT = 7896;  // UltraLight port
-const char FIWARE_APIKEY[] = "si95g7noxpmah9cbx9ggoe36va";
+const char FIWARE_APIKEY[] = "my8yccrn4e62turp45jw4b4b8d";
 
 /**
  * Sampling interval in msec

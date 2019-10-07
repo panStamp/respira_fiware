@@ -518,6 +518,45 @@ class RESPIRA_SPS30
       Serial.print(" - offset : ");
       Serial.println(pm10Offset);
     }
+
+    /**
+     * getCaqi
+     * 
+     * Calculate CAQI EU-supported Air Quality Index
+     * 
+     * @return CAQI index
+     */
+    inline uint16_t getCaqi(void)
+    {
+      uint16_t caqi2 = 0, caqi10 = 0;
+      uint16_t pm2 = (uint16_t) avgConcPm2;
+      uint16_t pm10 = (uint16_t) avgConcPm10;
+
+      // Check PM2.5
+      if (pm2 <= 30)
+        caqi2 = map(pm2, 0, 30, 0, 50);
+      else if (pm2 <= 55)
+        caqi2 = map(pm2, 30, 55, 50, 75);
+      else if (pm2 <= 110)
+        caqi2 = map(pm2, 55, 110, 75, 100);
+      else
+        caqi2 = pm2 / 1.1;
+
+      // Check PM10
+      if (pm10 <= 50)
+        caqi10 = pm10;
+      else if (pm10 <= 90)
+        caqi10 = map(pm10, 50, 90, 50, 75);
+      else if (pm10 <= 180)
+        caqi10 = map(pm10, 90, 180, 75, 100);
+      else
+        caqi10 = pm10 / 1.8;
+        
+      if (caqi2 > caqi10)
+        return caqi2;
+
+      return caqi10;
+    }
 };
 #endif
 
