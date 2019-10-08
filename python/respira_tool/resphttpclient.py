@@ -22,7 +22,6 @@
 # Date: Oct 1 2019
 #########################################################################
 
-from config.config import RespConfig
 from respexception import RespException
 
 import json

@@ -24,13 +24,14 @@
 
 from respexception import RespException
 from respfiware import RespFiware
-from config.config import RespConfig
+from config import RespConfig
 
 import argparse
 import sys
 import os
 import time
 import signal
+import json
 
 
 VERSION = "0.1.0"
@@ -55,18 +56,30 @@ if __name__ == '__main__':
                                     epilog= RespConfig.PROC_NAME + " " + VERSION)
 
     # Add arguments
+    parser.add_argument("--show-service-path",
+                        action='store_true',
+                        help= "Show service path")
+
+    parser.add_argument("--set-service-path",
+                        type=str,
+                        help= "Set service path")
+
     parser.add_argument("--list-service-groups",
                         action='store_true',
                         default= False,
                         help= "List all service groups under the same service and service path")
 
     parser.add_argument("--create-service-group",
-                        type= str,
-                        help= "Create service group for RESPIRA FIWARE")
+                        action='store_true',
+                        help= "Create service group with provided API key")
 
     parser.add_argument("--delete-service-group",
-                        type= str,
-                        help= "Delete service group for RESPIRA FIWARE")
+                        action='store_true',
+                        help= "Delete service group with provided API key")
+
+    parser.add_argument("--delete-all-service-groups",
+                        action='store_true',
+                        help= "Delete all service groups under the current service path")
 
     parser.add_argument("--enable-zero-calibration",
                         choices=["no2", "pm"],
@@ -96,10 +109,19 @@ if __name__ == '__main__':
                         action='store_true',
                         help= "Delete device")
 
+    parser.add_argument("--delete-all-devices",
+                        action='store_true',
+                        help= "Delete all devices under the current service path")
+
+    parser.add_argument("--apikey",
+                        "-k",
+                        type= str,
+                        help= "API key")
+
     parser.add_argument("--device",
                         "-d",
                         type= str,
-                        help= "Device ID")
+                        help= "Device ID (<device type>:<device id>)")
 
     parser.add_argument("--factor",
                         "-f",
@@ -128,23 +150,43 @@ if __name__ == '__main__':
 
         if args.list_service_groups:
             print("Listing service groups...")
-            print(fiware.list_service_groups())
+            result = fiware.list_service_groups()            
+            print(json.dumps(result, indent=4, sort_keys=True))
+            print("(" + str(len(result)) + " service groups)")
 
-        elif args.create_service_group is not None:
-            api_key = args.create_service_group
-            if (len(api_key) != 26):
-                print("Incorrect length of API key. It should be 26 character length")
-            else:
-                print("Creating service group...")
-                fiware.create_service_group(api_key)
+        elif args.show_service_path:
+            print(fiware.read_service_path())
 
-        elif args.delete_service_group is not None:
-            api_key = args.delete_service_group
-            if (len(api_key) != 26):
-                print("Incorrect length of API key. It should be 26 character length")
+        elif args.set_service_path is not None:
+            if args.set_service_path[0] != '/':
+                print("Service path should start by character /")
             else:
+                print("Service path set to " + args.set_service_path)
+                fiware.set_service_path(args.set_service_path)
+
+        elif args.create_service_group:
+            if args.apikey is not None:
+                if (len(args.apikey) != 26):
+                    print("Incorrect length of API key. It should be 26 character length")
+                else:
+                    print("Creating service group...")
+                    fiware.create_service_group(args.apikey)
+                    print("Service group " + args.apikey + " successfully created")
+            else:
+                print("Please enter API key with option -k")
+
+        elif args.delete_service_group:
+            if args.apikey is not None:
                 print("Deleting service group...")
-                fiware.delete_service_group(api_key)
+                fiware.delete_service_group(args.apikey)
+                print("Service group " + args.apikey + " successfully deleted")
+            else:
+                print("Please enter API key with option -k")
+
+        elif args.delete_all_service_groups:
+            print("Deleting all service groups...")
+            result = fiware.delete_all_service_groups()
+            print(str(result) + " service groups have been deleted")            
 
         elif args.enable_zero_calibration is not None:
             if args.device is not None:
@@ -153,6 +195,7 @@ if __name__ == '__main__':
                 print("Sensor: " + args.enable_zero_calibration)
 
                 fiware.enable_zero_calibration(args.device, args.enable_zero_calibration)
+                print("Zero calibration enabled for device " + args.device)
             else:
                 print("Please enter device ID with option -d")
 
@@ -163,6 +206,7 @@ if __name__ == '__main__':
                 print("Sensor: " + args.disable_zero_calibration)
 
                 fiware.disable_zero_calibration(args.device, args.disable_zero_calibration)
+                print("Zero calibration disabled for device " + args.device)
             else:
                 print("Please enter device ID with option -d")
 
@@ -172,6 +216,7 @@ if __name__ == '__main__':
                 print("Device ID: " + args.device)
 
                 fiware.reset_calibration(args.device)
+                print("Calibration set to default values for device " + args.device)
             else:
                 print("Please enter device ID with option -d")
 
@@ -184,18 +229,22 @@ if __name__ == '__main__':
                 print("Calibration offset = " + str(args.offset))
 
                 fiware.calibrate(args.device, args.calibrate, args.factor, args.offset)
+                print("Calibration saved for device " + args.device)
             else:
                 print("Please enter device ID with option -d")
 
         elif args.list_devices:        
                 print("Read device values:")
-                print(fiware.list_devices())
+                result = fiware.list_devices()
+                print(json.dumps(result, indent=4, sort_keys=True))
+                print("(" + str(len(result)) + " devices)")
 
         elif args.read_device:        
             if args.device is not None:
                 print("Read device values:")
                 print("Device ID: " + args.device)
-                print(fiware.read_device(args.device, args.show_values))
+                result = fiware.read_device(args.device, args.show_values)
+                print(json.dumps(result, indent=4, sort_keys=True))
             else:
                 print("Please enter device ID with option -d")
 
@@ -204,8 +253,14 @@ if __name__ == '__main__':
                 print("Delete device:")
                 print("Device ID: " + args.device)
                 fiware.delete_device(args.device)
+                print("Device " + args.device + " successfully deleted")
             else:
                 print("Please enter device ID with option -d")
+
+        elif args.delete_all_devices:        
+                print("Deleting all devices...")
+                result = fiware.delete_all_devices()
+                print(str(result) + " devices have been deleted")
 
     except RespException as ex:
         ex.show()

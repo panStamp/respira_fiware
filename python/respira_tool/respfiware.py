@@ -22,11 +22,12 @@
 # Date: Oct 1 2019
 #########################################################################
 
-from config.config import RespConfig
+from config import RespConfig
 from respexception import RespException
 from resphttpclient import RespHttpClient
 
 import json
+import importlib
 
 
 class RespFiware(object):
@@ -34,7 +35,19 @@ class RespFiware(object):
     FIWARE UL interface
     """
 
-    CREATE_SERVICE_GROUP = True
+    def set_service_path(self, service_path):
+        """
+        Set new service path
+        """
+        RespConfig.FIWARE_SERVICE_PATH = service_path
+        RespConfig.save_config()
+
+
+    def read_service_path(self):
+        """
+        Read service path
+        """
+        return RespConfig.FIWARE_SERVICE_PATH
 
 
     def list_service_groups(self):
@@ -45,13 +58,14 @@ class RespFiware(object):
         ## Post request
         try:
             url = RespConfig.FIWARE_SERVGROUP_URL
-            params = {}
+            params = {"limit": 1000}
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
            
             client = RespHttpClient(headers, url, params, "")
             result = client.get()
 
-            return json.dumps(result, indent=4, sort_keys=True)
+            if "services" in result:
+                return result["services"]
 
         except:
             raise RespException("Unable to query service groups")
@@ -88,8 +102,6 @@ class RespFiware(object):
             client = RespHttpClient(headers, url, params, json.dumps(payload))
             client.post()
 
-            print("Service group successfully created")
-
         except:
             raise RespException("Unable to create service group. Probably because it already exists")
 
@@ -110,11 +122,31 @@ class RespFiware(object):
             client = RespHttpClient(headers, url, params, "")
             result = client.delete()
 
-            print(result)
-            print("Service group successfully deleted")
-
         except:
             raise RespException("Unable to delete service group")
+
+
+    def delete_all_service_groups(self):
+        """
+        Delete all service groups under the current service path
+
+        @return Number of service groups deleted
+        """
+        count = 0
+
+        try:   
+            result = self.list_service_groups()
+            
+            for service_group in result:
+                if "apikey" in service_group:
+                    api_key = service_group["apikey"]
+                    self.delete_service_group(api_key)
+                    count += 1
+
+            return count
+
+        except RespException:
+            raise
 
 
     def set_config(self, device_id, config_str):
@@ -124,7 +156,7 @@ class RespFiware(object):
         @param device_id: device ID
         @param config_str: configuration string
         """        
-        url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
+        url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
         params = {}
         headers = {"Content-Type": "application/json", "fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
@@ -136,8 +168,6 @@ class RespFiware(object):
             client.patch()
         except:
             raise RespException("Unable to update calibration setttings for device " + device_id)
-
-        print("Calibration settings successfully updated for device " + device_id)
 
 
     def reset_calibration(self, device_id):
@@ -165,7 +195,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
             params = {}
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
@@ -224,7 +254,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
             params = {}
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
@@ -290,14 +320,14 @@ class RespFiware(object):
         ## Post request
         try:
             url = RespConfig.FIWARE_ENTITIES_URL
-            params = {}
+            params = {"limit": 1000}
 
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
             # Query current config settings
             client = RespHttpClient(headers, url, params, "")
-            result = client.get()
-            return json.dumps(result, indent=4, sort_keys=True)
+            return client.get()
+
         except:
             raise RespException("Unable to retrieve list of devices")
 
@@ -311,7 +341,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
 
             if show_values:
                 params = {"options": "keyValues"}
@@ -322,8 +352,7 @@ class RespFiware(object):
 
             # Query current config settings
             client = RespHttpClient(headers, url, params, "")
-            result = client.get()
-            return json.dumps(result, indent=4, sort_keys=True)
+            return client.get()
         except:
             raise RespException("Unable to retrieve values for device " + device_id)
 
@@ -336,7 +365,7 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id
             params = {}
 
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
@@ -345,13 +374,35 @@ class RespFiware(object):
             client = RespHttpClient(headers, url, params, "")
             client.delete()
 
-            print("Device successfully deleted")
         except:
             raise RespException("Unable to delete device " + device_id)
 
-        
+
+    def delete_all_devices(self):
+        """
+        Delete all devices within the current service path
+
+        @return Number of devices deleted
+        """
+        count = 0
+
+        try:   
+            result = self.list_devices()
+            
+            for device in result:
+                if "id" in device:
+                    device_id = device["id"]
+                    self.delete_device(device_id)
+                    count += 1
+
+            return count
+
+        except RespException:
+            raise        
+
+
     def __init__(self):
         '''
         Constructor
         '''        
-        pass
+        RespConfig.load_config()
