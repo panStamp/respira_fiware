@@ -112,7 +112,9 @@ class FIWARE
      * @return True in case of success. Return false otherwise
      */
     inline bool send(char *entity, char *attributes)
-    {       
+    {
+      bool ret = false;
+      
       // Make a HTTP request:
       char url[128];
       sprintf(url, "http://%s:%d/iot/d?k=%s&i=%s&getCmd=1", server, ulPort, apiKey, entity);
@@ -121,10 +123,15 @@ class FIWARE
       http.addHeader("Content-Type", "text/plain");
       int httpCode = http.POST(attributes);
 
-      if (httpCode == 200)         
-        return true;
+      Serial.print("HTTP response: ");
+      Serial.println(httpCode);
+      
+      if (httpCode == HTTP_CODE_OK)         
+        ret = true;
 
-      return false;
+      http.end();
+      
+      return ret;
     }
 
     /**
@@ -139,6 +146,8 @@ class FIWARE
      */
     inline bool querySettings(char *settings, char *entity)
     {
+      bool ret = false;
+      
       if ((service == NULL) || (queryPort == 0))
         return false;
         
@@ -151,7 +160,7 @@ class FIWARE
       http.addHeader("fiware-servicepath", servicePath);
       int httpCode = http.GET();
 
-      if (httpCode == 200)
+      if (httpCode == HTTP_CODE_OK)
       {
         String payload = http.getString();
 
@@ -161,10 +170,12 @@ class FIWARE
         if (payload.length() < FIWARE_SERVER_RESPONSE_MAXLEN)
           payload.toCharArray(settings, payload.length() + 1);
        
-        return true;
+        ret = true;
       }
 
-      return false;
+      http.end();
+      
+      return ret;
     }
 };
 #endif
