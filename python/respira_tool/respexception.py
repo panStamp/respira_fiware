@@ -22,8 +22,6 @@
 # Date: Oct 1 2019
 #########################################################################
 
-from config.config import RespConfig
-
 import time, datetime, os
 
 
@@ -73,8 +71,3 @@ class RespException(Exception):
         self.timestamp = time.time()
         # Exception description
         self.description = "Error: " + value
-
-        # Log exception
-        if RespConfig.LOG_ENABLE:
-            self.log()
-  
