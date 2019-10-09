@@ -2,7 +2,7 @@
 
 # RESPIRA environmental IoT platform
 
-RESPIRA is the Open IoT platform created for the Spanish Province of Badajoz to host any kind of environmental-related IoT information, including readings comming from [RESPIRA stations](RESPIRA_STATION.md), official [AEMET](http://www.aemet.es/en/portada) stations and the [Copernicus Athmospheric Monitoring Service](https://atmosphere.copernicus.eu/).
+RESPIRA is the Open IoT platform created for the Spanish Province of Badajoz to host any kind of environmental-related IoT information, including readings comming from [RESPIRA stations](RESPIRA_STATION.md), official [AEMET](http://www.aemet.es/en/portada) stations and the air quality stations coordinated by the [European Environment Agency](https://www.eea.europa.eu/).
 
 Anyone from the community can upload relevant information about the environment in our region or transmit IoT information to the platform from commercial or DIY sensing devices. The aim of this project is then:
 
