@@ -293,6 +293,7 @@ class RESPIRA_TB600
     {
       Serial.println("TB600 : Updating zero offset");
       zeroOffset = minConcentration;
+      minConcentration = 0;
     }
     
     /**

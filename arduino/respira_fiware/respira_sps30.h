@@ -67,12 +67,18 @@ class RESPIRA_SPS30
      * Minimum concentration values
      */
     float minPm1, minPm2, minPm4, minPm10;
+
+
+    /**
+     * Zero offset
+     */
+    float zeroOffsetPm1, zeroOffsetPm2, zeroOffsetPm4, zeroOffsetPm10;
     
     /**
      * Sensor calibration parameters
      */
     float pm1Factor, pm1Offset, pm2Factor, pm2Offset, pm4Factor, pm4Offset, pm10Factor, pm10Offset;
-
+    
     /**
      * Enable zero calibration
      */
@@ -92,6 +98,11 @@ class RESPIRA_SPS30
       minPm10 = 0;
       
       enZeroCalib = false;
+      zeroOffsetPm1 = 0;
+      zeroOffsetPm2 = 0;
+      zeroOffsetPm4 = 0;
+      zeroOffsetPm10 = 0;
+      
       pm1Factor = 1;
       pm1Offset = 0;
       pm2Factor = 1;
@@ -233,10 +244,10 @@ class RESPIRA_SPS30
       // Run zero calibration
       if (enZeroCalib)
       {
-        filtPM1 -= minPm1;
-        filtPM2 -= minPm2;
-        filtPM4 -= minPm4;
-        filtPM10 -= minPm10;
+        filtPM1 -= zeroOffsetPm1;
+        filtPM2 -= zeroOffsetPm2;
+        filtPM4 -= zeroOffsetPm4;
+        filtPM10 -= zeroOffsetPm10;
       }
 
       // Update averages
@@ -475,7 +486,26 @@ class RESPIRA_SPS30
       Serial.print("SPS30 : Zero calibration enabled: ");
       Serial.println(enZeroCalib);
     }
-        
+
+    /**
+     * zeroCalibrate
+     * 
+     * Apply zero offset calibration
+     */
+    inline void zeroCalibrate(void)
+    {
+      Serial.println("SPS30 : Updating zero offsets");
+      zeroOffsetPm1 = minPm1;
+      zeroOffsetPm2 = minPm2;
+      zeroOffsetPm4 = minPm4;
+      zeroOffsetPm10 = minPm10;    
+
+      minPm1 = 0;
+      minPm2 = 0;
+      minPm4 = 0;
+      minPm10 = 0;
+    }
+    
     /**
      * setCalibParams
      * 
