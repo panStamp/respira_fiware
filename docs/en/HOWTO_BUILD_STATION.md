@@ -103,9 +103,9 @@ The code integrates [WiFiManager](https://github.com/tzapu/WiFiManager), a popul
 4- Fill SSID and password
 5- Save the settings and let the hardware restart
 
-# Connecting to Environmental Open Labs
+# Connecting to RESPIRA environmental IoT platform
 
-Connecting new RESPIRA FIWARE stations to [Environmental Open Labs](OPEN_LABS.md) is very simple. Once logged into your Environmental Open Labs account you need to create a new device profile and select _RESPIRA FIWARE station_ from the wizard. The platform will return a new API key for this device profile which will have to be entered into the Arduino code.
+Connecting new RESPIRA FIWARE stations to [RESPIRA environmental IoT platform](RESPIRA_PLATFORM.md) is very simple. Once logged into your Environmental Open Labs account you need to create a new device profile and select _RESPIRA FIWARE station_ from the wizard. The platform will return a new API key for this device profile which will have to be entered into the Arduino code.
 
 Once into the Arduino code, set the API key and leave the rest of FIWARE constants unmodified:
 

@@ -14,7 +14,7 @@ The RESPIRA hardware follows a simple architecture. An ESP32 SoC acts as the bra
 
 # Specifications
 
-- Parameters provided: Temperature, humidity, NO2, PM1.0, PM2.5, PM4.0 and PM10
+- Parameters provided: Temperature, humidity, NO2, PM1.0, PM2.5, PM4.0, PM10, typical particulate size and [CAQI](https://en.wikipedia.org/wiki/Air_quality_index#CAQI)
 - Power supply : 5.0VDC
 - Maximum current consummed : 300 mA
 - Communication : WiFi 2.4GHz
@@ -61,7 +61,7 @@ The following parameters are obtained from the SPS30 sensor:
 - Concentration of PM1.0, PM2.5, PM4.0 and PM10
 - Total average size of particules detected
 
-### [ECS1-NO2-50](http://pmo0ec072.pic33.websiteonline.cn/upload/ES1-NO2-50_20171212.pdf) NO2 sensor
+### [ES1-NO2-50](http://pmo0ec072.pic33.websiteonline.cn/upload/ES1-NO2-50_20171212.pdf) NO2 sensor
 
 ES1-NO2-50 is an electrochemical NO2 sensor sensible in the 0 to 50 ppm range. Of course we dont need that full range but the sensor performs quite well in low concentrations of gas. Moreover, the zero drift is minimum and the sensor comes calibrated from factory. In order to simplify the integration of this tiny sensor, it can be plugged onto a TB600 board, which does all the complex analog transformations and provides a clean digital reading via UART.
 

@@ -14,5 +14,5 @@ Anyone from the community can upload relevant information about the environment 
 
 Environmental Open Labs is entirely powered by FIWARE. Communication from IoT devices to the platform is done via [UltraLight 2.0 HTTP]((https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html)). UltraLight is a lightweight IoT protocol specially created for constrained IoT hardware platforms such as Arduinos, ESP8266 and other low-power microcontrollers.
 
-[This guide](HOWTO_OPEN_LABS.md) shows how to use _Environmental Open Labs_ and start sending data from your IoT device.
+[This guide](HOWTO_RESPIRA_PLATFORM.md) shows how to use _Environmental Open Labs_ and start sending data from your IoT device.
 
