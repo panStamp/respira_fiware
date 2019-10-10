@@ -50,103 +50,23 @@ class RespFiware(object):
         return RespConfig.FIWARE_SERVICE_PATH
 
 
-    def list_service_groups(self):
+    def get_config(self, device_id):
         """
-        List all service groups under the service and service path configured in config.py
-        """
+        Get configuration string from device
 
-        ## Post request
+        @param device_id: device ID
+        """        
         try:
-            url = RespConfig.FIWARE_SERVGROUP_URL
-            params = {"limit": 1000}
-            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-           
-            client = RespHttpClient(headers, url, params, "")
-            result = client.get()
-
-            if "services" in result:
-                return result["services"]
-
-        except:
-            raise RespException("Unable to query service groups")
-
-
-    def create_service_group(self, api_key):
-        """
-        Create service group on FIWARE CB
-
-        @param api_key: FIWARE API Key
-        """
-
-        ## Post request
-        try:
-            url = RespConfig.FIWARE_SERVGROUP_URL
+            url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs/config/value"
             params = {}
-            headers = {"Content-Type": "application/json", "fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-
-            # Declare datamodels
-            attributes = []
-
-            for key, value in RespConfig.FIWARE_DATAMODEL.items():
-                if key in RespConfig.FIWARE_DATAMODEL_STRINGS:
-                    attr = {"object_id": key, "name": value, "type": "String"}
-                else:
-                    attr = {"object_id": key, "name": value, "type": "Number"}
-
-                attributes.append(attr)
-            
-            config = {"name": "config", "type": "String", "value": "0|1|0|0|1|0|1|0|1|0|1|0"}
-            attributes.append(config)
-            payload = {"services": [{"apikey": api_key, "protocol": ["IoTA-UL"], "cbroker": "http://orion:1026", "entity_type": RespConfig.FIWARE_ENTITY_TYPE, "resource": "/iot/d", "attributes": attributes}]}           
-           
-            client = RespHttpClient(headers, url, params, json.dumps(payload))
-            client.post()
-
-        except:
-            raise RespException("Unable to create service group. Probably because it already exists")
-
-
-    def delete_service_group(self, api_key):
-        """
-        Delete service group from FIWARE CB
-
-        @param api_key: FIWARE API Key
-        """
-
-        ## Post request
-        try:
-            url = RespConfig.FIWARE_SERVGROUP_URL
-            params = {"resource": "/iot/d", "apikey": api_key}
             headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-            
+
+            # Query current config settings
             client = RespHttpClient(headers, url, params, "")
-            result = client.delete()
+            return client.get()
 
         except:
-            raise RespException("Unable to delete service group")
-
-
-    def delete_all_service_groups(self):
-        """
-        Delete all service groups under the current service path
-
-        @return Number of service groups deleted
-        """
-        count = 0
-
-        try:   
-            result = self.list_service_groups()
-            
-            for service_group in result:
-                if "apikey" in service_group:
-                    api_key = service_group["apikey"]
-                    self.delete_service_group(api_key)
-                    count += 1
-
-            return count
-
-        except RespException:
-            raise
+            raise RespException("Unable to retrieve config string for device " + device_id)
 
 
     def set_config(self, device_id, config_str):
@@ -156,7 +76,7 @@ class RespFiware(object):
         @param device_id: device ID
         @param config_str: configuration string
         """        
-        url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
+        url = RespConfig.FIWARE_ENTITIES_URL + "/" + RespConfig.FIWARE_ENTITY_TYPE + ":" + device_id + "/attrs"
         params = {}
         headers = {"Content-Type": "application/json", "fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
 
@@ -176,7 +96,6 @@ class RespFiware(object):
 
         @param device_id: device ID
         """        
-        ## Post request
         try:
             config_str = "0|1|0|0|1|0|1|0|1|0|1|0"
             self.set_config(device_id, config_str)
@@ -193,22 +112,10 @@ class RespFiware(object):
         @param factor: calibration factor
         @param offset: calibration offset
         """        
-        ## Post request
-        try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
-            params = {}
-            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-
-            # Query current config settings
-            client = RespHttpClient(headers, url + "/config", params, "")
-            result = client.get()
-
-            # Check response from CB           
-            if "value" not in result:
-                raise RespException("Reply from CB incorrectly formatted")
-
+        try:           
             # Read config
-            config = result["value"].split("|")
+            result = self.get_config(device_id)
+            config = result.split("|")
 
             # Save zero calibration flags
             zero_no2 = config[0]
@@ -241,7 +148,46 @@ class RespFiware(object):
                 raise
 
         except:
-            raise RespException("Unable to retrieve calibration setttings for dewvice " + device_id + " and polluant " + polluant)
+            raise RespException("Unable to retrieve calibration setttings for device " + device_id + " and polltuant " + polluant)
+
+
+    def print_calibration(self, device_id):
+        """
+        Read calibration settings
+
+        @param device_id: device ID
+        """        
+        try:
+            result = self.get_config(device_id)
+        except:
+            raise
+        try:
+            config = result.split("|")
+
+            zero_calib_en = "disabled"
+            if config[0] == '1':
+                zero_calib_en = "enabled"
+
+            print("NO2 automatic zero-calibration: " + zero_calib_en)
+            print("NO2 correction factor (gain): " + str(config[1]))
+            print("NO2 correction offset: " + str(config[2]))
+
+            zero_calib_en = "enabled"
+            if config[3] == 0:
+                zero_calib_en = "disabled"
+
+            print("PM sensor automatic zero-calibration: " + zero_calib_en)
+            print("PM1.0 correction factor (gain): " + str(config[4]))
+            print("PM1.0 correction offset: " + str(config[5]))
+            print("PM2.5 correction factor (gain): " + str(config[6]))
+            print("PM2.5 correction offset: " + str(config[7]))
+            print("PM4.0 correction factor (gain): " + str(config[8]))
+            print("PM4.0 correction offset: " + str(config[9]))
+            print("PM10 correction factor (gain): " + str(config[10]))
+            print("PM10 correction offset: " + str(config[11]))
+
+        except:
+            raise RespException("Unable to retrieve config values for device " + device_id)
 
 
     def set_zero_calibration(self, device_id, sensor, enable):
@@ -254,26 +200,22 @@ class RespFiware(object):
         """        
         ## Post request
         try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
-            params = {}
-            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-
-            # Query current config settings
-            client = RespHttpClient(headers, url + "/config", params, "")
-            result = client.get()
-
-            # Check response from CB           
-            if "value" not in result:
-                raise RespException("Reply from CB incorrectly formatted")
-
             # Read config
-            config = result["value"].split("|")
+            result = self.get_config(device_id)
+        except:
+            raise
+        try:
+            flag = '0'
+            if enable:
+                flag = '1'
+
+            config = result.split("|")
 
             # Modify zero calibration flag
             if sensor == "no2":
-                config[0] = enable
+                config[0] = flag
             elif sensor == "pm":
-                config[3] = enable
+                config[3] = flag
 
             # Rebuild config string
             config_str = "|".join(config)
@@ -284,7 +226,7 @@ class RespFiware(object):
                 raise
 
         except:
-            raise RespException("Unable to retrieve calibration setttings for dewvice " + device_id + " and polluant " + polluant)
+            raise RespException("Unable to write automatic zero-calibration for device " + device_id + " and sensor " + sensor)
 
 
     def enable_zero_calibration(self, device_id, sensor):
@@ -295,7 +237,7 @@ class RespFiware(object):
         @param sensor: sensor name (no2, pm)
         """        
         try:
-            set_zero_calibration(device_id, sensor, True)
+            self.set_zero_calibration(device_id, sensor, True)
         except:
             raise
 
@@ -308,97 +250,9 @@ class RespFiware(object):
         @param sensor: sensor name (no2, pm)
         """        
         try:
-            set_zero_calibration(device_id, sensor, False)
+            self.set_zero_calibration(device_id, sensor, False)
         except:
             raise
-
-
-    def list_devices(self):
-        """
-        List devices and their values
-        """        
-        ## Post request
-        try:
-            url = RespConfig.FIWARE_ENTITIES_URL
-            params = {"limit": 1000}
-
-            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-
-            # Query current config settings
-            client = RespHttpClient(headers, url, params, "")
-            return client.get()
-
-        except:
-            raise RespException("Unable to retrieve list of devices")
-
-
-    def read_device(self, device_id, show_values):
-        """
-        Read device values
-
-        @param device_id: device ID
-        @param show_values: show only values
-        """        
-        ## Post request
-        try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id + "/attrs"
-
-            if show_values:
-                params = {"options": "keyValues"}
-            else:
-                params = {}
-
-            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-
-            # Query current config settings
-            client = RespHttpClient(headers, url, params, "")
-            return client.get()
-        except:
-            raise RespException("Unable to retrieve values for device " + device_id)
-
-
-    def delete_device(self, device_id):
-        """
-        Delete device
-
-        @param device_id: device ID
-        """        
-        ## Post request
-        try:
-            url = RespConfig.FIWARE_ENTITIES_URL + "/" + device_id
-            params = {}
-
-            headers = {"fiware-service": RespConfig.FIWARE_SERVICE, "fiware-servicepath": RespConfig.FIWARE_SERVICE_PATH}
-
-            # Query current config settings
-            client = RespHttpClient(headers, url, params, "")
-            client.delete()
-
-        except:
-            raise RespException("Unable to delete device " + device_id)
-
-
-    def delete_all_devices(self):
-        """
-        Delete all devices within the current service path
-
-        @return Number of devices deleted
-        """
-        count = 0
-
-        try:   
-            result = self.list_devices()
-            
-            for device in result:
-                if "id" in device:
-                    device_id = device["id"]
-                    self.delete_device(device_id)
-                    count += 1
-
-            return count
-
-        except RespException:
-            raise        
 
 
     def __init__(self):
