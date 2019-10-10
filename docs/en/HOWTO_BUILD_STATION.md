@@ -8,6 +8,7 @@
 - [Programming](#programming)
 - [Joining a WiFi network](#joining-a-wiFi-network)
 - [Connecting to Environmental Open Labs](#connecting-to-environmental-open-labs)
+- [Maintenance and calibration](#maintenance-and-calibration)
 
 # How to build your own RESPIRA FIWARE station
 
@@ -114,4 +115,9 @@ const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
 const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
 const char FIWARE_APIKEY[] = FIWARE_UL_API_KEY;
 ```
+
+# Maintenance and calibration
+
+RESPIRA stations need to be periodically maintained. [This guide](RESPIRA_CALIBRATION.md) provides some tips about where to install your stations and how to maintain them up to date.
+
 
