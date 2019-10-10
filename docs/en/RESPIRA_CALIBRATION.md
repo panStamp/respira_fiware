@@ -5,6 +5,7 @@
 - [Calibration of RESPIRA](#calibration-of-respira)
 - [Previous tests and calculations](#previous-tests-and-calculations)
 - [Correction mechanisms](#correction-mechanisms)
+- [Remote calibration](#remote-calibration)
 
 # Calibration of RESPIRA
 
