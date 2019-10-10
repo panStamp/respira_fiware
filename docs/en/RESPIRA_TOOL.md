@@ -3,13 +3,37 @@
 # Index of contents
 
 - [RESPIRA tool](#respira-tool)
+- [Initial configuration](#initial-configuration)
 - [Manual factor-offset correction](#manual-factor-offset-correction)
 - [Automatic zero-level correction](#automatic-zero-level-correction)
-- [Reset calibration values](#reset-calibration-values)
+- [Reset calibration settings](#reset-calibration-settings)
+- [Read calibration settings](#read-calibration-settings)
 
 # RESPIRA tool
 
 RESPIRA tool is a command-line program written in Python 3.7 to send configuration and calibration settings to remote RESPIRA stations via FIWARE. We explained in [this other section](RESPIRA_CALIBRATION.md) two different calibration strategies: automatic manual factor-offset correction and zero-calibration. The following sections will employ each of these techniques by means of the corresponding command.
+
+# Initial configuration
+
+Prior to using RESPIRA tool we need to enter our FIWARE service path. Every user of the RESPIRA IoT platform is given a FIWARE service path, a specific region in the FIWARE Context-Broker where all the IoT information is stored. Users can find their FIWARE service path in the profile section.
+
+Once you get your service path simply run this command:
+
+```
+python3 respira_tool.py --set-service-path /my_service_path
+```
+
+The above command will store the service path in a configuration file so we will not need to run the command again unless we want to switch to a different FIWARE service path (a different user). We can then check the current service path with this other command:
+
+```
+python3 respira_tool.py --show-service-path
+```
+
+Which will reply with the FIWARE service path currently configured:
+
+```
+/my_service_path
+```
 
 # Manual factor-offset correction
 
@@ -48,7 +72,7 @@ python3 respira_tool.py --disable-zero-calibration pm -d RESPIRA_XXXXXXXXXXXX
 
 As stated before, these changes take effect starting from the next transmission, one hour later.
 
-# Reset calibration values
+# Reset calibration settings
 
 Let's say that we want to revert to the default configuration values, which are:
 
@@ -59,5 +83,31 @@ We can run the following command to set the configuration to factory defaults:
 
 ```
 python3 respira_tool.py --reset-calibration -d RESPIRA_XXXXXXXXXXXX
+```
+
+# Read calibration settings
+
+In order to show the current calibration settings from a RESPIRA station, we can use the _--read-calibration_ option:
+
+```
+python3 respira_tool.py --read-calibration -d RESPIRA_XXXXXXXXXXXX
+```
+
+Reply from FIWARE:
+
+```
+Calibration settings for device :RESPIRA:RESPIRA_807D3AF39E18
+NO2 automatic zero-calibration: enabled
+NO2 correction factor (gain): 1
+NO2 correction offset: 0
+PM sensor automatic zero-calibration: enabled
+PM1.0 correction factor (gain): 1
+PM1.0 correction offset: 0
+PM2.5 correction factor (gain): 1
+PM2.5 correction offset: 0
+PM4.0 correction factor (gain): 1
+PM4.0 correction offset: 0
+PM10 correction factor (gain): 1
+PM10 correction offset: 0
 ```
 
