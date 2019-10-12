@@ -559,8 +559,8 @@ class RESPIRA_SPS30
     inline uint16_t getCaqi(void)
     {
       uint16_t caqi2 = 0, caqi10 = 0;
-      uint16_t pm2 = (uint16_t) avgConcPm2;
-      uint16_t pm10 = (uint16_t) avgConcPm10;
+      uint16_t pm2 = (uint16_t) getAvgPM2();
+      uint16_t pm10 = (uint16_t) getAvgPM10();
 
       // Check PM2.5
       if (pm2 <= 30)
@@ -581,7 +581,7 @@ class RESPIRA_SPS30
         caqi10 = map(pm10, 90, 180, 75, 100);
       else
         caqi10 = pm10 / 1.8;
-        
+
       if (caqi2 > caqi10)
         return caqi2;
 
