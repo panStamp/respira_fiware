@@ -7,7 +7,7 @@
 - [Assembly](#assembly)
 - [Programming](#programming)
 - [Joining a WiFi network](#joining-a-wiFi-network)
-- [Connecting to Environmental Open Labs](#connecting-to-environmental-open-labs)
+- [Connecting to RESPIRA environmental IoT platform](#connecting-to-respira-environmental-iot-platform)
 - [Maintenance and calibration](#maintenance-and-calibration)
 
 # How to build your own RESPIRA FIWARE station
@@ -16,9 +16,9 @@ The following are the official bills of materials used in this project. If you d
 
 # Bills of materials
 
-Users are invited to make their own PCB's based on the available schematics or source the boards from [OSHPARK](https://oshpark.com/).
+Users are invited to make their own PCB's based on the available schematics and gerbers.
 
-Microntroller unit:
+## Microntroller board
 
 | Reference | Description | Source |
 |-----------|-------------|--------|
@@ -30,7 +30,7 @@ Microntroller unit:
 | J4 | Molex 95503-2881 Vertical RJ45 connector | Mouser, Farnell, DigiKey, etc. |
 | Enclosure | FIBOX TEMPO TAM131007 | RS, Farnell, etc. |
 
-Sensor unit:
+## Sensor board
 
 | Reference | Description | Source |
 |-----------|-------------|--------|
@@ -58,6 +58,12 @@ Assembling the sensor board is quite simple as well. Sensor units need to be con
 <img width="400" src="http://www.panstamp.org/pictures/respira_fiware_01.jpg">
 </p>
 
+Sensors need to be individually soldered to the sensor board by following this pinout:
+
+<p align="center">
+<img width=5400" src="http://www.panstamp.org/pictures/sensor_board_pinout.jpg">
+</p>
+
 The following pinout diagram is recommended for the Ethernet cable:
 
 <p align="center">
@@ -79,7 +85,7 @@ The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Before 
 - [tzapu's WiFiManager for ESP8266](https://github.com/tzapu/WiFiManager).
 - [Sparkfun's SI7021 library](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library).
 
-Simply select the board _ESP32 Dev board_ from Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. The source code is ready with the right API Key to connect RESPIRA to the [Environmental Open Labs](OPEN_LABS.md). However, if you want to connect the station to a different FIWARE service, then change the API Key accordingly.
+The source code needs to be modified with the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. It you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
 
 From [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
 
@@ -88,6 +94,8 @@ const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
 const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
 const char FIWARE_APIKEY[] = FIWARE_UL_API_KEY;
 ```
+
+Finally, select the board _ESP32 Dev board_ from Arduino Tools->Boards, connect the ESP32 board to your computer via USB, select the right serial port and upload the code to the board. 
 
 # Joining a WiFi network
 
