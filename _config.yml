@@ -9,3 +9,9 @@ relative_links:
   enabled: true
   collections: true
 
+languages: ["en", "es"]
+exclude_from_localizations: ["assets", "CNAME"]
+defaultLang: en
+languageNames:
+  es: Spanish
+  en: English
