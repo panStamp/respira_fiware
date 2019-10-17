@@ -4,6 +4,7 @@
 
 - [The RESPIRA FIWARE station](#the-respira-fiware-station)
 - [Specifications](#specifications)
+- [Working flow](#working-flow)
 - [Components](#components)
   - [Microcontroller unit](#microcontroller-unit)
   - [Sensors](#sensors)
@@ -19,6 +20,16 @@ The RESPIRA hardware follows a simple architecture. An ESP32 SoC acts as the bra
 - Maximum current consummed : 300 mA
 - Communication : WiFi 2.4GHz
 - FIWARE protocol: UltraLight 2.0 HTTP
+
+# Working flow
+
+RESPIRA stations read environmental values every 20 seconds. This information is stored in order to get the arithmetic mean every hour and then transmit averages to the IoT platform. RESPIRA stations transmit then average values every hour.
+
+On the other hand, RESPIRA stations also run some internal compensation algorithms based on temperature and some other calibration methods explained [here](RESPIRA_CALIBRATION.md).
+
+<p align="center">
+<img src="../img/working_flow.jpg">
+</p>
 
 # Components
 

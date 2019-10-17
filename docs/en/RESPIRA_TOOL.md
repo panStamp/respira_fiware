@@ -11,7 +11,7 @@
 
 # RESPIRA tool
 
-RESPIRA tool is a command-line program written in Python 3.7 to send configuration and calibration settings to remote RESPIRA stations via FIWARE. We explained in [this other section](RESPIRA_CALIBRATION.md) two different calibration strategies: automatic manual factor-offset correction and zero-calibration. The following sections will employ each of these techniques by means of the corresponding command.
+RESPIRA tool is a command-line program written in Python 3.7 to send configuration and calibration settings to remote RESPIRA stations via FIWARE. We explained in [this other section](RESPIRA_CALIBRATION.md) two different calibration strategies: manual factor-offset correction and automatic zero-calibration. The following sections will employ each of these techniques by means of the corresponding command.
 
 # Initial configuration
 

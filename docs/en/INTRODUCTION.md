@@ -14,7 +14,7 @@ Please refer to the official [FIWARE web page](https://www.fiware.org/) for more
 
 # RESPIRA station
 
-RESPIRA stations follows a very simple concept. The core, an ESP32 SoC, reads temperature, humidity, particle matter and No2 levels periodically from three different sensors. Readings are then stored and processed locally in the MCU and finally transmitted to a FIWARE platform. The default settings make the RESPIRA station transmit to the _Environmental Open Labs_ but developers cah change these settings to point to a different FIWARE platform.
+RESPIRA stations follows a very simple concept. The core, an ESP32 SoC, reads temperature, humidity, particle matter and NO2 levels periodically from three different sensors. Readings are then stored and processed locally in the MCU and finally transmitted to a FIWARE platform. The default settings make the RESPIRA station transmit to the _RESPIRA Environmental IoT platform_ but developers can change these settings to point to a different FIWARE platform.
 
 This project contains all the necessary source code and instructions to build and deploy new RESPIRA stations. Go to [this guiding page](RESPIRA_STATION.md) for more details about how the RESPIRA hardware works and how to build your own station.
 
