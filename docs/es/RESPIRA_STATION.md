@@ -2,7 +2,7 @@
 
 # Índice de contenidos
 
-- [La estación RESPIRA FIWARE](#la-estacion-RESPIRA-FIWARE)
+- [La estación RESPIRA FIWARE](#la-estación-RESPIRA-FIWARE)
 - [Especificaciones](#especificaciones)
 - [Funcionamiento](#funcionamiento)
 - [Componentes](#componentes)

@@ -2,10 +2,10 @@
 
 # Índice de contenidos
 
-- [Calibración de RESPIRA](#calibracion-de-respira)
-- [Tests y cálculos previos](#tests-y-calculos-previos)
-- [Mecanismos de corrección](#mecanismos-de-correccion)
-- [Calibración remota](#calibracion-remota)
+- [Calibración de RESPIRA](#calibración-de-respira)
+- [Tests y cálculos previos](#tests-y-cálculos-previos)
+- [Mecanismos de corrección](#mecanismos-de-corrección)
+- [Calibración remota](#calibración-remota)
 
 # Calibración de RESPIRA
 

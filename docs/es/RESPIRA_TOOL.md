@@ -3,11 +3,11 @@
 # Índice de contenidos
 
 - [RESPIRA tool](#respira-tool)
-- [Configuración inicial](#configuracion-inicial)
-- [Corrección manual por factor-offset](#correccion-manual-por-factor-offset)
-- [Corrección automática por nivel cero](#correccion-automatica-por-nivel-cero)
-- [Reset de los parámetros de calibración](#reset-de-los-parametros-de-calibracion)
-- [Lectura de los parámetros de calibración](#lectura-de-los-parametros-de-calibracion)
+- [Configuración inicial](#configuración-inicial)
+- [Corrección manual por factor-offset](#corrección-manual-por-factor-offset)
+- [Corrección automática por nivel cero](#corrección-automática-por-nivel-cero)
+- [Reset de los parámetros de calibración](#reset-de-los-parámetros-de-calibración)
+- [Lectura de los parámetros de calibración](#lectura-de-los-parámetros-de-calibración)
 
 # RESPIRA tool
 
