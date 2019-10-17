@@ -40,7 +40,7 @@ The Arduino code contains two mechanisms to compensate for sensor drift. The fir
 
 Zero-level corrections assume that the lowest reading registered corresponds to what it should be 0 ug/m3 so please consider whether your station is eligible for this strategy before enabling it. This technique is only valid there where concentrations have proven to go down to (almost) zero at least once in 10 days. Stations installed in areas where pollution is always present and never go down to near zero should not rely on automatic zero-level calibration. Instead, manual factor-offset corrections should be periodically applied.
 
-## Remote calibration
+# Remote calibration
 
 The RESPIRA project includes RESPIRA tool, a Python command-line program made to send calibration settings to FIWARE. RESPIRA stations request calibration information from FIWARE before transmitting pollution values. These settings are then applied starting from the next transmission, one hour later.
 

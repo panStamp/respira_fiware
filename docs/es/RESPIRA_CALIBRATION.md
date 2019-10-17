@@ -43,7 +43,7 @@ El código Arduino incluye dos mecanismos para compensar la deriva de los sensor
 
 La compensación por nivel zero asume que la menor de las lecturas realmente corresponde a la concentración de 0 ug/m3, de forma que antes de habilitar este mecanismo de compensación se hace necesario decidir si la estación es realmente elegible para esta política. Esta técnica es sólo válida allí donde se demuestra que las concentraciones de contaminantes descienden hasta niveles de casi cero en el periodo de 10 días. Estaciones ubicadas en áreas con contínua contaminación y que nunca desciende a niveles de casi cero no deberían apoyarse en este tipo de compensación. En las situaciones de contaminación continuada deberíamos realizar compensaciones manuales basadas en el método del factor-offset.
 
-## Calibración remota
+# Calibración remota
 
 El proyecto RESPIRA incluye la herramienta _RESPIRA tool_, un programa en línea de comando desarrollado en Python para transmitir parámetros de calibración a FIWARE. Toda estación RESPIRA consulta con el Context-Broker FIWARE la existencia de tales parámetros, usándolos antes de posteriores transmisiones (una hora más tarde) para corregir lecturas y activar calibraciones en el propio dispositivo.
 
