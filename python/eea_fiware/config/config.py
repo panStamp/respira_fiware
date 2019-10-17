@@ -42,7 +42,7 @@ class EfConfig(object):
     COUNTRY_CODES = ["ES"]
 
     ## Dictionary of parameters to be retrieved from service and the corresponding UltraLight nomenclature
-    POLLUTION_PARAMETERS = {"NO2": "no2", "SO2": "so2", "CO": "co", "O3": "o3", "NO": "no", "C6H6": "c6h6", "PM2.5": "pm2.5", "PM10": "pm10"}
+    POLLUTION_PARAMETERS = {"NO2": "no2", "SO2": "so2", "CO": "co", "O3": "o3", "NO": "no", "C6H6": "c6h6", "PM2.5": "pm2.5", "PM10": "pm10", "AQI": "q"}
 
     #####################################################################
     ## EEA settings
@@ -68,10 +68,10 @@ class EfConfig(object):
     FIWARE_APIKEY = "H1LEDmLqgHuWfoRwHNYHnsnOZS"
 
     ## FIWARE entity names
-    FIWARE_ENTITY = "EEA"
+    FIWARE_ENTITY = "EEA_POLLUTION"
 
     ## FIWARE datamodel
-    FIWARE_DATAMODEL = {"lat":"latitude", "lon":"longitude", "co": "CO", "so2": "SO2", "no": "NO", "no2": "NO2", "o3": "O3", "pm2": "PM2.5", "pm10": "PM10"}
+    FIWARE_DATAMODEL = {"lat":"latitude", "lon":"longitude", "co": "CO", "so2": "SO2", "no": "NO", "no2": "NO2", "o3": "O3", "pm2": "PM2.5", "pm10": "PM10", "q": "airQualityIndex"}
 
     ## Which of the above parameters are strings
     FIWARE_DATAMODEL_STRINGS = []
