@@ -34,6 +34,12 @@
 #include "respira_tb600.h"
 #include "respira_si7021.h"
 
+#ifdef ENABLE_OTA_PROGRAMMING
+#include <ESPmDNS.h>
+#include <WiFiUdp.h>
+#include <ArduinoOTA.h>
+#endif
+
 /**
  * Watchdog
  */
@@ -46,7 +52,7 @@ hw_timer_t *timer = NULL;
 // LED pin
 #define LED  2
 
-// Wifi manager
+// Wifi managerapp
 WiFiManager wifiManager;
 const char wmPassword[] = "respira";
 
@@ -56,11 +62,8 @@ char deviceMac[16];
 // Description string
 char deviceId[32];
 
-// Application name
-const char appName[] = "RESPIRA";
-
 // FIWARE object
-FIWARE fiware(FIWARE_SERVER, FIWARE_UL_PORT, FIWARE_APIKEY, FIWARE_QRY_PORT, FIWARE_SERVICE, FIWARE_SERVICE_PATH, appName);
+FIWARE fiware(FIWARE_SERVER, FIWARE_UL_PORT, FIWARE_APIKEY, FIWARE_QRY_PORT, FIWARE_SERVICE, FIWARE_SERVICE_PATH, APP_NAME);
 
 // RESPIRA sensor set
 RESPIRA_SPS30 sps30;
@@ -219,7 +222,7 @@ void setup()
   sprintf(deviceMac, "%02X%02X%02X%02X%02X%02X", mac[0], mac[1], mac[2], mac[3], mac[4], mac[5]);
 
   // Device ID
-  sprintf(deviceId, "%s_%s", appName, deviceMac);
+  sprintf(deviceId, "%s_%s", APP_NAME, deviceMac);
 
   Serial.print("Device ID:"); Serial.println(deviceId);
   Serial.print("API Key: "); Serial.println(FIWARE_APIKEY);
@@ -248,6 +251,47 @@ void setup()
   timerAttachInterrupt(timer, &restart, true);
   timerAlarmWrite(timer, WATCHDOG_DELAY, false); //set time in us
   timerAlarmEnable(timer); //enable interrupt
+  #endif
+
+  // OTA programming
+  #ifdef ENABLE_OTA_PROGRAMMING
+
+  Serial.println("Enabling OTA programming");
+  ArduinoOTA.setHostname(deviceId);
+  ArduinoOTA.setPasswordHash("39a6fe1d4dac1ead27f12b3c2cbf7221");
+  
+  ArduinoOTA
+    .onStart([]()
+    {
+      String type;
+      if (ArduinoOTA.getCommand() == U_FLASH)
+        type = "sketch";
+      else // U_SPIFFS
+        type = "filesystem";
+  
+      // NOTE: if updating SPIFFS this would be the place to unmount SPIFFS using SPIFFS.end()
+      Serial.println("Start updating " + type);
+    })
+    .onEnd([]()
+    {
+      Serial.println("\nEnd");
+    })
+    .onProgress([](unsigned int progress, unsigned int total)
+    {
+      Serial.print("Progress: "); Serial.println(progress / (total / 100));
+    })
+    .onError([](ota_error_t error)
+    {
+      Serial.print("Error "); Serial.println(error);
+      if (error == OTA_AUTH_ERROR) Serial.println("Auth Failed");
+      else if (error == OTA_BEGIN_ERROR) Serial.println("Begin Failed");
+      else if (error == OTA_CONNECT_ERROR) Serial.println("Connect Failed");
+      else if (error == OTA_RECEIVE_ERROR) Serial.println("Receive Failed");
+      else if (error == OTA_END_ERROR) Serial.println("End Failed");
+    });
+
+  ArduinoOTA.begin();
+  
   #endif
 
   // Initialize sensors
@@ -326,6 +370,10 @@ void loop()
   timerWrite(timer, 0);
   #endif
 
-  delay(1000);
+  #ifdef ENABLE_OTA_PROGRAMMING
+  ArduinoOTA.handle();
+  #endif
+  
+  //delay(1000);
 }
 

@@ -28,6 +28,16 @@
 //#define WATCHDOG_ENABLED  1
 
 /**
+ * Enable OTA programming
+ */
+#define ENABLE_OTA_PROGRAMMING  1
+
+/**
+ * Application name
+ */
+const char APP_NAME[] = "RESPIRA_T6";
+
+/**
  * FIWARE settings
  */
 const char FIWARE_SERVER[] = "63.35.250.27";
@@ -35,11 +45,11 @@ const char FIWARE_SERVER[] = "63.35.250.27";
 // NGSI setings
 const uint16_t FIWARE_QRY_PORT = 1026; // NGSI entity query port
 const char FIWARE_SERVICE[] = "openiot";
-const char FIWARE_SERVICE_PATH[] = "/RESPIRA_T5";
+const char FIWARE_SERVICE_PATH[] = "/RESPIRA_T6";
 
 // UltraLight setings
 const uint16_t FIWARE_UL_PORT = 7896;  // UltraLight port
-const char FIWARE_APIKEY[] = "my8yccrn4e62turp45jw4b4b8d";
+const char FIWARE_APIKEY[] = "WcfVwznoOOXtsSowUvgZWm0tlW"; //"my8yccrn4e62turp45jw4b4b8m";
 
 /**
  * Sampling interval in msec
