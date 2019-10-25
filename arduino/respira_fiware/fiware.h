@@ -37,12 +37,7 @@
 
 class FIWARE
 {
-  private:
-    /**
-     * HTTP object
-     */
-    HTTPClient http;
-    
+  private:   
     /**
      * FIWARE server URL
      */
@@ -113,12 +108,14 @@ class FIWARE
      */
     inline bool send(char *entity, char *attributes)
     {
+      HTTPClient http;
+      
       bool ret = false;
       
       // Make a HTTP request:
       char url[128];
       sprintf(url, "http://%s:%d/iot/d?k=%s&i=%s&getCmd=1", server, ulPort, apiKey, entity);
-                
+               
       http.begin(url);
       http.addHeader("Content-Type", "text/plain");
       int httpCode = http.POST(attributes);
@@ -146,6 +143,8 @@ class FIWARE
      */
     inline bool querySettings(char *settings, char *entity)
     {
+      HTTPClient http;
+      
       bool ret = false;
       
       if ((service == NULL) || (queryPort == 0))
@@ -159,7 +158,7 @@ class FIWARE
       http.addHeader("fiware-service", service);
       http.addHeader("fiware-servicepath", servicePath);
       int httpCode = http.GET();
-
+     
       if (httpCode == HTTP_CODE_OK)
       {
         String payload = http.getString();
