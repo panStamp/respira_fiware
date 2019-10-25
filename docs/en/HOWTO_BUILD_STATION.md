@@ -84,6 +84,7 @@ The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Before 
 - [Paul van Haastrecht's SPS30 library](https://github.com/paulvha/sps30).
 - [tzapu's WiFiManager for ESP8266](https://github.com/tzapu/WiFiManager).
 - [Sparkfun's SI7021 library](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library).
+- [ArduinoOTA library](https://github.com/jandrassy/ArduinoOTA).
 
 The source code needs to be modified with the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. It you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
 
