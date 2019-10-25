@@ -339,16 +339,7 @@ void loop()
 
     if (transmitNow)
       transmitNow = false;
-
-    // Query calibration settings
-    char settings[FIWARE_SERVER_RESPONSE_MAXLEN];
-    settings[0] = 0;  // Default contents
-
-    Serial.println("Retrieving config settings from FIWARE CB");
-
-    if (fiware.querySettings(settings, deviceId))
-      readSettings(settings);
-
+   
     Serial.println("Transmitting UL frame");
     if (transmit())
     {
@@ -362,7 +353,18 @@ void loop()
         no2Sensor.zeroCalibrate();
       }
     }
+
+    // Query calibration settings
+    char settings[FIWARE_SERVER_RESPONSE_MAXLEN];
+    settings[0] = 0;  // Default contents
+
+    Serial.println("Retrieving config settings from FIWARE CB");
+
+    if (fiware.querySettings(settings, deviceId))
+      readSettings(settings);
+      
     digitalWrite(LED, LOW);
+
   }
   
   #ifdef WATCHDOG_ENABLED
