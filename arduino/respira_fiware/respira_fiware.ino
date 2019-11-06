@@ -170,8 +170,9 @@ bool transmit(void)
 
   // Global CAQI index
   uint16_t caqi = caqiPm;
-  if (caqiNo2 > caqiPm)
-    caqi = caqiNo2;
+  
+  //if (caqiNo2 > caqiPm)
+  //  caqi = caqiNo2;
 
   // Preparing UL frame
   sprintf(txBuf, "t|%.2f|h|%.2f|no2|%.2f|pm1|%.2f|pm2|%.2f|pm4|%.2f|pm10|%.2f|typs|%.2f|q|%d",
@@ -207,6 +208,9 @@ bool transmit(void)
  */
 void setup()
 {
+  // Let the power supply stabilize
+  delay(3000);
+  
   // Setup UART
   Serial.begin(115200);
   Serial.println();
@@ -214,7 +218,7 @@ void setup()
   // Config LED pin
   pinMode(LED, OUTPUT);
   digitalWrite(LED, LOW);
-
+ 
   // Get MAC
   WiFi.begin();
   uint8_t mac[6];
@@ -228,11 +232,14 @@ void setup()
   Serial.print("API Key: "); Serial.println(FIWARE_APIKEY);
 
   digitalWrite(LED, HIGH);
-   
+
+  // WiFi Manager timeout
+  wifiManager.setConfigPortalTimeout(300);
+
+  // WiFi Manager autoconnect
   if (!wifiManager.autoConnect(deviceId))
   {
     Serial.println("failed to connect and hit timeout");
-    //reset and try again, or maybe put it to deep sleep
     ESP.restart();
     delay(1000);
   }
@@ -244,14 +251,6 @@ void setup()
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
   }
-
-  #ifdef WATCHDOG_ENABLED
-  // Watchdog timer
-  timer = timerBegin(0, 80, true); //timer 0, div 80
-  timerAttachInterrupt(timer, &restart, true);
-  timerAlarmWrite(timer, WATCHDOG_DELAY, false); //set time in us
-  timerAlarmEnable(timer); //enable interrupt
-  #endif
 
   // OTA programming
   #ifdef ENABLE_OTA_PROGRAMMING
@@ -294,6 +293,15 @@ void setup()
   
   #endif
 
+  #ifdef WATCHDOG_ENABLED
+  Serial.println("Enabling watchdog timer")
+  // Watchdog timer
+  timer = timerBegin(0, 80, true); //timer 0, div 80
+  timerAttachInterrupt(timer, &restart, true);
+  timerAlarmWrite(timer, WATCHDOG_DELAY, false); //set time in us
+  timerAlarmEnable(timer); //enable interrupt
+  #endif
+  
   // Initialize sensors
   sps30.begin();
   no2Sensor.begin();
