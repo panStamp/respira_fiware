@@ -122,6 +122,8 @@ class RESPIRA_SPS30
      */
     inline uint8_t begin(void)
     {
+      uint8_t res = RESPIRA_SPS30_OK;
+      
       // set driver debug level
       sps30.EnableDebugging(0);
 
@@ -136,7 +138,7 @@ class RESPIRA_SPS30
       if (sps30.probe() == false)
       {
         Serial.println("Could not probe / connect with SPS30.");
-        return RESPIRA_SPS30_ERROR_NOTFOUND;
+        res = RESPIRA_SPS30_ERROR_NOTFOUND;
       }
       else
         Serial.println("Detected SPS30.");
@@ -145,7 +147,7 @@ class RESPIRA_SPS30
       if (sps30.reset() == false)
       {
         Serial.println("Could not reset SPS30.");
-        return RESPIRA_SPS30_ERROR_NOTRESET;
+        res = RESPIRA_SPS30_ERROR_NOTRESET;
       }
 
       uint32_t interval;
@@ -161,7 +163,7 @@ class RESPIRA_SPS30
       else
       {
         Serial.println("Could not get clean interval.");
-        return RESPIRA_SPS30_ERROR_NOCLEAN;
+        res = RESPIRA_SPS30_ERROR_NOCLEAN;
       }
        
       // Default autoclean interval (~ 1 week)
@@ -175,7 +177,7 @@ class RESPIRA_SPS30
       else
       {
         Serial.println("SPS30 : Could not set clean interval.");
-        return RESPIRA_SPS30_ERROR_NOCLEAN;
+        res = RESPIRA_SPS30_ERROR_NOCLEAN;
       }
           
       // Start measurement
@@ -184,7 +186,7 @@ class RESPIRA_SPS30
       else
       {
         Serial.println("SPS30 : Could NOT start measurement from SPS30");
-       return RESPIRA_SPS30_ERROR_NOSTART;
+        res = RESPIRA_SPS30_ERROR_NOSTART;
       }
 
       // Clean now
@@ -193,10 +195,10 @@ class RESPIRA_SPS30
       else
       {
         Serial.println("SPS30 : Could NOT manually start fan-cleaning");
-        return RESPIRA_SPS30_ERROR_NOCLEAN;
+        res = RESPIRA_SPS30_ERROR_NOCLEAN;
       }
 
-      return RESPIRA_SPS30_OK;
+      return res;
     }
 
     /*
