@@ -55,7 +55,7 @@ As seen in the above picture, most of the complexity of the electronics is alrea
 Assembling the sensor board is quite simple as well. Sensor units need to be connected to the auxiliary sensor board with wires. Finally, the sensor board is fixed into the pagoda-style enclosure and connected to the main microcontroller board by means of an Ethernet cable.
 
 <p align="center">
-<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_pic03.jpg">
+<img width="400" src="../img/respira_fiware_pic03.jpg">
 </p>
 
 Sensors need to be individually soldered to the sensor board by following this pinout:
@@ -73,11 +73,11 @@ The following pinout diagram is recommended for the Ethernet cable:
 These images show a complete RESPIRA FIWARE station assembled and connected. This station includes a Meanwel 5.0VDC power supply so that the whole electronics can be connected to AC mains:
 
 <p align="center">
-<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_pic07.jpg">
+<img width="400" src="../img/respira_fiware_pic07.jpg">
 </p>
 
 <p align="center">
-<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_pic08.jpg">
+<img width="400" src="../img/respira_fiware_pic08.jpg">
 </p>
 
 # Programming

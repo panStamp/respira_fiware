@@ -1,7 +1,7 @@
 [< back to index](../../README.md)
 
 <p align="center">
-<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_pic08.jpg">
+<img width="400" src="../img/respira_fiware_pic08.jpg">
 </p>
 
 # The challenge
