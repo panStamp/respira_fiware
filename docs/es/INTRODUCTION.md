@@ -1,5 +1,9 @@
 [< índice](INDEX.md)
 
+<p align="center">
+<img width="400" src="http://www.panstamp.org/pictures/respira_fiware_pic08.jpg">
+</p>
+
 # El reto
 
 RESPIRA FIWARE es un dispositivo de medición de la calidad del aire diseñado para aplicaciones urbanas. Se trata de una evolución de versiones precedentes de RESPIRA, diseño llevado a cabo por la compañía [panStamp](http://www.panstamp.com) y en despliegue por parte de la comunidad desde el año 2013. Esta versión de RESPIRA ha sido creada en el marco del reto FIWARE IoT 2019 lanzado por la [Diputación de Badajoz](https://www.dip-badajoz.es/) y [Telefónica](https://www.telefonica.com/en/) por medio de [FIWARE Space](https://www.fiware.space/).
