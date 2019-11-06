@@ -170,13 +170,19 @@ class RESPIRA_TB600
       while (len < sizeof(buffer))
       {        
         while ((serPort->available()))
+        {
           buffer[len++] = serPort->read();
+
+          Serial.print(buffer[len-1], HEX);
+          Serial.print(" ");
+        }
 
         if (timeout-- == 0)
           return RESPIRA_TB600_ERROR_NOREPLY;
 
         delay(1);
       }
+      Serial.println();
 
       if ((buffer[0] != 0xFF) || (buffer[1] != 0x86))
         return RESPIRA_TB600_ERROR_BADREPLY;
