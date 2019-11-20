@@ -35,21 +35,21 @@
 /**
  * Application name
  */
-const char APP_NAME[] = "RESPIRA_T6";
+const char APP_NAME[] = "RESPIRA";
 
 /**
  * FIWARE settings
  */
-const char FIWARE_SERVER[] = "63.35.250.27";
+const char FIWARE_SERVER[] = "calidadmedioambiental.org";
 
 // NGSI setings
-const uint16_t FIWARE_QRY_PORT = 1026; // NGSI entity query port
+const uint16_t FIWARE_QRY_PORT = 80; // NGSI entity query port
 const char FIWARE_SERVICE[] = "openiot";
-const char FIWARE_SERVICE_PATH[] = "/RESPIRA_T6";
+const char FIWARE_SERVICE_PATH[] = "/my_service_path";
 
 // UltraLight setings
-const uint16_t FIWARE_UL_PORT = 7896;  // UltraLight port
-const char FIWARE_APIKEY[] = "WcfVwznoOOXtsSowUvgZWm0tlW"; //"my8yccrn4e62turp45jw4b4b8m";
+const uint16_t FIWARE_UL_PORT = 80; //7896;  // UltraLight port
+const char FIWARE_APIKEY[] = "my_api_key";
 
 /**
  * Sampling interval in msec
@@ -65,4 +65,3 @@ const uint32_t TX_INTERVAL = 3600000; // 1 hour
  * Zero calibration interval for the NO2 sensor
  */
 const uint32_t ZERO_CALIB_INTERVAL = 10 * 24 * 3600000; // 10 days
-
