@@ -12,7 +12,7 @@ Cualquier persona de la comunidad puede transmitir informaciones medioambientale
 - Promover la cultura ecológica en Badajoz
 - Promover [FIWARE](https://www.fiware.org/) y la cultura _Open Source_ como medios eficaces para el desarrollo y despliegue de soluciones Smart City.
 
-La _plataforma IoT medioambiental RESPIRA está enteramente basada en FIWARE. La comunicación con los dispositivos y servicios IoT se realiza por medio de [UltraLight 2.0 HTTP]((https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html)). UltraLight es un protocolo IoT ligero especialmente creado para la transmisión de datos IoT desde plataformas hardware con recursos reducidos, tales como Arduinos, ESP8266 y otras plataformas microcontroladas de baja potencia.
+La plataforma IoT medioambiental RESPIRA está enteramente basada en FIWARE. La comunicación con los dispositivos y servicios IoT se realiza por medio de [UltraLight 2.0 HTTP]((https://fiware-iotagent-ul.readthedocs.io/en/latest/usermanual/index.html)). UltraLight es un protocolo IoT ligero especialmente creado para la transmisión de datos IoT desde plataformas hardware con recursos reducidos, tales como Arduinos, ESP8266 y otras plataformas microcontroladas de baja potencia.
 
 [Esta guía](HOWTO_RESPIRA_PLATFORM.md) muestra cómo usar la _plataforma IoT medioambiental RESPIRA_ y así empezar a transmitir datos IoT desde su dispositivo.
 

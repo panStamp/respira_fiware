@@ -17,7 +17,7 @@ SPS30 y ES1-NO2 pueden ser considerados como sensores de bajo coste, si bien amb
 - Evitar entornos con mucha contaminación puesto que los sensores pueden llegar a degradarse rápidamente y su mantenimiento se complica. Los entornos con altos niveles de contaminación necesitan de estaciones pesadas de monitorización del aire. Estas estaciones son típicamente mantenidas de forma diaria o semanal.
 - Proteger las estaciones de fuertes lluvias. La caja tipo pagoda que alberga los sensores puede soportar lluvias verticales pero no proyecciones horizontales de agua. Esta caja no ha sido probada en situaciones de fuerte viento.
 - Cotejar periódicamente las lecturas porporcionadas por la estación RESPIRA con otras fuentes. Puede usarse como fuente de referencia una estación RESPIRA nueva, antes de ser instalada en su ubicación final.
-- No debemos sorprendernos si observamos discrepancias entre estaciones y lecturas. Diferencias que ronden los 120 ug/m3 en las lecturas de NO2 y 30 ug/m3 en las lecturas de concentración de partículas son perfectametne asumibles.
+- No debemos sorprendernos si observamos discrepancias entre estaciones y lecturas. Diferencias que ronden los 400 ug/m3 en las lecturas de NO2 y 30 ug/m3 en las lecturas de concentración de partículas son perfectametne asumibles.
 - Comprobar la conexión WiFi antes de instalar la estación. Esto nos evitará algún que otro problema.
 
 # Tests y cálculos previos

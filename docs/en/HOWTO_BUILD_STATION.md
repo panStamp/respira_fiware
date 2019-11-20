@@ -84,13 +84,12 @@ These images show a complete RESPIRA FIWARE station assembled and connected. Thi
 
 The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Before trying to compile the code, the following libraries need to be installed from _Sketch->Include library->Manager libraries_:
 
-- [HTTPCLient library for ESP8266](https://github.com/esp8266/Arduino/tree/master/libraries/ESP8266HTTPClient).
 - [Paul van Haastrecht's SPS30 library](https://github.com/paulvha/sps30).
-- [tzapu's WiFiManager for ESP8266](https://github.com/tzapu/WiFiManager).
+- [tzapu's WiFiManager](https://github.com/tzapu/WiFiManager).
 - [Sparkfun's SI7021 library](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library).
 - [ArduinoOTA library](https://github.com/jandrassy/ArduinoOTA).
 
-The source code needs to be modified with the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. It you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
+The source code needs to be modified with the FIWARE server IP address, the UltraLight port and the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. If you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
 
 From [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
 
@@ -119,13 +118,13 @@ The code integrates [WiFiManager](https://github.com/tzapu/WiFiManager), a popul
 
 # Connecting to RESPIRA environmental IoT platform
 
-Connecting new RESPIRA FIWARE stations to [RESPIRA environmental IoT platform](RESPIRA_PLATFORM.md) is very simple. Once logged into your Environmental Open Labs account you need to create a new device profile and select _RESPIRA FIWARE station_ from the wizard. The platform will return a new API key for this device profile which will have to be entered into the Arduino code.
+Connecting new RESPIRA FIWARE stations to [RESPIRA environmental IoT platform](RESPIRA_PLATFORM.md) is very simple. Once logged into your account you need to create a new device profile and select _RESPIRA FIWARE station_ from the wizard. The platform will return a new API key for this device profile which will have to be entered into the Arduino code.
 
 Once into the Arduino code, set the API key and leave the rest of FIWARE constants unmodified:
 
 ```C++
-const char FIWARE_SERVER[] = FIWARE_SERVER_IP_ADDRESS;
-const uint16_t FIWARE_PORT = FIWARE_UL_PORT;
+const char FIWARE_SERVER[] = "calidadmedioambiental.org";
+const uint16_t FIWARE_PORT = 80;
 const char FIWARE_APIKEY[] = FIWARE_UL_API_KEY;
 ```
 

@@ -17,7 +17,7 @@ SPS30 and ES1-NO2 can be considered as low-cost sensors but both provide a decen
 - Avoid highly polluted environments since sensors rapidly wear out and maintenance becomes more complicated. Environments with high concentrations of pollutants typically need to be monitored with heavy air quality stations. These stations usually need weekly or even daily maintenance.
 - Protect the station against heavy wind and rain. The pagoda-style enclosure where the sensors are located can support vertical and inclined rain but not horizontal projections of water. This enclosure has not either been tested under strong wind.
 - Check the output of the station against other sources over time. You can use another newer station for instance, before its final installation.
-- Don't get mad for little discrepancies between stations and readings. Anything under 120 ug/m3 for the NO2 readings and 30 ug/m3 for the particulate matter sensor are perfectly acceptable.
+- Don't get mad for little discrepancies between stations and readings. Anything under 400 ug/m3 for the NO2 readings and 30 ug/m3 for the particulate matter sensor are perfectly acceptable.
 - Check the WiFi connection before installing the station. This may save you some troubles.
 
 # Previous tests and calculations
