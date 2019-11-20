@@ -361,6 +361,9 @@ void loop()
         no2Sensor.zeroCalibrate();
       }
     }
+    else
+      restart();
+    
 
     // Query calibration settings
     char settings[FIWARE_SERVER_RESPONSE_MAXLEN];
@@ -386,4 +389,3 @@ void loop()
   
   //delay(1000);
 }
-
