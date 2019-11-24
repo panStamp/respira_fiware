@@ -69,10 +69,10 @@ class AfConfig(object):
     FIWARE_SERVICE = "openiot"
 
     ## FIWARE service group creation URL
-    FIWARE_SERVGROUP_URL = "http://localhost/iot/services"
+    FIWARE_SERVGROUP_URL = "http://calidadmedioambiental.org/iot/services"
 
     ## FIWARE UL IoT agent URL
-    FIWARE_UL_URL = "http://localhost/iot/d"
+    FIWARE_UL_URL = "http://calidadmedioambiental.org/iot/d"
 
     ## FIWARE API Keys
     FIWARE_APIKEY_OBSERVATION = "5g4d8yt2d37gh12schq6l5z39d"
