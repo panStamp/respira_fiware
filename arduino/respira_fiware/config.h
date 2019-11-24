@@ -25,7 +25,7 @@
 /**
  * Enable watchdog
  */
-//#define WATCHDOG_ENABLED  1
+#define WATCHDOG_ENABLED  1
 
 /**
  * Enable OTA programming
