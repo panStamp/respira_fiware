@@ -1,6 +1,5 @@
 {
     "FIWARE_SERVICE": "openiot",
-    "FIWARE_SERVICE_PATH": "/EEA_POLLUTION",
-    "FIWARE_SERVGROUP_URL": "http://63.35.250.27:4041/iot/services",
-    "FIWARE_ENTITIES_URL": "http://63.35.250.27:1026/v2/entities"
+    "FIWARE_SERVICE_PATH": "/RESPIRA_T6",
+    "FIWARE_ENTITIES_URL": "http://calidadmedioambiental.org/v2/entities"
 }

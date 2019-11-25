@@ -60,7 +60,7 @@ class RespConfig(object):
     FIWARE_SERVICE_PATH = "/RESPIRA_T5"
 
     ## FIWARE entity query URL
-    FIWARE_ENTITIES_URL = "http://63.35.250.27:1026/v2/entities"
+    FIWARE_ENTITIES_URL = "http://calidadmedioambiental.org/v2/entities"
 
     ## FIWARE entity name
     FIWARE_ENTITY_TYPE = "RESPIRA"
