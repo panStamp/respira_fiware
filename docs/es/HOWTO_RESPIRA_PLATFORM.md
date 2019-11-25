@@ -20,7 +20,17 @@ Supongamos que queremos conectar una estación meteorológica a la plataforma. N
 <img src="../img/respira_platform_add_profile.jpg" width="500">
 </p>
 
-Una vez creado el perfil de dispositivo debemos copiar la API Key disponible en el listado de perfiles. Esta clave corresponde con la API Key del agente UltraLight (UL) FIWARE. Haciendo click sobre el icono del ojose despliega un ejemplo de trama UltraLight que podemos usar en el código fuente de nuestra estación meteorológica. La nomenclatura UL de las variables presentado en el ejemplo devuelto por la plataforma debe ser respetado. De otro modo, la plataforma no sabría identificar la naturaleza de las lecturas.
+Una vez creado el perfil de dispositivo debemos copiar la API Key disponible en el listado de perfiles. Esta clave corresponde con la API Key del agente UltraLight (UL) FIWARE.
+
+<p align="center">
+<img src="../img/respira_platform_profile_list.jpg" width="500">
+</p>
+
+Haciendo click sobre el icono del ojo se despliega además un ejemplo de trama UltraLight que podemos usar en el código fuente de nuestra estación meteorológica. La nomenclatura UL de las variables presentado en el ejemplo devuelto por la plataforma debe ser respetado. De otro modo, la plataforma no sabría identificar la naturaleza de las lecturas.
+
+<p align="center">
+<img src="../img/respira_platform_view_ul.jpg" width="500">
+</p>
 
 Ejemplo de trama UltraLight para un sensor de temperatura y humedad:
 

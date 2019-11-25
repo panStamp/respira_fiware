@@ -20,7 +20,19 @@ Let's say we want to create a weather station that we want to connect to the pla
 <img src="../img/respira_platform_add_profile.jpg" width="500">
 </p>
 
-Once the device profile has been created we need to take the API Key from the Device Profile list. This key corresponds to the FIWARE API key for the UltraLight (UL) IoT agent. By clicking on the eye icon an example of UltraLight frame is displayed. We can use this example in our source code. The convention of the variable nomenclature needs to be followed according to the example returned by the platform. Otherwise, the platform would not be able to identify the nature of the readings received.
+Once the device profile has been created we need to take the API Key from the Device Profile list. This key corresponds to the FIWARE API key for the UltraLight (UL) IoT agent.
+
+<p align="center">
+<img src="../img/respira_platform_profile_list.jpg" width="500">
+</p>
+
+By clicking on the eye icon an example of UltraLight frame is displayed. We can use this example in our source code.
+
+<p align="center">
+<img src="../img/respira_platform_view_ul.jpg" width="500">
+</p>
+
+The convention of the variable nomenclature needs to be followed according to the example returned by the platform. Otherwise, the platform would not be able to identify the nature of the readings received.
 
 Example of UL frame: 
 
