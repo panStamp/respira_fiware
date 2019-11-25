@@ -12,3 +12,7 @@ RESPIRA FIWARE is an open source air monitoring device created to sense temperat
 - [RESPIRA environmental IoT platform](docs/en/RESPIRA_PLATFORM.md)
   - [How to use the RESPIRA IoT platform](docs/en/HOWTO_RESPIRA_PLATFORM.md)
 
+# Source code and documentation
+
+The source code of the RESPIRA station and all the necessary documentation for the building and start up processes are available on [Github](https://github.com/panStamp/respira_fiware).
+

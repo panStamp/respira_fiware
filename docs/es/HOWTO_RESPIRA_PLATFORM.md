@@ -17,19 +17,19 @@ Los perfiles de dispositivo son estructuras de datos que contienen lecturas (ent
 Supongamos que queremos conectar una estación meteorológica a la plataforma. Necesitamso entonces definir un perfil de dispositivo que contenga todas y cada una de las lecturas proporcionadas por la estación. Para crear un nuevo perfil debemos acceder desde la plataforma en _Dispositivos->Perfiles de dispositivo->Añadir perfil de dispositivo_.
 
 <p align="center">
-<img src="../img/respira_platform_add_profile.jpg" width="500">
+<img src="../img/respira_platform_add_profile.jpg" width="600">
 </p>
 
 Una vez creado el perfil de dispositivo debemos copiar la API Key disponible en el listado de perfiles. Esta clave corresponde con la API Key del agente UltraLight (UL) FIWARE.
 
 <p align="center">
-<img src="../img/respira_platform_profile_list.jpg" width="500">
+<img src="../img/respira_platform_profile_list.jpg" width="600">
 </p>
 
 Haciendo click sobre el icono del ojo se despliega además un ejemplo de trama UltraLight que podemos usar en el código fuente de nuestra estación meteorológica. La nomenclatura UL de las variables presentado en el ejemplo devuelto por la plataforma debe ser respetado. De otro modo, la plataforma no sabría identificar la naturaleza de las lecturas.
 
 <p align="center">
-<img src="../img/respira_platform_view_ul.jpg" width="500">
+<img src="../img/respira_platform_view_ul.jpg" width="600">
 </p>
 
 Ejemplo de trama UltraLight para un sensor de temperatura y humedad:
@@ -55,6 +55,6 @@ Los dispositivos son descubiertos por la plataforma y generados de forma automá
 Una vez nuestro dispositivo ha sido puesto en marcha y ha realizado la primera transmisión, la plataforma IoT RESPIRA dará de alta el dispositivo en el listado _Dispositivos->Mis dispositivos_. El dispositivo será identificable por su ID, que corresponde al introducido en el código fuente de la electrónica. Llegados a este punto podemos editar nuestro recién creado dispositivo desde el panel de dispositivos, otorgándole un nombre, una descripción y una ubicación que ayuden a a otros usuarios a identificar el dispositivo en la plataforma.
 
 <p align="center">
-<img src="../img/respira_platform_edit_device.jpg" width="500">
+<img src="../img/respira_platform_edit_device.jpg" width="600">
 </p>
 

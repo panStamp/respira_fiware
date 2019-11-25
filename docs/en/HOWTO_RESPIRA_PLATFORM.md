@@ -17,19 +17,19 @@ Device profiles are types of devices with a documented set of readings (inputs o
 Let's say we want to create a weather station that we want to connect to the platform. We have then to create a new device profile from _Device->Device profiles->Add device profile_ as follows:
 
 <p align="center">
-<img src="../img/respira_platform_add_profile.jpg" width="500">
+<img src="../img/respira_platform_add_profile.jpg" width="600">
 </p>
 
 Once the device profile has been created we need to take the API Key from the Device Profile list. This key corresponds to the FIWARE API key for the UltraLight (UL) IoT agent.
 
 <p align="center">
-<img src="../img/respira_platform_profile_list.jpg" width="500">
+<img src="../img/respira_platform_profile_list.jpg" width="600">
 </p>
 
 By clicking on the eye icon an example of UltraLight frame is displayed. We can use this example in our source code.
 
 <p align="center">
-<img src="../img/respira_platform_view_ul.jpg" width="500">
+<img src="../img/respira_platform_view_ul.jpg" width="600">
 </p>
 
 The convention of the variable nomenclature needs to be followed according to the example returned by the platform. Otherwise, the platform would not be able to identify the nature of the readings received.
@@ -56,7 +56,7 @@ Devices are automatically created upon reception of the first UL frame. The Ultr
 In order to create a new device you need to program your electronic board and transmit an UL frame with the right API key. The RESPIRA platform will then receive the UL frame and will initialize the device in the database for you. Once the device has been automatically created by the platform we can edit it with the corresponding name, description and location.
 
 <p align="center">
-<img src="../img/respira_platform_edit_device.jpg" width="500">
+<img src="../img/respira_platform_edit_device.jpg" width="600">
 </p>
 
 It's important to add the right location for the device since this will place the device on the map.
