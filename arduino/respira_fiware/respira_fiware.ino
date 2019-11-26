@@ -294,7 +294,7 @@ void setup()
   #endif
 
   #ifdef WATCHDOG_ENABLED
-  Serial.println("Enabling watchdog timer")
+  Serial.println("Enabling watchdog timer");
   // Watchdog timer
   timer = timerBegin(0, 80, true); //timer 0, div 80
   timerAttachInterrupt(timer, &restart, true);
