@@ -50,7 +50,6 @@ if __name__ == '__main__':
     signal.signal(signal.SIGINT, signal_handler)
 
     fiware = RespFiware()
-    fiware.enable_zero_calibration("RESPIRA_807D3AF39E18", "pm")
 
     # Command-line parser
     parser = argparse.ArgumentParser(prog= "respira_tool",

@@ -48,7 +48,7 @@ class RespHttpClient(object):
                 except:
                     return result.text
             else:
-                raise RespException("Unable to reach server via HTTP. Status: " + result.status_code + " . Reason: " + result.reason)
+                raise RespException("Unable to reach server via HTTP. Status: " + str(result.status_code) + " . Reason: " + result.reason)
 
         except Exception as ex:
             raise RespException(str(ex))
