@@ -84,12 +84,26 @@ These images show a complete RESPIRA FIWARE station assembled and connected. Thi
 
 The ESP32 is programmed from the [Arduino IDE](https://www.arduino.cc/). Before trying to compile the code, the following libraries need to be installed from _Sketch->Include library->Manager libraries_:
 
-- [Paul van Haastrecht's SPS30 library](https://github.com/paulvha/sps30).
-- [tzapu's WiFiManager](https://github.com/tzapu/WiFiManager).
-- [Sparkfun's SI7021 library](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library).
-- [ArduinoOTA library](https://github.com/jandrassy/ArduinoOTA).
+- [Paul van Haastrecht's SPS30 library](https://github.com/paulvha/sps30). This library needs to be installed manually from the repository.
+- [WiFiManager for ESP32](https://github.com/zhouhan0126/WIFIMANAGER-ESP32). This library needs to be installed manually from the repository.
+- [Sparkfun's SI7021 library](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library). This library can be installed from Arduino's library manager.
+- [ArduinoOTA library](https://github.com/jandrassy/ArduinoOTA). This library can be installed from Arduino's library manager.
 
-The source code needs to be modified with the FIWARE server IP address, the UltraLight port and the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. If you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
+We found some problems during compilation due to some conflicts in the libraries for the ESP32 core. These conflicts can be fixed by applying the following changes:
+
+Go to your libraries directory and open sps30/sps30.h. Then comment out INCLUDE_SOFTWARE_SERIAL.
+
+```C++
+//#define INCLUDE_SOFTWARE_SERIAL 1
+```
+
+After this open WIFIMANAGER-ESP32/WiFiManager.h and rename HTTP_HEAD to something like HTTP_HEADER:
+
+```C++
+const char HTTP_HEADER[] PROGMEM = ....
+```
+
+Once the above changes have been made, we can finally open respira_fiware from the Arduino IDE. The project is in the directory named as arduino in the [project repository](https://github.com/panStamp/respira_fiware). The source code needs to be modified with the FIWARE server IP address, the UltraLight port and the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. If you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
 
 From [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
 

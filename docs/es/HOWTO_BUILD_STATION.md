@@ -86,12 +86,26 @@ Finalmente, se muestra un par de imágenes de una estación RESPIRA completament
 
 El módulo ESP32 se programa desde el entorno de programación [Arduino IDE](https://www.arduino.cc/). Pero antes de intentar compilar el código, tenemos que asegurar que la siguiente lista de librerías queda instalada desde _Sketch->Include library->Manager libraries_:
 
-- [Librería SPS30 de Paul van Haastrecht](https://github.com/paulvha/sps30).
-- [WiFiManager de tzapu](https://github.com/tzapu/WiFiManager).
-- [Librería SI7021 de Sparkfun](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library).
-- [Librería ArduinoOTA](https://github.com/jandrassy/ArduinoOTA).
+- [Librería SPS30 de Paul van Haastrecht](https://github.com/paulvha/sps30). Esta librería debe ser instalada de forma manual.
+- [WiFiManager para ESP32](https://github.com/zhouhan0126/WIFIMANAGER-ESP32). Esta librería debe ser instalada de forma manual.
+- [Librería SI7021 de Sparkfun](https://github.com/sparkfun/SparkFun_Si701_Breakout_Arduino_Library). Esta librería puede ser instalada desde el gestor de librerrías de Arduino.
+- [Librería ArduinoOTA](https://github.com/jandrassy/ArduinoOTA). Esta librería puede ser instalada desde el gestor de librerrías de Arduino.
 
-El código fuente ha de ser modificado con la dirección IP del servidor FIWARE, el puerto UltraLight y la API key que permite conectar la estación RESPIRA al agente IoT. Si pretende conectar la estación a nuestra plataforma IoT vaya directamente a [esta sección](#conexión-a-la-plataforma-respira)
+Durante la compilación es probable que se den algunos conflictos en las librerías instaladas con respecto a los cores del ESP32. Recomendamos pues hacer un par de cambios:
+
+Abrir el directorio que contiene las librerías de Arduino y editar sps30/sps30.h. aquí tendremos que comentar INCLUDE_SOFTWARE_SERIAL.
+
+```C++
+//#define INCLUDE_SOFTWARE_SERIAL 1
+```
+
+Tras esto debemos abrir WIFIMANAGER-ESP32/WiFiManager.h y renombrar HTTP_HEAD con un nombre distinto, como por ejemplo HTTP_HEADER:
+
+```C++
+const char HTTP_HEADER[] PROGMEM = ....
+```
+
+Una vez finalizados estos cambios podemos por fin abrir el proyecto respira_fiware que se encuentra en el directorio arduino dentro del [repositorio](https://github.com/panStamp/respira_fiware). El código fuente ha de ser modificado con la dirección IP del servidor FIWARE, el puerto UltraLight y la API key que permite conectar la estación RESPIRA al agente IoT. Si pretende conectar la estación a nuestra plataforma IoT vaya directamente a [esta sección](#conexión-a-la-plataforma-respira)
 
 En [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):
 
