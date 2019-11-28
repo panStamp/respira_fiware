@@ -105,6 +105,8 @@ Tras esto debemos abrir WIFIMANAGER-ESP32/WiFiManager.h y renombrar HTTP_HEAD co
 const char HTTP_HEADER[] PROGMEM = ....
 ```
 
+Y también renombrar todas las referencias a HTTP_HEAD en WIFIMANAGER-ESP32/WiFiManager.h.
+
 Una vez finalizados estos cambios podemos por fin abrir el proyecto respira_fiware que se encuentra en el directorio arduino dentro del [repositorio](https://github.com/panStamp/respira_fiware). El código fuente ha de ser modificado con la dirección IP del servidor FIWARE, el puerto UltraLight y la API key que permite conectar la estación RESPIRA al agente IoT. Si pretende conectar la estación a nuestra plataforma IoT vaya directamente a [esta sección](#conexión-a-la-plataforma-respira)
 
 En [respira_fiware.ino](https://github.com/panStamp/respira_fiware/blob/master/arduino/respira_fiware/respira_fiware.ino):

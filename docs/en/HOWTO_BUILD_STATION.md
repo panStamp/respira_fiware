@@ -97,11 +97,13 @@ Go to your libraries directory and open sps30/sps30.h. Then comment out INCLUDE_
 //#define INCLUDE_SOFTWARE_SERIAL 1
 ```
 
-After this open WIFIMANAGER-ESP32/WiFiManager.h and rename HTTP_HEAD to something like HTTP_HEADER:
+After this open WIFIMANAGER-ESP32/WiFiManager.h and rename HTTP_HEAD to HTTP_HEADER:
 
 ```C++
 const char HTTP_HEADER[] PROGMEM = ....
 ```
+
+And also rename all the references to HTTP_HEAD in WIFIMANAGER-ESP32/WiFiManager.cpp
 
 Once the above changes have been made, we can finally open respira_fiware from the Arduino IDE. The project is in the directory named as arduino in the [project repository](https://github.com/panStamp/respira_fiware). The source code needs to be modified with the FIWARE server IP address, the UltraLight port and the correct API Key to connect your RESPIRA station to the FIWARE IoT agent. If you are connecting the station to our online platform then jump to [this section](#connecting-to-respira-environmental-iot-platform)
 
