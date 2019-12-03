@@ -1,4 +1,4 @@
-[< back to index](../../README.md)
+[< índice](../../README.md)
 
 # Índice de contenidos
 
