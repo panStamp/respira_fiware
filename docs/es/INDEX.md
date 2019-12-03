@@ -11,6 +11,8 @@ RESPIRA FIWARE es un dispositivo abierto IoT diseñado para monitorizar temperat
   - [Herramienta de calibración RESPIRA](RESPIRA_TOOL.md)
 - [Plataforma IoT medioambiental RESPIRA](RESPIRA_PLATFORM.md)
   - [Guía de uso de la plataforma IoT RESPIRA](HOWTO_RESPIRA_PLATFORM.md)
+  - [Panel de alertas](ALERT_PANEL.md)
+  - [API HTTP](API_DOC.md)
 
 # Código fuente y documentación
 
