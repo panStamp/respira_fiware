@@ -137,7 +137,7 @@ class RespFiware(object):
 
             # Append zero calibration flags
             config.insert(0, zero_no2)
-            config.insert(2, zero_pm)
+            config.insert(3, zero_pm)
 
             # Rebuild config string
             config_str = "|".join(config)
