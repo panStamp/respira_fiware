@@ -14,7 +14,7 @@ La plataforma IoT RESPIRA es de libre acceso y puede ser consultada por cualquie
 
 Los perfiles de dispositivo son estructuras de datos que contienen lecturas (entradas o endpoints). Cuando se crea un dispositivo y empieza a transmitir, éste debe venir asociado a un determinado perfil de dispositivo. De este modo, antes de poner en marcha un dispositivo se hace necesario definir un nuevo perfil de dispositivo o bien acogerse a uno de los perfiles ya disponibles. El perfil de dispositivo define el número y tipo de lecturas proporcionadas por el dispositivo.
 
-Supongamos que queremos conectar una estación meteorológica a la plataforma. Necesitamso entonces definir un perfil de dispositivo que contenga todas y cada una de las lecturas proporcionadas por la estación. Para crear un nuevo perfil debemos acceder desde la plataforma en _Dispositivos->Perfiles de dispositivo->Añadir perfil de dispositivo_.
+Supongamos que queremos conectar una estación meteorológica a la plataforma. Necesitamos entonces definir un perfil de dispositivo que contenga todas y cada una de las lecturas proporcionadas por la estación. Para crear un nuevo perfil debemos acceder desde la plataforma en _Dispositivos->Perfiles de dispositivo->Añadir perfil de dispositivo_.
 
 <p align="center">
 <img src="../img/respira_platform_add_profile.jpg" width="600">
@@ -44,13 +44,13 @@ Donde t corresponde a la lectura de la temperatura y h a la de humedad. La trama
 sprintf(txBuf, "t|%.2f#h|%.2f", temperature, humidity);
 ```
 
-_txBuff_ sería entonces el contenido del paquete (payload) que deberá ser transmitido a la plataforma IoT vía HTTP POST. En el ejemplo devuelto por el gestor de perfiles de dispositivo se incluye asímismo la URL contra la que realizar la transmisión.
+_txBuff_ sería entonces el contenido del paquete (payload) que deberá ser transmitido a la plataforma IoT vía HTTP POST. En el ejemplo devuelto por el gestor de perfiles de dispositivo se incluye asimismo la URL contra la que realizar la transmisión.
 
 # Creación de dispositivos
 
-Una vez creado un primer perfil de dispositivo estamos por fin en disposición de trabajar sobre nuestro dispositivo. Este tutorial no cubre todo lo relativo al desarrollo del código fuente del dispositivo. Pare esto último pueden consultar el [código fuente](https://github.com/panStamp/respira_fiware/tree/master/arduino/respira_fiware) de la estación RESPIRA.
+Una vez creado un primer perfil de dispositivo estamos por fin en disposición de trabajar sobre nuestro dispositivo. Este tutorial no cubre todo lo relativo al desarrollo del código fuente del dispositivo. Para esto último pueden consultar el [código fuente](https://github.com/panStamp/respira_fiware/tree/master/arduino/respira_fiware) de la estación RESPIRA.
 
-Los dispositivos son descubiertos por la plataforma y generados de forma automática en ésta tras recibir las primeras transmisiones UltraLight por parte del dispositivo. Es por esto que el dispositivo ha de transmitir con la API Key designada por la plataforma. Cada API Key corresponde a un perfil de dispositivo, de forma que cada transmisión UltraLight queda asociadad a un perfil en concreto y de este modo la plataforma es capaz de decodificar la información.
+Los dispositivos son descubiertos por la plataforma y generados de forma automática en ésta tras recibir las primeras transmisiones UltraLight por parte del dispositivo. Es por esto que el dispositivo ha de transmitir con la API Key designada por la plataforma. Cada API Key corresponde a un perfil de dispositivo, de forma que cada transmisión UltraLight queda asociada a un perfil en concreto y de este modo la plataforma es capaz de decodificar la información.
 
 Una vez nuestro dispositivo ha sido puesto en marcha y ha realizado la primera transmisión, la plataforma IoT RESPIRA dará de alta el dispositivo en el listado _Dispositivos->Mis dispositivos_. El dispositivo será identificable por su ID, que corresponde al introducido en el código fuente de la electrónica. Llegados a este punto podemos editar nuestro recién creado dispositivo desde el panel de dispositivos, otorgándole un nombre, una descripción y una ubicación que ayuden a a otros usuarios a identificar el dispositivo en la plataforma.
 
