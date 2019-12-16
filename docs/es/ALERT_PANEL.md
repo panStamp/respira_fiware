@@ -1,4 +1,4 @@
-[< índice](../../README.md)
+[< índice](INDEX.md)
 
 # Panel de alertas
 
