@@ -18,5 +18,5 @@ El formulario es suficientemente autoexplicativo pero la idea básica es la de s
 <img width="600" src="../img/respira_platform_alert_console.jpg">
 </p>
 
-Llegados a este punto, para visualizar el dispositivo en el dashboard principal tenemos que copiar el id del dipositivo desde la consola de alertas y realizar la búsqueda en el dashboard.
+Llegados a este punto, para visualizar el dispositivo en el dashboard principal tenemos que copiar el id del dispositivo desde la consola de alertas y realizar la búsqueda en el dashboard.
 
