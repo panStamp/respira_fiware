@@ -92,7 +92,15 @@ class Afiware(object):
                     attr = {"object_id": key, "name": value, "type": "Number"}
 
                 attributes.append(attr)
-            
+
+            # Add location geo:point attribute
+            location = {
+                "expression": "${@latitude}, ${@longitude}", 
+                "name": "location", 
+                "type": "geo:point"
+            }
+            attributes.append(location)
+
             payload = {"services": [{"apikey": api_key, "protocol": ["IoTA-UL"], "cbroker": "http://orion:1026", "entity_type": entity_type, "resource": "/iot/d", "attributes": attributes}]}            
             
             client = AfHttpClient(headers, url, params, json.dumps(payload))
