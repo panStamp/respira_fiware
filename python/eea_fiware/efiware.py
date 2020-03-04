@@ -65,7 +65,7 @@ class Efiware(object):
             
             # Add location geo:point attribute
             location = {
-                "expression": "${@latitude}, ${@longitude}", 
+                "expression": "${@longitude}, ${@latitude}", 
                 "name": "location", 
                 "type": "geo:point"
             }
